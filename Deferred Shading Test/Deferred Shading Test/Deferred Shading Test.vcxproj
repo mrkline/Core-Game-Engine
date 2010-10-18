@@ -37,10 +37,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>F:\Dev\Git\void\Irrlicht\include;F:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Dev\Git\void\Irrlicht\include;C:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>F:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>
     </SourcePath>
   </PropertyGroup>
