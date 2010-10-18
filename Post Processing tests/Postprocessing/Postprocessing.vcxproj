@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F7FBA0DE-8722-48DA-B84B-06DC3A756C4C}</ProjectGuid>
+    <RootNamespace>Postprocessing</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>F:\Dev\Git\void\Common\include;F:\Dev\Git\void\Irrlicht\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>F:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>F:\Dev\Git\void\Common\include;F:\Dev\Git\void\Irrlicht\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Common\src\Context.cpp" />
+    <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
+    <ClCompile Include="HDRPostProcess.cpp" />
+    <ClCompile Include="LDRBloomPostProcess.cpp" />
+    <ClCompile Include="BrightPassPostProcess.cpp" />
+    <ClCompile Include="DownSampleX4PostProcess.cpp" />
+    <ClCompile Include="DSBloomGenerator.cpp" />
+    <ClCompile Include="GaussianBlurBase.cpp" />
+    <ClCompile Include="GaussianBlurHPostProcess.cpp" />
+    <ClCompile Include="GaussianBlurVPostProcess.cpp" />
+    <ClCompile Include="InvertPostProcess.cpp" />
+    <ClCompile Include="LuminanceGenerator.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhongShaderManager.cpp" />
+    <ClCompile Include="PostProcessingManager.cpp" />
+    <ClCompile Include="TextureAdder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Amplifier.h" />
+    <ClInclude Include="HDRPostProcess.h" />
+    <ClInclude Include="LDRBloomPostProcess.h" />
+    <ClInclude Include="BrightPassPostProcess.h" />
+    <ClInclude Include="DownSampleX4PostProcess.h" />
+    <ClInclude Include="DSBloomGenerator.h" />
+    <ClInclude Include="GaussianBlurBase.h" />
+    <ClInclude Include="GaussianBlurHPostProcess.h" />
+    <ClInclude Include="GaussianBlurVPostProcess.h" />
+    <ClInclude Include="InvertPostProcess.h" />
+    <ClInclude Include="IPostProcess.h" />
+    <ClInclude Include="IPostProcessHelper.h" />
+    <ClInclude Include="LuminanceGenerator.h" />
+    <ClInclude Include="PhongShaderManager.h" />
+    <ClInclude Include="PostProcessingManager.h" />
+    <ClInclude Include="ScreenQuad.h" />
+    <ClInclude Include="TextureAdder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PostProcesses\Bloom.fx" />
+    <None Include="PostProcesses\BrightPass.fx" />
+    <None Include="PostProcesses\DownSampleX4.fx" />
+    <None Include="PostProcesses\GaussianBlur.fx" />
+    <None Include="PostProcesses\HDR.fx" />
+    <None Include="PostProcesses\Invert.fx" />
+    <None Include="PostProcesses\Luminance.fx" />
+    <None Include="TextureAdder.fx" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

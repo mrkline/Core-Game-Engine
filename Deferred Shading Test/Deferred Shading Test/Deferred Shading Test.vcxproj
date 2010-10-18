@@ -81,9 +81,9 @@
     <ClInclude Include="PhongShaderManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\src\Context.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
-    <ClCompile Include="Context.cpp" />
     <ClCompile Include="DeferredMatTypeManager.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="main.cpp" />
