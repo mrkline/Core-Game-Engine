@@ -37,18 +37,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>F:\Dev\C++\CustomIrrlichtBuild 9-10-10\include;F:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Dev\Git\void\Irrlicht\include;F:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>F:\Dev\C++\CustomIrrlichtBuild 9-10-10\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
+    <LibraryPath>F:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>
     </SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>F:\Dev\C++\CustomIrrlichtBuild 9-10-10\include;F:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Dev\Git\void\Irrlicht\include;F:\Dev\Git\void\Common\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>F:\Dev\C++\CustomIrrlichtBuild 9-10-10\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
+    <LibraryPath>F:\Dev\Git\void\Irrlicht\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>
     </SourcePath>
   </PropertyGroup>
