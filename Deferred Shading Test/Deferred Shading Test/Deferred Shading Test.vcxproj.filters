@@ -33,6 +33,24 @@
     <ClInclude Include="BufferViewSwitcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\DeviceContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\ErrorHandling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\GlobalContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\Paths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\ScreenQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,11 +76,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DeferredMatTypes\UnlitMaterial.fx">
-      <Filter>Resource Files\Deferred Material Types</Filter>
-    </None>
     <None Include="DeferredHelperTypes\PositionCreator.fx">
       <Filter>Resource Files\Deferred Helper Types</Filter>
+    </None>
+    <None Include="DeferredMatTypes\UnlitColorMaterial.fx">
+      <Filter>Resource Files\Deferred Material Types</Filter>
     </None>
   </ItemGroup>
 </Project>

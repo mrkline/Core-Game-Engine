@@ -73,16 +73,16 @@ namespace scene
 		core::vector3df getFarRightDown() const;
 
 		//! returns the point which is on the near left upper corner inside the the view frustum.
-		core::vector3df getnearLeftUp() const;
+		core::vector3df getNearLeftUp() const;
 
 		//! returns the point which is on the near left bottom corner inside the the view frustum.
-		core::vector3df getnearLeftDown() const;
+		core::vector3df getNearLeftDown() const;
 
 		//! returns the point which is on the near right top corner inside the the view frustum.
-		core::vector3df getnearRightUp() const;
+		core::vector3df getNearRightUp() const;
 
 		//! returns the point which is on the near right bottom corner inside the the view frustum.
-		core::vector3df getnearRightDown() const;
+		core::vector3df getNearRightDown() const;
 
 		//! returns a bounding box enclosing the whole view frustum
 		const core::aabbox3d<f32> &getBoundingBox() const;
@@ -194,7 +194,7 @@ namespace scene
 		return p;
 	}
 
-	inline core::vector3df SViewFrustum::getnearLeftUp() const
+	inline core::vector3df SViewFrustum::getNearLeftUp() const
 	{
 		core::vector3df p;
 		planes[scene::SViewFrustum::VF_NEAR_PLANE].getIntersectionWithPlanes(
@@ -204,7 +204,7 @@ namespace scene
 		return p;
 	}
 
-	inline core::vector3df SViewFrustum::getnearLeftDown() const
+	inline core::vector3df SViewFrustum::getNearLeftDown() const
 	{
 		core::vector3df p;
 		planes[scene::SViewFrustum::VF_NEAR_PLANE].getIntersectionWithPlanes(
@@ -214,7 +214,7 @@ namespace scene
 		return p;
 	}
 
-	inline core::vector3df SViewFrustum::getnearRightUp() const
+	inline core::vector3df SViewFrustum::getNearRightUp() const
 	{
 		core::vector3df p;
 		planes[scene::SViewFrustum::VF_NEAR_PLANE].getIntersectionWithPlanes(
@@ -224,7 +224,7 @@ namespace scene
 		return p;
 	}
 
-	inline core::vector3df SViewFrustum::getnearRightDown() const
+	inline core::vector3df SViewFrustum::getNearRightDown() const
 	{
 		core::vector3df p;
 		planes[scene::SViewFrustum::VF_NEAR_PLANE].getIntersectionWithPlanes(

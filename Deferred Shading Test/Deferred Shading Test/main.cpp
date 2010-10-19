@@ -47,7 +47,6 @@ int main()
 		ScreenQuad quad;
 
 		BufferViewSwitcher bvs;
-		DeferredMatTypeManager dmtm;
 		DeferredRenderer deferredRenderer(cp.WindowSize);
 
 		GLOBAL_DEVICE->setEventReceiver(&bvs);
@@ -62,7 +61,7 @@ int main()
 
 		SMaterial deferred;
 		deferred.Lighting = false;
-		deferred.MaterialType = dmtm.getType(DeferredMatTypeManager::EDT_UNLIT);
+		deferred.MaterialType = deferredRenderer.GetTypeManager()->getType(DeferredMatTypeManager::EDT_UNLIT_COLOR);
 		deferred.Shininess = 1.0f;
 		deferred.MaterialTypeParam = 200.0f;
 		deferred.NormalizeNormals = true;
@@ -83,7 +82,7 @@ int main()
 
 		mesh = sm->getMesh("teapot.x");
 		sm->getMeshManipulator()->setVertexColors(mesh, SColor(255, 255, 0, 0));
-		node = sm->addMeshSceneNode(mesh, nullptr, -1, vector3df());
+		node = sm->addMeshSceneNode(mesh, nullptr, -1, vector3df(0.0f, 0.0f, 20.0f));
 		node->getMaterial(0) = deferred;
 		ISceneNodeAnimator* spinner = sm->createRotationAnimator(vector3df(0.1f, 0.5f, 0.0f));
 		//node->addAnimator(spinner);

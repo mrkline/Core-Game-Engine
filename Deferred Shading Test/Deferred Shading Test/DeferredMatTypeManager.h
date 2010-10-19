@@ -12,9 +12,11 @@ namespace Graphics
 	public:
 		enum E_DEFERRED_TYPES
 		{
-			EDT_UNLIT,
+			EDT_UNLIT_COLOR,
 			EDT_COUNT
 		};
+
+		friend class DeferredRenderer;
 
 		DeferredMatTypeManager(E_VERTEX_SHADER_TYPE vsVersion = EVST_VS_3_0, E_PIXEL_SHADER_TYPE psVersion = EPST_PS_3_0);
 		virtual ~DeferredMatTypeManager();
@@ -46,5 +48,7 @@ namespace Graphics
 
 		E_MATERIAL_TYPE mts[EDT_COUNT];
 		E_MATERIAL_TYPE protectedMTs[EPT_COUNT];
+
+		E_MATERIAL_TYPE getProtectedType(E_PROTECTED_TYPES which) { return protectedMTs[which]; }
 	};
 } //end namespace Graphics

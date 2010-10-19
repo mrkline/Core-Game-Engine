@@ -88,6 +88,12 @@
     <ClCompile Include="TextureAdder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\include\DeviceContext.h" />
+    <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
+    <ClInclude Include="..\..\Common\include\GlobalContext.h" />
+    <ClInclude Include="..\..\Common\include\Paths.h" />
+    <ClInclude Include="..\..\Common\include\ResourceManager.h" />
+    <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="Amplifier.h" />
     <ClInclude Include="HDRPostProcess.h" />
     <ClInclude Include="LDRBloomPostProcess.h" />

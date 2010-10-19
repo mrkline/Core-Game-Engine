@@ -23,7 +23,7 @@ namespace Paths
 	namespace DeferredMatTypes
 	{
 		const path DeferredMatTypesDir("DeferredMatTypes\\");
-		const path UnlitMaterial(DeferredMatTypesDir + "UnlitMaterial.fx");
+		const path UnlitColorMaterial(DeferredMatTypesDir + "UnlitColorMaterial.fx");
 	}
 
 	namespace DeferredHelperTypes

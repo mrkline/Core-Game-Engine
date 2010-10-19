@@ -19,19 +19,29 @@ namespace Graphics
 		{
 			vd = GlobalContext::DeviceContext.GetVideoDriver();
 
+			//Indices are as follows:
+			/* 0---1
+			// |   |
+			// 3   2
+			*/
+
 			const SColor white(255, 255, 255, 255);
 			vertices[0].Pos = vector3df(-1, 1, 0);
 			vertices[0].TCoords = vector2df(0, 0);
 			vertices[0].Color = white;
+			vertices[0].TCoords2.set(vector2df(0.0f));
 			vertices[1].Pos = vector3df(1, 1, 0);
 			vertices[1].TCoords = vector2df(1, 0);
 			vertices[1].Color = white;			
+			vertices[1].TCoords2.set(vector2df(1.0f));
 			vertices[2].Pos = vector3df(1, -1, 0);
 			vertices[2].TCoords = vector2df(1, 1);
 			vertices[2].Color = white;
+			vertices[2].TCoords2.set(vector2df(2.0f));
 			vertices[3].Pos = vector3df(-1, -1, 0);
 			vertices[3].TCoords = vector2df(0, 1);
 			vertices[3].Color = white;
+			vertices[3].TCoords2.set(vector2df(3.0f));
 			indices[0] = 0;
 			indices[1] = 1;
 			indices[2] = 3;
@@ -84,7 +94,8 @@ namespace Graphics
 		}
 
 	protected:
-		S3DVertex vertices[4];
+		//Second t coords hold the index of the coordinate
+		S3DVertex2TCoords vertices[4];
 		u16 indices[6];
 		SMaterial mat;
 

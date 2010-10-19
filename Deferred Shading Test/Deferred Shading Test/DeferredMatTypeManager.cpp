@@ -14,16 +14,16 @@ namespace Graphics
 
 		IVideoDriver* vd = GLOBAL_VD;
 
-		IReadFile* fh = ResourceManager::OpenResource(DeferredMatTypes::UnlitMaterial);
+		IReadFile* fh = ResourceManager::OpenResource(DeferredMatTypes::UnlitColorMaterial);
 		if(fh == nullptr)
 			throw new Exception("Unlit Deferred type shader file couldn't be opened", __FUNCTION__);
 
-		mts[EDT_UNLIT] = static_cast<E_MATERIAL_TYPE>(vd->getGPUProgrammingServices()->
+		mts[EDT_UNLIT_COLOR] = static_cast<E_MATERIAL_TYPE>(vd->getGPUProgrammingServices()->
 			addHighLevelShaderMaterialFromFiles(fh,
 			"VSUnlit", vsVersion,
 			fh, "PSUnlit", psVersion,
 			baseCB));
-		if(mts[EDT_UNLIT] < 0)
+		if(mts[EDT_UNLIT_COLOR] < 0)
 		{
 			fh->drop();
 			throw new Exception("Unlit Deferred type shader couldn't be loaded", __FUNCTION__);
@@ -35,8 +35,8 @@ namespace Graphics
 			throw new Exception("Position Creator shader file couldn't be opened", __FUNCTION__);
 
 		protectedMTs[EPT_POSITION_CREATOR] = static_cast<E_MATERIAL_TYPE>(vd->getGPUProgrammingServices()->
-			addHighLevelShaderMaterialFromFiles(nullptr,
-			nullptr, video::EVST_VS_1_1,
+			addHighLevelShaderMaterialFromFiles(fh,
+			"VSPositionCreator", vsVersion,
 			fh, "PSPositionCreator", psVersion,
 			positionCB));
 		if(protectedMTs[EPT_POSITION_CREATOR] < 0)
@@ -97,7 +97,18 @@ namespace Graphics
 		IVideoDriver* vd = GLOBAL_VD;
 		ISceneManager* sm = GLOBAL_SM;
 
-		ICameraSceneNode* cam = sm->getActiveCamera();
-		//cam->getViewFrustum
+		const SViewFrustum* frust = sm->getActiveCamera()->getViewFrustum();
+		f32 frustumArray[4][3];
+		frust->getNearLeftUp().getAs3Values(frustumArray[0]);
+		frust->getNearRightUp().getAs3Values(frustumArray[1]);
+		frust->getNearRightDown().getAs3Values(frustumArray[2]);
+		frust->getNearLeftDown().getAs3Values(frustumArray[3]);
+		services->setVertexShaderConstant("nearFrustumCorners", reinterpret_cast<f32*>(frustumArray), 12);
+
+		frust->getFarLeftUp().getAs3Values(frustumArray[0]);
+		frust->getFarRightUp().getAs3Values(frustumArray[1]);
+		frust->getFarRightDown().getAs3Values(frustumArray[2]);
+		frust->getFarLeftDown().getAs3Values(frustumArray[3]);
+		services->setVertexShaderConstant("farFrustumCorners", reinterpret_cast<f32*>(frustumArray), 12);
 	}
 } //end namespace Graphics

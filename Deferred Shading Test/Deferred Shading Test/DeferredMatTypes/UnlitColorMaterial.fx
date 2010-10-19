@@ -3,7 +3,6 @@ struct VertexInput
    float4 position : POSITION;
    float4 normal : NORMAL;
    float4 color : COLOR0;
-   float2 uvCoord : TEXCOORD0;
 };
 
 struct PixelInput
@@ -11,8 +10,8 @@ struct PixelInput
 	float4 position : POSITION;
 	float4 color : COLOR0;
 	float3 normal : TEXCOORD0;
-	float2 uvCoord : TEXCOORD1;
 	float depth : TEXCOORD2;
+	float4 worldPos : TEXCOORD3; //temp for test
 };
 
 struct PixelOutput
@@ -39,8 +38,7 @@ PixelInput VSUnlit(VertexInput IN)
 	OUT.normal = normalize(mul(IN.normal, worldInverseTranspose).xyz);
 	OUT.depth = dot(cameraDirection, mul(IN.position, world).xyz - cameraPosition);
 	OUT.position = mul(IN.position, worldViewProjection);
-	OUT.uvCoord = IN.uvCoord;
-
+	OUT.worldPos = mul(IN.position, world);
 	return OUT;
 }
 
@@ -49,8 +47,8 @@ PixelOutput PSUnlit(PixelInput IN)
 {
 	PixelOutput OUT = (PixelOutput)0;
 	OUT.rt0 = IN.color;
-	OUT.rt1 = float4(IN.normal.xyz, IN.depth);
-	OUT.rt2 = float4(IN.depth, IN.depth, IN.depth, 1);
-	OUT.rt3 = float4(0.0f, 0.0f, 1.0f, 1.0f);
+	OUT.rt1 = float4(IN.normal.xyz, 1.0f - IN.depth);
+	OUT.rt2 = float4(1.0f - IN.depth, 1.0f - IN.depth, 1.0f - IN.depth, 1.0f);
+	OUT.rt3 = IN.worldPos;
 	return OUT;
 }

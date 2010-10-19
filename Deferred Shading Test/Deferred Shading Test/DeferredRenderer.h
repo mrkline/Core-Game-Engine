@@ -5,9 +5,12 @@ using namespace core;
 using namespace video;
 
 #include "GlobalContext.h"
+#include "ScreenQuad.h"
 
 namespace Graphics
 {
+	class DeferredMatTypeManager;
+
 	class DeferredRenderer
 	{
 	public:
@@ -43,35 +46,23 @@ namespace Graphics
 		DeferredRenderer(const dimension2d<u32>& displayRes, const CreationParams& params = CreationParams());
 		virtual ~DeferredRenderer();
 
+		DeferredMatTypeManager* GetTypeManager() { return typeMan; }
+
 		//If sm is null, the default scene manager is used
 		void Render(ISceneManager* __restrict sm = nullptr);
 
-		//If we have 
-		ITexture* GetRT(E_DEFERRED_RTS which)
-		{
-			switch(which)
-			{
-			case EDR_MRT_0:
-			case EDR_MRT_1:
-			case EDR_MRT_2:
-			case EDR_MRT_3:
-				return mrts[which];
-
-			case EDR_POSITION:
-				return positionBuff;
-
-			case EDR_OUTPUT:
-			default:
-				return output;
-			}
-		}
+		ITexture* GetRT(E_DEFERRED_RTS which);
 
 	protected:
 		static const u32 kMRTCount = 4;
+
+		DeferredMatTypeManager* typeMan;
 
 		ITexture* mrts[kMRTCount];
 		ITexture* output;
 		ITexture* positionBuff;
 		array<IRenderTarget> rtArray;
+
+		ScreenQuad quad;
 	};
 } //end namespace Graphics

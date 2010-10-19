@@ -75,6 +75,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\include\DeviceContext.h" />
+    <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
+    <ClInclude Include="..\..\Common\include\GlobalContext.h" />
+    <ClInclude Include="..\..\Common\include\Paths.h" />
+    <ClInclude Include="..\..\Common\include\ResourceManager.h" />
+    <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="BufferViewSwitcher.h" />
     <ClInclude Include="DeferredMatTypeManager.h" />
     <ClInclude Include="DeferredRenderer.h" />
@@ -91,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DeferredHelperTypes\PositionCreator.fx" />
-    <None Include="DeferredMatTypes\UnlitMaterial.fx" />
+    <None Include="DeferredMatTypes\UnlitColorMaterial.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
