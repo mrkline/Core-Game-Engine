@@ -7,6 +7,7 @@ using namespace core;
 namespace GameCore 
 {
 	//Thre base object for all game entities
+	//Massive TODO: Chuck all the custom physics stuff and put in Bullet stuff.
 	class GameEntity : public IReferenceCounted
 	{
 	public:
