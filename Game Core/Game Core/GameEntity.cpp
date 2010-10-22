@@ -1,5 +1,6 @@
 #include "GameEntity.h"
 #include "Orienter.h"
+#include "ErrorHandling.h"
 
 namespace GameCore
 {
@@ -16,7 +17,7 @@ namespace GameCore
 	{
 		if(newParent == this)
 		{
-			//TODO: Throw exception
+			throw new ArgumentException("A game entity cannot be its own parent.", __FUNCTION__);
 		}
 		parent = newParent;
 	}
@@ -25,14 +26,14 @@ namespace GameCore
 	{
 		if(newChild == nullptr || newChild == this)
 		{
-			//TODO: Throw Exception
+			throw new ArgumentException("A child of an entity cannot be null or itself.", __FUNCTION__);
 		}
 		for(list<GameEntity*>::Iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			if(*it == newChild)
 			{
-				//TODO: Throw exception
+				throw new ArgumentException("The provided entity is already a child of this entity.", __FUNCTION__);
 			}
 		}
 		newChild->grab();
@@ -42,9 +43,9 @@ namespace GameCore
 
 	void GameEntity::RemoveChild(GameEntity* toRemove)
 	{
-		if(toRemove == nullptr || toRemove == this)
+		if(toRemove == nullptr)
 		{
-			//TODO: Throw Exception
+			throw new ArgumentException("You cannot remove a null child.", __FUNCTION__);
 		}
 		for(list<GameEntity*>::Iterator it = children.begin();
 			it != children.end(); ++it)
@@ -56,9 +57,8 @@ namespace GameCore
 				children.erase(it);
 			}
 		}
-		UpdateAbsoluteMassAndCOG();
-		//TODO: Throw Exception
-	}
+		throw new ArgumentException("The given entity is not a child of this entity.", __FUNCTION__);
+		UpdateAbsoluteMassAndCOG();	}
 
 	void GameEntity::RemoveAllChildren()
 	{
