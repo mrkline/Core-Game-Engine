@@ -37,6 +37,7 @@ namespace GameCore
 		}
 		newChild->grab();
 		children.push_back(newChild);
+		UpdateAbsoluteMassAndCOG();
 	}
 
 	void GameEntity::RemoveChild(GameEntity* toRemove)
@@ -55,6 +56,7 @@ namespace GameCore
 				children.erase(it);
 			}
 		}
+		UpdateAbsoluteMassAndCOG();
 		//TODO: Throw Exception
 	}
 
@@ -68,17 +70,6 @@ namespace GameCore
 		}
 
 		children.clear();
-	}
-
-	void GameEntity::UpdateTransform(u32 currTime)
-	{
-		f32 dt = static_cast<f32>(currTime - lastTransformUpdateTime)
-			/ 1000.0f;
-
-		transform.setTranslation(transform.getTranslation() + velocity * dt);
-		rotation += angularVelocity * dt;
-		transform.setRotationRadians(orient.GetEulerRotationRadians(rotation));
-		lastTransformUpdateTime = currTime;
 	}
 
 	void GameEntity::UpdateAbsoluteMassAndCOG()
