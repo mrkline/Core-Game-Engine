@@ -55,10 +55,12 @@ namespace GameCore
 				(*it)->SetParent(nullptr);
 				(*it)->drop();
 				children.erase(it);
+				UpdateAbsoluteMassAndCOG();
+				return;
 			}
 		}
 		throw new ArgumentException("The given entity is not a child of this entity.", __FUNCTION__);
-		UpdateAbsoluteMassAndCOG();	}
+	}
 
 	void GameEntity::RemoveAllChildren()
 	{
