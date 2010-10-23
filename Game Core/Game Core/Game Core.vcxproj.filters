@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{d03ea375-200e-41ae-bb39-090c97dab7d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{0819f2a3-ea38-4222-88c3-cd2d228600dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h">
@@ -68,5 +71,43 @@
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\Bullet 2.77\lib\BulletCollision.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\BulletDynamics.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\BulletFileLoader.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\BulletMultiThreaded.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\BulletSoftBody.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\BulletWorldImporter.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\ConvexDecomposition.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\GIMPACTUtils.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\GLUI.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\LinearMath.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\MiniCL.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\..\Bullet 2.77\lib\OpenGLSupport.lib">
+      <Filter>Libraries</Filter>
+    </Library>
   </ItemGroup>
 </Project>

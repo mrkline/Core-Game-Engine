@@ -8,7 +8,8 @@ namespace GameCore
 	static Orienter orient;
 
 	GameEntity::GameEntity()
-		: mass(1.0f), absoluteMass(1.0f),
+		: sNode(nullptr), parent(nullptr),
+		mass(1.0f), absoluteMass(1.0f),
 		lastVelocityUpdateTime(0), lastTransformUpdateTime(0)
 	{
 	}
@@ -19,7 +20,16 @@ namespace GameCore
 		{
 			throw new ArgumentException("A game entity cannot be its own parent.", __FUNCTION__);
 		}
+		sNode->setParent(newParent->sNode);
+		grab();
+		RemoveFromParent();
 		parent = newParent;
+		if(parent != nullptr)
+		{
+			parent->AddChild(this);
+		}
+
+		drop();
 	}
 
 	void GameEntity::AddChild(GameEntity* newChild)
@@ -36,8 +46,11 @@ namespace GameCore
 				throw new ArgumentException("The provided entity is already a child of this entity.", __FUNCTION__);
 			}
 		}
+		sNode->addChild(newChild->sNode);
 		newChild->grab();
+		newChild->RemoveFromParent();
 		children.push_back(newChild);
+		newChild->parent = this;
 		UpdateAbsoluteMassAndCOG();
 	}
 
@@ -52,8 +65,9 @@ namespace GameCore
 		{
 			if(*it == toRemove)
 			{
-				(*it)->SetParent(nullptr);
-				(*it)->drop();
+				sNode->removeChild(toRemove->sNode);
+				toRemove->parent = nullptr;
+				toRemove->drop();
 				children.erase(it);
 				UpdateAbsoluteMassAndCOG();
 				return;
@@ -64,14 +78,22 @@ namespace GameCore
 
 	void GameEntity::RemoveAllChildren()
 	{
+		sNode->removeAll();
 		for(list<GameEntity*>::Iterator it = children.begin();
 			it != children.end(); ++it)
 		{
-			(*it)->SetParent(nullptr);
+			(*it)->parent = nullptr;
 			(*it)->drop();
 		}
 
 		children.clear();
+	}
+
+	void GameEntity::RemoveFromParent()
+	{
+		sNode->remove();
+		if (parent != nullptr)
+				parent->RemoveChild(this);
 	}
 
 	void GameEntity::UpdateAbsoluteMassAndCOG()

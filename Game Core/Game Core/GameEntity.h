@@ -3,6 +3,7 @@
 #include <irrlicht.h>
 using namespace irr;
 using namespace core;
+using namespace scene;
 
 namespace GameCore 
 {
@@ -22,6 +23,7 @@ namespace GameCore
 		//the child was not in the list
 		void RemoveChild(GameEntity* toRemove);
 		void RemoveAllChildren();
+		void RemoveFromParent();
 		//TODO: Get/Set Type?
 		//TODO: Get/Set Motion controller
 		//TODO: Get thrusterlist
@@ -33,10 +35,6 @@ namespace GameCore
 		list<vector3df>& GetExternalForces() { return externalForces; }
 		void SetMass(f32 newMass) { mass = newMass; } 
 		void SetCOG(const vector3df& newCOG) { cog = newCOG; }
-		//Updates absolute transform based on parents.
-		//Parents should call this before children
-		//as this does not recursively call its parents
-		void UpdateAbsoluteTransform();
 		/*
 		/ Updates absolute mass and center of Mass based on children.
 		/ This recursively runs on all children (since unlike
@@ -47,6 +45,9 @@ namespace GameCore
 		void UpdateAbsoluteMassAndCOG();
 
 	protected:
+		//Scene node we're attached to.
+		ISceneNode* sNode;
+
 		GameEntity* parent;
 		list<GameEntity*> children;
 		//TODO: Add type field?
