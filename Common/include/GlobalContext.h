@@ -1,12 +1,10 @@
 #pragma once
 
 #include "DeviceContext.h"
-//#include "RTCache.h"
 
 namespace GlobalContext
 {
 	extern IrrlichtDeviceContext DeviceContext;
-	//extern RTCache RenderTargetCache;
 } //end namespace GlobalContext
 
 //for ease of typing
@@ -15,4 +13,4 @@ namespace GlobalContext
 #define GLOBAL_SM GlobalContext::DeviceContext.GetSceneManager()
 #define GLOBAL_FS GlobalContext::DeviceContext.GetFileSystem()
 #define GLOBAL_TIMER GlobalContext::DeviceContext.GetTimer()
-#define GLOBAL_GUIENV GlobalContext::DeviceContext.GetGUIEnvironment()
+#define GLOBAL_GUIENV GlobalContext::DeviceContext.GetGUIEnvironment() 

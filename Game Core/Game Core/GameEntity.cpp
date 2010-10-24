@@ -4,14 +4,20 @@
 
 namespace GameCore
 {
-	//Orienter used to convert 6DOF rotations into a Euler rotation
-	static Orienter orient;
-
-	GameEntity::GameEntity()
-		: sNode(nullptr), parent(nullptr),
-		mass(1.0f), absoluteMass(1.0f),
-		lastVelocityUpdateTime(0), lastTransformUpdateTime(0)
+	GameEntity::GameEntity(ISceneNode* sceneNode,  btCollisionShape* collisionShape,
+		const btTransform& trans, GameEntity* parentEnt, s32 entId, const stringc& entName)
+		: sNode(sceneNode), cShape(collisionShape), absoluteCShape(nullptr), transform(trans), mass(1.0f),
+		id(entId), name(entName)
 	{
+		if(sceneNode == nullptr)
+		{
+			throw new ArgumentException("A game entity must be tied to a scene node.", __FUNCTION__);
+		}
+		if(collisionShape == nullptr)
+		{
+			throw new ArgumentException("A game entity must have a rigid body (to hold the transform at the very least)", __FUNCTION__);
+		}
+		SetParent(parentEnt);
 	}
 
 	void GameEntity::SetParent(GameEntity* newParent)
@@ -22,13 +28,15 @@ namespace GameCore
 		}
 		sNode->setParent(newParent->sNode);
 		grab();
-		RemoveFromParent();
-		parent = newParent;
-		if(parent != nullptr)
+		RemoveFromParent(false);
+		if(newParent != nullptr)
 		{
-			parent->AddChild(this);
+			newParent->AddChild(this);
 		}
-
+		else
+		{
+			UpdateHierarchicalData();
+		}
 		drop();
 	}
 
@@ -51,7 +59,7 @@ namespace GameCore
 		newChild->RemoveFromParent();
 		children.push_back(newChild);
 		newChild->parent = this;
-		UpdateAbsoluteMassAndCOG();
+		UpdateHierarchicalData();
 	}
 
 	void GameEntity::RemoveChild(GameEntity* toRemove)
@@ -67,9 +75,10 @@ namespace GameCore
 			{
 				sNode->removeChild(toRemove->sNode);
 				toRemove->parent = nullptr;
+				toRemove->UpdateHierarchicalData();
 				toRemove->drop();
 				children.erase(it);
-				UpdateAbsoluteMassAndCOG();
+				UpdateHierarchicalData();
 				return;
 			}
 		}
@@ -83,37 +92,62 @@ namespace GameCore
 			it != children.end(); ++it)
 		{
 			(*it)->parent = nullptr;
+			(*it)->UpdateHierarchicalData();
 			(*it)->drop();
 		}
 
 		children.clear();
+		UpdateHierarchicalData();
 	}
 
-	void GameEntity::RemoveFromParent()
+	void GameEntity::RemoveFromParent(bool updateHD)
 	{
 		sNode->remove();
 		if (parent != nullptr)
 				parent->RemoveChild(this);
+		if(updateHD)
+			UpdateHierarchicalData();
 	}
 
-	void GameEntity::UpdateAbsoluteMassAndCOG()
+	void GameEntity::UpdateHierarchicalData()
 	{
-		absoluteMass = mass;
-		list<GameEntity*>::Iterator it = children.begin();
-		for(; it != children.end(); ++it)
-		{
-			(*it)->UpdateAbsoluteMassAndCOG();
-			absoluteMass += (*it)->getAbsoluteMass();
-		}
-		it = children.begin();
+		//Clear out old data
 
-		absoluteCOG.set(0.0f, 0.0f, 0.0f);
-		absoluteCOG += cog * (mass / absoluteMass);
-		for(; it != children.end(); ++it)
+		if(absoluteCShape != nullptr)
 		{
-			GameEntity* curr = *it;
-			absoluteCOG += curr->GetAbsoluteCOG()
-				* (curr->getAbsoluteMass() / absoluteMass);
+			delete absoluteCShape;
+		}
+
+		absoluteMass = mass;
+		if(children.getSize() == 0)
+		{
+			absoluteCOG = cog;
+			absoluteCShape = cShape;
+		}
+		else
+		{
+			absoluteCShape = new btCompoundShape();
+			btCompoundShape* compAbsShape = static_cast<btCompoundShape*>(absoluteCShape);
+			compAbsShape->addChildShape(btTransform(), cShape);
+
+			list<GameEntity*>::Iterator it = children.begin();
+			for(; it != children.end(); ++it)
+			{
+				GameEntity* curr = *it;
+				curr->UpdateHierarchicalData();
+				compAbsShape->addChildShape(curr->getTransform(), curr->absoluteCShape);
+				absoluteMass += curr->absoluteMass;
+			}
+			it = children.begin();
+
+			absoluteCOG.set(0.0f, 0.0f, 0.0f);
+			absoluteCOG += cog * (mass / absoluteMass);
+			for(; it != children.end(); ++it)
+			{
+				GameEntity* curr = *it;
+				absoluteCOG += curr->cog
+					* (curr->absoluteMass / absoluteMass);
+			}
 		}
 	}
 } //end namespace GameCore

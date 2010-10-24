@@ -3,6 +3,5 @@
 
 int main()
 {
-	GameCore::GameEntity test;
 	return 0;
 }

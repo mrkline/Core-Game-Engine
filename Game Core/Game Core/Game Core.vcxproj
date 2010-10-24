@@ -75,6 +75,7 @@
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\Paths.h" />
+    <ClInclude Include="..\..\Common\include\PhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="GameEntity.h" />
@@ -84,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\Context.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="main.cpp" />

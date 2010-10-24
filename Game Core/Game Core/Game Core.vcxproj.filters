@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\Common\include\ScreenQuad.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\PhysicsManager.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEntity.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\src\PhysicsManager.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>

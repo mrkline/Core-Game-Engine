@@ -1,8 +1,7 @@
 #include "DeviceContext.h"
-//#include "RTCache.h"
+#include "PhysicsManager.h"
 
 namespace GlobalContext
 {
 	IrrlichtDeviceContext DeviceContext;
-	//RTCache RenderTargetCache;
 } //end namespace GlobalContext

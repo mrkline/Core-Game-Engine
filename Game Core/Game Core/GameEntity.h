@@ -5,6 +5,8 @@ using namespace irr;
 using namespace core;
 using namespace scene;
 
+#include <btBulletDynamicsCommon.h>
+
 namespace GameCore 
 {
 	//Thre base object for all game entities
@@ -12,7 +14,10 @@ namespace GameCore
 	class GameEntity : public IReferenceCounted
 	{
 	public:
-		GameEntity();
+
+		GameEntity(ISceneNode* sceneNode,  btCollisionShape* cShape,
+			const btTransform& trans = btTransform(), GameEntity* parentEnt = nullptr,
+			s32 entId = -1, const stringc& entName = stringc());
 
 		void SetParent(GameEntity* newParent);
 		GameEntity* GetParent() const { return parent; }
@@ -23,7 +28,7 @@ namespace GameCore
 		//the child was not in the list
 		void RemoveChild(GameEntity* toRemove);
 		void RemoveAllChildren();
-		void RemoveFromParent();
+		void RemoveFromParent(bool updateHD = true);
 		//TODO: Get/Set Type?
 		//TODO: Get/Set Motion controller
 		//TODO: Get thrusterlist
@@ -33,20 +38,21 @@ namespace GameCore
 		const vector3df& GetAbsoluteCOG() const { return absoluteCOG; }
 		const list<vector3df>& GetExternalForces() const { return externalForces; }
 		list<vector3df>& GetExternalForces() { return externalForces; }
+		const btTransform& getTransform() const { return transform; }
+		btTransform& getTransform() { return transform; }
 		void SetMass(f32 newMass) { mass = newMass; } 
 		void SetCOG(const vector3df& newCOG) { cog = newCOG; }
-		/*
-		/ Updates absolute mass and center of Mass based on children.
-		/ This recursively runs on all children (since unlike
-		/ the transform, it is dependant on the children.
-		/ Therefore, this should only be called on all tier-1
-		/ entities by the manager.
-		*/
-		void UpdateAbsoluteMassAndCOG();
+		void SetTransform(const btTransform& newTransform) { transform = newTransform; }
+
+		// Updates hierarchical data based on children.
+		void UpdateHierarchicalData();
 
 	protected:
 		//Scene node we're attached to.
 		ISceneNode* sNode;
+		btCollisionShape* cShape;
+		btCollisionShape* absoluteCShape;
+		btTransform transform;
 
 		GameEntity* parent;
 		list<GameEntity*> children;
@@ -62,7 +68,8 @@ namespace GameCore
 		vector3df absoluteCOG;
 		//Forces which would affect the velocity of the entity
 		list<vector3df> externalForces;
-		u32 lastVelocityUpdateTime;
-		u32 lastTransformUpdateTime;
+
+		s32 id;
+		stringc name;
 	};
 } //end namespace GameCore
