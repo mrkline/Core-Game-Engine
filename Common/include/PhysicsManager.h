@@ -1,6 +1,10 @@
 #pragma once
 
-#include <btBulletDynamicsCommon.h>
+class btDynamicsWorld;
+class btDefaultCollisionConfiguration;
+class btDispatcher;
+class btBroadphaseInterface;
+class btConstraintSolver;
 
 namespace Physics
 {
@@ -10,20 +14,19 @@ namespace Physics
 		PhysicsManager();
 		virtual ~PhysicsManager();
 
-		//Will completely delete and re-initialize Bullet physics.
-		//Any existing entities using physics are now invalid.
-		void ResetBullet();
+		__forceinline btDynamicsWorld* GetPhysicsWorld() { return physWorld; }
+		__forceinline btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig; }
+		__forceinline btDispatcher* GetDispatcher() { return dispatcher; }
+		__forceinline btBroadphaseInterface* GetBroadphase() { return broadphase; }
+		__forceinline btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
 
 	protected:
 		btDynamicsWorld *physWorld;
-		btDefaultCollisionConfiguration* collisionConfiguration;
+		btDefaultCollisionConfiguration* collisionConfig;
 		btDispatcher* dispatcher;
-		btBroadphaseInterface* pairCache;
+		btBroadphaseInterface* broadphase;
 		btConstraintSolver*	constraintSolver;
 
 		void InitBullet();
 	};
 } //end namespace Physics
-
-#define GLOBAL_PHYSICS Physics::PhysicsMan
-#define GLOBAL_PHYSICS_WORLD Physics::PhysicsMan

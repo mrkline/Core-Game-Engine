@@ -72,24 +72,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
+    <ClInclude Include="..\..\Common\include\EntityManager.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
+    <ClInclude Include="..\..\Common\include\GameEntity.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\Paths.h" />
     <ClInclude Include="..\..\Common\include\PhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
-    <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="Orienter.h" />
-    <ClInclude Include="ThrusterData.h" />
+    <ClInclude Include="..\..\Common\include\ThrusterData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\Context.cpp" />
+    <ClCompile Include="..\..\Common\src\EntityManager.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\Common\src\GameEntity.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
-    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Orienter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\Bullet 2.77\lib\BulletCollision.lib" />

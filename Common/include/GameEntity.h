@@ -9,13 +9,14 @@ using namespace scene;
 
 namespace GameCore 
 {
-	//Thre base object for all game entities
-	//Massive TODO: Chuck all the custom physics stuff and put in Bullet stuff.
+	class EntityManager;
+
+	//The base object for all game entities
 	class GameEntity : public IReferenceCounted
 	{
 	public:
 
-		GameEntity(ISceneNode* sceneNode,  btCollisionShape* cShape,
+		GameEntity(EntityManager* entManager, ISceneNode* sceneNode,  btCollisionShape* cShape,
 			const btTransform& trans = btTransform(), GameEntity* parentEnt = nullptr,
 			s32 entId = -1, const stringc& entName = stringc());
 
@@ -48,6 +49,8 @@ namespace GameCore
 		void UpdateHierarchicalData();
 
 	protected:
+		EntityManager* manager;
+
 		//Scene node we're attached to.
 		ISceneNode* sNode;
 		btCollisionShape* cShape;

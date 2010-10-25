@@ -1,13 +1,12 @@
 #include "GameEntity.h"
-#include "Orienter.h"
 #include "ErrorHandling.h"
 
 namespace GameCore
 {
-	GameEntity::GameEntity(ISceneNode* sceneNode,  btCollisionShape* collisionShape,
+	GameEntity::GameEntity(EntityManager* entManager, ISceneNode* sceneNode,  btCollisionShape* collisionShape,
 		const btTransform& trans, GameEntity* parentEnt, s32 entId, const stringc& entName)
-		: sNode(sceneNode), cShape(collisionShape), absoluteCShape(nullptr), transform(trans), mass(1.0f),
-		id(entId), name(entName)
+		: manager(entManager), sNode(sceneNode), cShape(collisionShape), absoluteCShape(nullptr),
+		transform(trans), mass(1.0f), id(entId), name(entName)
 	{
 		if(sceneNode == nullptr)
 		{

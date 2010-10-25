@@ -29,7 +29,7 @@ namespace GlobalContext
 		{
 		}
 
-		inline void SetDevice(const SIrrlichtCreationParameters& cp)
+		void SetDevice(const SIrrlichtCreationParameters& cp)
 		{
 			//Clear out a previous device if we're creating a new one
 			ClearDevice();
@@ -43,7 +43,7 @@ namespace GlobalContext
 			//RenderTargetCache.ClearForNewDevice();
 		}
 
-		inline void ClearDevice()
+		void ClearDevice()
 		{
 			if(device != nullptr)
 			{
@@ -59,7 +59,7 @@ namespace GlobalContext
 
 		//The scene manager could be set to something besides the
 		//default scene manager
-		inline void SetSceneManager(ISceneManager* newSceneManager)
+		void SetSceneManager(ISceneManager* newSceneManager)
 		{
 			if(newSceneManager == nullptr)
 				throw new ArgumentNullException("SetSceneManager does not accept null scene managers",
