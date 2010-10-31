@@ -1,7 +1,8 @@
 #pragma comment(lib, "irrlicht.lib")
-#include "GameEntity.h"
+#include "GameObject.h"
 
 int main()
 {
+	GameCore::GameObject obj(nullptr, nullptr);
 	return 0;
 }

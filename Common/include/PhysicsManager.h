@@ -14,7 +14,7 @@ namespace Physics
 		PhysicsManager();
 		virtual ~PhysicsManager();
 
-		__forceinline btDynamicsWorld* GetPhysicsWorld() { return physWorld; }
+		__forceinline btDynamicsWorld* GetWorld() { return physWorld; }
 		__forceinline btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig; }
 		__forceinline btDispatcher* GetDispatcher() { return dispatcher; }
 		__forceinline btBroadphaseInterface* GetBroadphase() { return broadphase; }

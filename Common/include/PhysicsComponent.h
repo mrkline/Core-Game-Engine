@@ -6,28 +6,28 @@ using namespace core;
 using namespace scene;
 
 #include <btBulletDynamicsCommon.h>
+#include "GameComponent.h"
 
 namespace GameCore 
 {
 	class EntityManager;
 
-	//The base object for all game entities
-	class GameEntity : public IReferenceCounted
+	class PhysicsComponent : public GameComponent
 	{
 	public:
 
-		GameEntity(EntityManager* entManager, ISceneNode* sceneNode,  btCollisionShape* cShape,
-			const btTransform& trans = btTransform(), GameEntity* parentEnt = nullptr,
+		PhysicsComponent(EntityManager* entManager, ISceneNode* sceneNode,  btCollisionShape* cShape,
+			const btTransform& trans = btTransform(), PhysicsComponent* parentEnt = nullptr,
 			s32 entId = -1, const stringc& entName = stringc());
-
-		void SetParent(GameEntity* newParent);
-		GameEntity* GetParent() const { return parent; }
+		
+		void SetParent(PhysicsComponent* newParent);
+		PhysicsComponent* GetParent() const { return parent; }
 		//Throws an exception if the pointer is null or
 		//the child was already in the list
-		void AddChild(GameEntity* newChild);
+		void AddChild(PhysicsComponent* newChild);
 		//Throws an exception if the pointer is null or
 		//the child was not in the list
-		void RemoveChild(GameEntity* toRemove);
+		void RemoveChild(PhysicsComponent* toRemove);
 		void RemoveAllChildren();
 		void RemoveFromParent(bool updateHD = true);
 		//TODO: Get/Set Type?
@@ -51,14 +51,16 @@ namespace GameCore
 	protected:
 		EntityManager* manager;
 
+		btRigidBody* body;
+
 		//Scene node we're attached to.
 		ISceneNode* sNode;
 		btCollisionShape* cShape;
 		btCollisionShape* absoluteCShape;
 		btTransform transform;
 
-		GameEntity* parent;
-		list<GameEntity*> children;
+		PhysicsComponent* parent;
+		list<PhysicsComponent*> children;
 		//TODO: Add type field?
 		//TODO: Add motion controller
 		//TODO: Add thruster list

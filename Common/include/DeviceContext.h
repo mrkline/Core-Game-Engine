@@ -62,7 +62,7 @@ namespace GlobalContext
 		void SetSceneManager(ISceneManager* newSceneManager)
 		{
 			if(newSceneManager == nullptr)
-				throw new ArgumentNullException("SetSceneManager does not accept null scene managers",
+				throw new Error::ArgumentNullException("SetSceneManager does not accept null scene managers",
 					__FUNCTION__);
 
 			sm = newSceneManager;
