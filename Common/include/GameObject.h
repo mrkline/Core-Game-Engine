@@ -40,8 +40,16 @@ namespace GameCore
 		virtual void OnHierarchyChange()
 			{ return RefCountedTreeNode::OnHierarchyChange(); }
 
+		//Used by components searching for a parent
+		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);
+		const irr::core::list<GameComponent*>& FindNearestDescendantComponents(GameComponent::EType compType);
+
 	protected:
 		GameObjectManager* man;
 		irr::core::list<GameComponent*> components;
+		irr::core::list<GameComponent*> holder; //Used for finding descendants with certain components
+
+		static void  DescendantSearchRecursor(irr::core::list<GameComponent*>* compList,
+			GameObject* obj, GameComponent::EType compType);
 	};
 } //end namespace GameCore

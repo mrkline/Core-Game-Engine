@@ -103,7 +103,7 @@ namespace GameCore
 		for(list<GameComponent*>::Iterator it = components.begin();
 			it != components.end(); ++it)
 		{
-			(*it)->OwnerRemovedFromParent();
+			(*it)->OwnerRemovedFromParent(updateHierarchy);
 		}
 	}
 
@@ -134,6 +134,45 @@ namespace GameCore
 			it != components.end(); ++it)
 		{
 			(*it)->OwnerRemovedAllChildren();
+		}
+	}
+
+	GameComponent* GameObject::FindNearestAncestorComponent(GameComponent::EType compType)
+	{
+		GameComponent* ret;
+		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		{
+			ret = curr->GetComponentByType(compType);
+			if(ret != nullptr)
+				return ret;
+		}
+		return nullptr;
+	}
+
+	const list<GameComponent*>& GameObject::FindNearestDescendantComponents(GameComponent::EType compType)
+	{
+		holder.clear();
+		DescendantSearchRecursor(&holder, this, compType);
+		return holder;
+	}
+
+	void  GameObject::DescendantSearchRecursor(list<GameComponent*>* compList,
+			GameObject* obj, GameComponent::EType compType)
+	{
+		GameComponent* comp = obj->GetComponentByType(compType);
+		if(comp != nullptr)
+		{
+			compList->push_back(comp);
+			return;
+		}
+		else
+		{
+			list<RefCountedTreeNode*>& children = obj->GetChildren();
+			for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+				it != children.end(); ++it)
+			{
+				DescendantSearchRecursor(compList, static_cast<GameObject*>(*it), compType);
+			}
 		}
 	}
 } //end namespace GameCore

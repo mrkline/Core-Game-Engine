@@ -21,11 +21,11 @@ namespace GameCore
 		virtual ~GameComponent() {}
 
 		virtual EType GetComponentType() = 0;
-		virtual void OwnerAddedChild(GameObject* child) {}
-		virtual void OwnerRemovedChild(GameObject* removed) {}
-		virtual void OwnerRemovedAllChildren() {}
-		virtual void OwnerSetParent(GameObject* parent) {}
-		virtual void OwnerRemovedFromParent() {}
+		virtual void OwnerAddedChild(GameObject* child);
+		virtual void OwnerRemovedChild(GameObject* removed);
+		virtual void OwnerRemovedAllChildren();
+		virtual void OwnerSetParent(GameObject* parent);
+		virtual void OwnerRemovedFromParent(bool updateHierarchy);
 
 		GameObject* GetOwner() { return owner; }
 
