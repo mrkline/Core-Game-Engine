@@ -6,7 +6,6 @@ using namespace core;
 using namespace video;
 
 #include "GlobalContext.h"
-#include "ErrorHandling.h"
 
 namespace Graphics
 {
