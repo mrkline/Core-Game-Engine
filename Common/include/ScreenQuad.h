@@ -22,7 +22,7 @@ namespace Graphics
 			//Indices are as follows:
 			/* 0---1
 			// |   |
-			// 3   2
+			// 3---2
 			*/
 
 			const SColor white(255, 255, 255, 255);
@@ -99,7 +99,7 @@ namespace Graphics
 		u16 indices[6];
 		SMaterial mat;
 
-		IVideoDriver* __restrict vd;
+		IVideoDriver* vd;
 	};
 
 } //end namespace graphics
