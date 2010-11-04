@@ -8,7 +8,7 @@ public:
 		: id(cid), name(cName)
 	{}
 
-	virtual ~NamedClass();
+	virtual ~NamedClass() {}
 
 	void SetID(irr::s32 newID) { id = newID; }
 	void SetName(const irr::core::stringc& newName) { name = newName; }

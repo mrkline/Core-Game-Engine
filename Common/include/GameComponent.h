@@ -18,7 +18,7 @@ namespace GameCore
 		};
 
 		GameComponent(GameObject* objOwner);
-		virtual ~GameComponent() {}
+		virtual ~GameComponent();
 
 		virtual EType GetComponentType() = 0;
 		virtual void OwnerAddedChild(GameObject* child);
@@ -27,7 +27,7 @@ namespace GameCore
 		virtual void OwnerSetParent(GameObject* parent);
 		virtual void OwnerRemovedFromParent(bool updateHierarchy);
 
-		GameObject* GetOwner() { return owner; }
+		GameObject* GetOwner() const { return owner; }
 
 	protected:
 		GameObject* owner;

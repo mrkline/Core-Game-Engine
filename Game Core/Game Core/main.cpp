@@ -3,6 +3,5 @@
 
 int main()
 {
-	GameCore::GameObject obj(nullptr, nullptr);
 	return 0;
 }

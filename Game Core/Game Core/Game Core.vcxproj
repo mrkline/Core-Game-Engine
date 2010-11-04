@@ -86,7 +86,6 @@
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="..\..\Common\include\ThrusterData.h" />
-    <ClInclude Include="..\..\Common\include\TreeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\Context.cpp" />
@@ -98,7 +97,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
-    <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

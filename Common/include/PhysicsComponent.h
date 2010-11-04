@@ -10,18 +10,16 @@ using namespace scene;
 
 namespace GameCore 
 {
-	class EntityManager;
+	class PhysicsManager;
 
 	class PhysicsComponent : public GameComponent
 	{
 	public:
 
-		PhysicsComponent(EntityManager* entManager, ISceneNode* sceneNode,  btCollisionShape* cShape,
-			const btTransform& trans = btTransform(), PhysicsComponent* parentEnt = nullptr,
-			s32 entId = -1, const stringc& entName = stringc());
+		PhysicsComponent(GameObject* owner, PhysicsManager* physMan);
 		
 		void SetParent(PhysicsComponent* newParent);
-		PhysicsComponent* GetParent() const { return parent; }
+		PhysicsComponent* GetParent() const;
 		//Throws an exception if the pointer is null or
 		//the child was already in the list
 		void AddChild(PhysicsComponent* newChild);
@@ -49,7 +47,6 @@ namespace GameCore
 		void UpdateHierarchicalData();
 
 	protected:
-		EntityManager* manager;
 
 		btRigidBody* body;
 
@@ -59,8 +56,6 @@ namespace GameCore
 		btCollisionShape* absoluteCShape;
 		btTransform transform;
 
-		PhysicsComponent* parent;
-		list<PhysicsComponent*> children;
 		//TODO: Add type field?
 		//TODO: Add motion controller
 		//TODO: Add thruster list
