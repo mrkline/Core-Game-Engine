@@ -4,6 +4,7 @@ class GameCore
 {
 	class GameObject;
 
+	//Manages GameObjects
 	class GameObjectManager
 	{
 	public:

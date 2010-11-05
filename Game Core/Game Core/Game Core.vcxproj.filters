@@ -45,9 +45,6 @@
     <ClInclude Include="..\..\Common\include\PhysicsManager.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\EntityManager.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\ThrusterData.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>

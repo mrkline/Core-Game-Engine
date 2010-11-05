@@ -9,11 +9,10 @@ namespace Error
 	class EHandler
 	{
 	public:
+		//TODO: Currently displays a Windows message box.  We probably want to change this behavior.
 		static void ShowErrorDialog(const char* const message, const char* const title);
 	};
 
-	//Exceptions are to be used conservatively and kept away from real-time code
-	//(i.e. use them in constructors, etc.)
 	//Drop the exception when it has been handled
 	//Most exception types are lovingly borrowed from the .NET framework
 	class Exception : public IReferenceCounted

@@ -1,6 +1,8 @@
 #include <btBulletDynamicsCommon.h>
 #include <irrlicht.h>
 
+//Converts Irrlicht data structures to Bullet ones and vice versa
+
 namespace Convert
 {
 	//Should we be using __forceinline or just inline?

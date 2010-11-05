@@ -5,11 +5,15 @@ namespace GameCore
 {
 	class GameObject;
 
+	//Each GameObject can hold a collection of components.  Components have their own managers
+	//within the GameObjectManager and their own trees, which are kept updated to reflect the tree
+	//structure of their owner GameObjects
 	//Tree node functions should be managed through the Onwer... functions.
 	//Because of this, we're making the tree node base class protected
 	class GameComponent : protected RefCountedTreeNode, virtual public irr::IReferenceCounted
 	{
 	public:
+		//The types of Game components to be returned by GetComponentType()
 		enum EType
 		{
 			E_GCT_SCENE_NODE,
@@ -20,7 +24,12 @@ namespace GameCore
 		GameComponent(GameObject* objOwner);
 		virtual ~GameComponent();
 
+		//See EType
 		virtual EType GetComponentType() = 0;
+
+		//These functions are called when hierarchy changes involving the GameObject owner
+		//occur, so that the components can update their own trees.
+
 		virtual void OwnerAddedChild(GameObject* child);
 		virtual void OwnerRemovedChild(GameObject* removed);
 		virtual void OwnerRemovedAllChildren();

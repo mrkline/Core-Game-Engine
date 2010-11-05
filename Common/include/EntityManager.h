@@ -7,7 +7,7 @@ namespace Physics
 
 namespace GameCore
 {
-	//Manages GameEntities
+	//Manages GameEntities, the core pieces of the 
 	class EntityManager
 	{
 	public:

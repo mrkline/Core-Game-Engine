@@ -72,7 +72,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
-    <ClInclude Include="..\..\Common\include\EntityManager.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameObjectManager.h" />

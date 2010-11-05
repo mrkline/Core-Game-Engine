@@ -8,17 +8,18 @@ class btConstraintSolver;
 
 namespace Physics
 {
+	//Manager of all PhysicsComponents.  Uses Bullet to manage them
 	class PhysicsManager
 	{
 	public:
 		PhysicsManager();
 		virtual ~PhysicsManager();
 
-		__forceinline btDynamicsWorld* GetWorld() { return physWorld; }
-		__forceinline btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig; }
-		__forceinline btDispatcher* GetDispatcher() { return dispatcher; }
-		__forceinline btBroadphaseInterface* GetBroadphase() { return broadphase; }
-		__forceinline btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
+		btDynamicsWorld* GetWorld() { return physWorld; }
+		btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig; }
+		btDispatcher* GetDispatcher() { return dispatcher; }
+		btBroadphaseInterface* GetBroadphase() { return broadphase; }
+		btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
 
 	protected:
 		btDynamicsWorld *physWorld;

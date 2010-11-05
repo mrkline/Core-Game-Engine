@@ -1,6 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 
+//A useful base class that gives its children a name and ID value
 class NamedClass
 {
 public:

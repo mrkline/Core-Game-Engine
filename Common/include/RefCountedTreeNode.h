@@ -1,6 +1,8 @@
 #pragma once
 #include <irrlicht.h>
 
+//A class that provides tree functionality (with a parent and children) with reference counting
+//using Irrlicht's IReferenceCounted class.
 class RefCountedTreeNode : virtual public irr::IReferenceCounted
 {
 public:

@@ -8,6 +8,9 @@ namespace GameCore
 {
 	class GameObjectManager;
 
+	//The GameObject is the core object of the engine.  A tree of GameObjects is managed by the
+	//GameObjectManager.  Each object can have a collection of GameComponenents, which do various things
+	//such as manage physics, sound, scripts, logic, etc.
 	class GameObject : public RefCountedTreeNode, public NamedClass
 	{
 	public:
@@ -26,6 +29,8 @@ namespace GameCore
 
 		const irr::core::list<GameComponent*>& GetComponents() const { return components; }
 		irr::core::list<GameComponent*>& GetComponents() { return components; }
+
+		//Functions to manipulate the object tree
 
 		virtual void SetParent(GameObject* newParent);
 		virtual GameObject* GetParent() { return static_cast<GameObject*>(parent); }
@@ -49,6 +54,7 @@ namespace GameCore
 		irr::core::list<GameComponent*> components;
 		irr::core::list<GameComponent*> holder; //Used for finding descendants with certain components
 
+		//Recursive function used to find descendants with a given component
 		static void  DescendantSearchRecursor(irr::core::list<GameComponent*>* compList,
 			GameObject* obj, GameComponent::EType compType);
 	};

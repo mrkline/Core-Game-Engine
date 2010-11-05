@@ -4,6 +4,7 @@
 
 namespace GlobalContext
 {
+	//Graphics context
 	extern IrrlichtDeviceContext DeviceContext;
 } //end namespace GlobalContext
 

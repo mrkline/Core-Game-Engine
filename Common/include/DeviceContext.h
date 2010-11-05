@@ -13,8 +13,6 @@ using namespace gui;
 
 namespace GlobalContext
 {
-	//extern RTCache RenderTargetCache;
-
 	//Since the Irrlicht device is pretty much a global in itself, make it globally accessible.
 	class IrrlichtDeviceContext
 	{
@@ -29,6 +27,7 @@ namespace GlobalContext
 		{
 		}
 
+		//Creates a graphics device based on creation parameters
 		void SetDevice(const SIrrlichtCreationParameters& cp)
 		{
 			//Clear out a previous device if we're creating a new one
@@ -43,6 +42,8 @@ namespace GlobalContext
 			//RenderTargetCache.ClearForNewDevice();
 		}
 
+		//Drop the device and set all pointers to null.
+		//Should be called at the end of the program.
 		void ClearDevice()
 		{
 			if(device != nullptr)

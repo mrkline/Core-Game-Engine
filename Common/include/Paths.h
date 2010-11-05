@@ -4,6 +4,8 @@
 using namespace irr;
 using namespace io;
 
+//Used to store directory and file paths
+
 //Post processes
 namespace Paths
 {
