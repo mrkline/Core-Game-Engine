@@ -16,42 +16,31 @@ namespace GameCore
 	{
 	public:
 
-		PhysicsComponent(GameObject* owner, PhysicsManager* physMan);
-		
-		void SetParent(PhysicsComponent* newParent);
-		PhysicsComponent* GetParent() const;
-		//Throws an exception if the pointer is null or
-		//the child was already in the list
-		void AddChild(PhysicsComponent* newChild);
-		//Throws an exception if the pointer is null or
-		//the child was not in the list
-		void RemoveChild(PhysicsComponent* toRemove);
-		void RemoveAllChildren();
-		void RemoveFromParent(bool updateHD = true);
-		//TODO: Get/Set Type?
+		PhysicsComponent(GameObject* owner, PhysicsManager* physMan, btCollisionShape* collisionShape,
+			const btVector3& COG = btVector3(), f32 objMass = 1.0f);
+
 		//TODO: Get/Set Motion controller
 		//TODO: Get thrusterlist
 		f32 getMass() const { return mass; }
 		f32 getAbsoluteMass() const { return absoluteMass; }
-		const vector3df& GetCOG() const { return cog; }
-		const vector3df& GetAbsoluteCOG() const { return absoluteCOG; }
+		const btVector3& GetCOG() const { return cog; }
+		const btVector3& GetAbsoluteCOG() const { return absoluteCOG; }
 		const list<vector3df>& GetExternalForces() const { return externalForces; }
 		list<vector3df>& GetExternalForces() { return externalForces; }
 		const btTransform& getTransform() const { return transform; }
 		btTransform& getTransform() { return transform; }
 		void SetMass(f32 newMass) { mass = newMass; } 
-		void SetCOG(const vector3df& newCOG) { cog = newCOG; }
+		void SetCOG(const btVector3& newCOG) { cog = newCOG; }
 		void SetTransform(const btTransform& newTransform) { transform = newTransform; }
 
 		// Updates hierarchical data based on children.
-		void UpdateHierarchicalData();
+		void OnHierarchyChange();
 
 	protected:
 
 		btRigidBody* body;
 
 		//Scene node we're attached to.
-		ISceneNode* sNode;
 		btCollisionShape* cShape;
 		btCollisionShape* absoluteCShape;
 		btTransform transform;
@@ -63,13 +52,10 @@ namespace GameCore
 		//Mass of object plus any child entities
 		f32 absoluteMass;
 		//Center of gravity in local coordinates
-		vector3df cog;
+		btVector3 cog;
 		//Center of gravity of entity with all children
-		vector3df absoluteCOG;
+		btVector3 absoluteCOG;
 		//Forces which would affect the velocity of the entity
 		list<vector3df> externalForces;
-
-		s32 id;
-		stringc name;
 	};
 } //end namespace GameCore
