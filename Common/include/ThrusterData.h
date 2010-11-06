@@ -26,6 +26,6 @@ namespace GameCore
 		//Amount the thruster is being used.  Range is between 0 and 1
 		f32 normalizedForce;
 		//Amount the thruster can influence each axis of rotation, based on the 
-		vector3df cachedForce
+		vector3df cachedForce;
 	};
 } //end namespace GameCore

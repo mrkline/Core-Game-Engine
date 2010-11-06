@@ -1,7 +1,7 @@
 #pragma comment(lib, "irrlicht.lib")
-#include "GameObject.h"
+#include "BasicObjectTests.h"
 
 int main()
 {
-	return 0;
+	return Tests::OnHierarchyChangeTest();
 }

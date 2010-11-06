@@ -42,8 +42,17 @@ namespace GameCore
 
 		//Notify children of changes
 		//Called recursively on all children
-		virtual void OnHierarchyChange()
-			{ return RefCountedTreeNode::OnHierarchyChange(); }
+		virtual void OnHierarchyChange(bool goingUp)
+		{
+			RefCountedTreeNode::OnHierarchyChange(goingUp);
+			//TEST:
+			/*if(!goingUp)
+			{
+				printf("OnHierarchyChange (going down) called for ");
+				printf(name.c_str());
+				printf("\n");
+			}*/
+		}
 
 		//Used by components searching for a parent
 		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);

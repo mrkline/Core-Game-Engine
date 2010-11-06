@@ -8,6 +8,10 @@ namespace GameCore
 	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, irr::s32 id, const irr::core::stringc& name)
 		: NamedClass(id, name)
 	{
+		if(objMan == nullptr)
+		{
+			throw new Error::ArgumentNullException("A GameObject needs a non-null pointer to its manager", __FUNCTION__);
+		}
 		if(parent != nullptr)
 		{
 			parent->AddChild(this);

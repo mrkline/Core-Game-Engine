@@ -66,6 +66,15 @@
     <ClInclude Include="..\..\Common\include\PhysicsComponent.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\GameMotionState.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObjectTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\core.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -83,9 +92,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\EntityManager.cpp">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\src\GameComponent.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicObjectTests.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

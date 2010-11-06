@@ -16,8 +16,9 @@ namespace GameCore
 		//The types of Game components to be returned by GetComponentType()
 		enum EType
 		{
-			E_GCT_SCENE_NODE,
-			E_GCT_PHYSICS,
+			E_GCT_GRAPHICS, //A graphics component
+			E_GCT_PHYSICS, //A physics component
+			E_GCT_NONE, //A default value that shouldn't be used
 			E_GCT_COUNT //Not a type, but a count of the types
 		};
 
@@ -25,7 +26,7 @@ namespace GameCore
 		virtual ~GameComponent();
 
 		//See EType
-		virtual EType GetComponentType() = 0;
+		virtual EType GetComponentType() { return E_GCT_NONE; }
 
 		//These functions are called when hierarchy changes involving the GameObject owner
 		//occur, so that the components can update their own trees.
@@ -35,6 +36,7 @@ namespace GameCore
 		virtual void OwnerRemovedAllChildren();
 		virtual void OwnerSetParent(GameObject* parent);
 		virtual void OwnerRemovedFromParent(bool updateHierarchy);
+
 
 		GameObject* GetOwner() const { return owner; }
 

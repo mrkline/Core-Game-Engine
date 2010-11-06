@@ -1,14 +1,11 @@
 #pragma once
 
-class GameCore
+namespace GameCore
 {
 	class GameObject;
 
 	//Manages GameObjects
 	class GameObjectManager
 	{
-	public:
-
-	protected:
 	};
 } //end namespace GameCore

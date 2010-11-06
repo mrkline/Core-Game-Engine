@@ -4,8 +4,8 @@
 using namespace irr;
 using namespace core;
 
-RefCountedTreeNode::RefCountedTreeNode(RefCountedTreeNode* nodeParent)
-	: parent(nodeParent)
+RefCountedTreeNode::RefCountedTreeNode(RefCountedTreeNode* nodeParent, bool updateOnChildrenChange)
+	: parent(nodeParent), caresAboutChildren(updateOnChildrenChange)
 {
 	if(parent != nullptr)
 	{
@@ -32,7 +32,7 @@ void RefCountedTreeNode::SetParent(RefCountedTreeNode* newParent)
 	}
 	else
 	{
-		OnHierarchyChange();
+		OnHierarchyChange(true);
 	}
 	drop();
 }
@@ -55,7 +55,7 @@ void RefCountedTreeNode::AddChild(RefCountedTreeNode* newChild)
 		newChild->RemoveFromParent(false);
 		children.push_back(newChild);
 		newChild->parent = this;
-		OnHierarchyChange();
+		OnHierarchyChange(true);
 }
 
 void RefCountedTreeNode::RemoveChild(RefCountedTreeNode* toRemove)
@@ -70,10 +70,10 @@ void RefCountedTreeNode::RemoveChild(RefCountedTreeNode* toRemove)
 		if(*it == toRemove)
 		{
 			toRemove->parent = nullptr;
-			toRemove->OnHierarchyChange();
+			toRemove->OnHierarchyChange(false);
 			toRemove->drop();
 			children.erase(it);
-			OnHierarchyChange();
+			OnHierarchyChange(true);
 			return;
 		}
 	}
@@ -87,12 +87,12 @@ void RefCountedTreeNode::RemoveAllChildren()
 	{
 		RefCountedTreeNode* curr = *it;
 		curr->parent = nullptr;
-		curr->OnHierarchyChange();
+		curr->OnHierarchyChange(false);
 		curr->drop();
 	}
 
 	children.clear();
-	OnHierarchyChange();
+	OnHierarchyChange(true);
 }
 
 void RefCountedTreeNode::RemoveFromParent(bool updateHD)
@@ -100,14 +100,28 @@ void RefCountedTreeNode::RemoveFromParent(bool updateHD)
 	if (parent != nullptr)
 			parent->RemoveChild(this);
 	if(updateHD)
-		OnHierarchyChange();
+		OnHierarchyChange(false);
 }
 
-void RefCountedTreeNode::OnHierarchyChange()
+void RefCountedTreeNode::OnHierarchyChange(bool goingUp)
 {
-	for(list<RefCountedTreeNode*>::Iterator it = children.begin();
-		it != children.end(); ++it)
+	//Keep walking up the tree until it's time to stop and go back down
+	if(goingUp && parent != nullptr && parent->caresAboutChildren)
 	{
-		(*it)->OnHierarchyChange();
+		parent->OnHierarchyChange(true);
+	}
+	//Don't forget to hit ourselves on the way back down
+	else if(goingUp)
+	{
+			OnHierarchyChange(false);
+	}
+	//Walk down the tree, updating all children
+	else
+	{
+		for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+		it != children.end(); ++it)
+		{
+			(*it)->OnHierarchyChange(false);
+		}
 	}
 }
