@@ -11,7 +11,9 @@ namespace GameCore
 {
 	PhysicsComponent::PhysicsComponent(GameObject* owner, PhysicsManager* physManager, btCollisionShape* collisionShape,
 			const btVector3& COG, f32 objMass)
-			: GameComponent(owner), cog(COG), mass(objMass), physMan(physManager)
+			: GameComponent(owner), body(nullptr), cShape(collisionShape), absoluteCShape(nullptr),
+				mass(objMass), absoluteMass(objMass),
+				cog(COG), absoluteCOG(COG), physMan(physManager)
 	{
 		if(physManager == nullptr)
 		{
