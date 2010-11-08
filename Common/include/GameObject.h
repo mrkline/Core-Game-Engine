@@ -1,10 +1,10 @@
 #pragma once
 #include <irrlicht.h>
-#include "GameComponent.h"
-#include "RefCountedTreeNode.h"
-#include "NamedClass.h"
+#include <GameComponent.h>
+#include <RefCountedTreeNode.h>
+#include <NamedClass.h>
 
-namespace GameCore
+namespace Core
 {
 	class GameObjectManager;
 
@@ -67,4 +67,4 @@ namespace GameCore
 		static void  DescendantSearchRecursor(irr::core::list<GameComponent*>* compList,
 			GameObject* obj, GameComponent::EType compType);
 	};
-} //end namespace GameCore
+} //end namespace Core

@@ -1,13 +1,12 @@
-#include "PhysicsComponent.h"
-#include "PhysicsManager.h"
-#include "ErrorHandling.h"
-#include "IrrlichtBulletConversions.h"
+#include <PhysicsComponent.h>
+#include <PhysicsManager.h>
+#include <ErrorHandling.h>
+#include <IrrlichtBulletConversions.h>
 
 using namespace irr;
 using namespace core;
-using namespace Physics;
 
-namespace GameCore
+namespace Core
 {
 	PhysicsComponent::PhysicsComponent(GameObject* owner, PhysicsManager* physManager, btCollisionShape* collisionShape,
 			const btVector3& COG, f32 objMass)
@@ -108,4 +107,4 @@ namespace GameCore
 			}
 		}
 	}
-} //end namespace GameCore
+} //end namespace Core

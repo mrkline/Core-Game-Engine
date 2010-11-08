@@ -1,7 +1,7 @@
 #pragma once
-#include "RefCountedTreeNode.h"
+#include <RefCountedTreeNode.h>
 
-namespace GameCore
+namespace Core
 {
 	class GameObject;
 
@@ -18,7 +18,7 @@ namespace GameCore
 		{
 			E_GCT_GRAPHICS, //A graphics component
 			E_GCT_PHYSICS, //A physics component
-			E_GCT_NONE, //A default value that shouldn't be used
+			E_GCT_UNKNOWN, //A default value that generally shouldn't be used
 			E_GCT_COUNT //Not a type, but a count of the types
 		};
 
@@ -26,7 +26,7 @@ namespace GameCore
 		virtual ~GameComponent();
 
 		//See EType
-		virtual EType GetComponentType() { return E_GCT_NONE; }
+		virtual EType GetComponentType() { return E_GCT_UNKNOWN; }
 
 		//These functions are called when hierarchy changes involving the GameObject owner
 		//occur, so that the components can update their own trees.
@@ -43,4 +43,4 @@ namespace GameCore
 	protected:
 		GameObject* owner;
 	};
-} //end namespace GameCore
+} //end namespace Core

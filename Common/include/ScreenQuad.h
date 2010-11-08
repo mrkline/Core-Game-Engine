@@ -5,7 +5,7 @@ using namespace irr;
 using namespace core;
 using namespace video;
 
-#include "GlobalContext.h"
+#include <GlobalContext.h>
 
 namespace Graphics
 {

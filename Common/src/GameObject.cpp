@@ -1,9 +1,9 @@
-#include "GameObject.h"
-#include "ErrorHandling.h"
+#include <GameObject.h>
+#include <ErrorHandling.h>
 using namespace irr;
 using namespace core;
 
-namespace GameCore
+namespace Core
 {
 	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, irr::s32 id, const irr::core::stringc& name)
 		: NamedClass(id, name)
@@ -179,4 +179,4 @@ namespace GameCore
 			}
 		}
 	}
-} //end namespace GameCore
+} //end namespace Core

@@ -1,5 +1,5 @@
-#include "DeviceContext.h"
-#include "PhysicsManager.h"
+#include <DeviceContext.h>
+#include <PhysicsManager.h>
 
 namespace GlobalContext
 {

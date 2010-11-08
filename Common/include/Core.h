@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ComponentManager.h>
 #include <DeviceContext.h>
 #include <ErrorHandling.h>
 #include <GameComponent.h>
@@ -8,6 +9,7 @@
 #include <GameObjectManager.h>
 #include <GlobalContext.h>
 #include <IrrlichtBulletConversions.h>
+#include <MapPhysicsManager.h>
 #include <NamedClass.h>
 #include <Paths.h>
 #include <PhysicsComponent.h>

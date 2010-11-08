@@ -1,20 +1,17 @@
 #pragma once
 
 #include <btBulletDynamicsCommon.h>
-#include "GameComponent.h"
+#include <GameComponent.h>
 
-namespace Physics
+namespace Core 
 {
 	class PhysicsManager;
-} //end namespace Physics
 
-namespace GameCore 
-{
 	class PhysicsComponent : public GameComponent
 	{
 	public:
 
-		PhysicsComponent(GameObject* owner, Physics::PhysicsManager* physMan, btCollisionShape* collisionShape,
+		PhysicsComponent(GameObject* owner, PhysicsManager* physMan, btCollisionShape* collisionShape,
 			const btVector3& COG = btVector3(), irr::f32 objMass = 1.0f);
 
 		EType GetComponentType() { return GameComponent::E_GCT_PHYSICS; }
@@ -33,7 +30,7 @@ namespace GameCore
 		void SetCOG(const btVector3& newCOG) { cog = newCOG; }
 		void SetTransform(const btTransform& newTransform) { transform = newTransform; }
 
-		Physics::PhysicsManager* GetPhysicsManager() { return physMan; }
+		PhysicsManager* GetPhysicsManager() { return physMan; }
 
 		// Updates hierarchical data based on children.
 		void OnHierarchyChange(bool goingUp);
@@ -60,6 +57,6 @@ namespace GameCore
 		//Forces which would affect the velocity of the entity
 		irr::core::list<btVector3> externalForces;
 
-		Physics::PhysicsManager* physMan;
+		PhysicsManager* physMan;
 	};
-} //end namespace GameCore
+} //end namespace Core

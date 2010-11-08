@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\include\ComponentManager.h" />
     <ClInclude Include="..\..\Common\include\core.h" />
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
@@ -80,10 +81,12 @@
     <ClInclude Include="..\..\Common\include\GameObjectManager.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\IrrlichtBulletConversions.h" />
+    <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
     <ClInclude Include="..\..\Common\include\Paths.h" />
     <ClInclude Include="..\..\Common\include\PhysicsComponent.h" />
     <ClInclude Include="..\..\Common\include\PhysicsManager.h" />
+    <ClInclude Include="..\..\Common\include\PointerKey.h" />
     <ClInclude Include="..\..\Common\include\RefCountedTreeNode.h" />
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />

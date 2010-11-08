@@ -2,7 +2,7 @@
 #include <memory>
 #include <irrlicht.h>
 
-using namespace GameCore;
+using namespace Core;
 using namespace irr;
 
 namespace Tests

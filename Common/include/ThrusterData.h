@@ -4,7 +4,7 @@
 using namespace irr;
 using namespace core;
 
-namespace GameCore
+namespace Core
 {
 	class ThrusterData
 	{
@@ -28,4 +28,4 @@ namespace GameCore
 		//Amount the thruster can influence each axis of rotation, based on the 
 		vector3df cachedForce;
 	};
-} //end namespace GameCore
+} //end namespace Core

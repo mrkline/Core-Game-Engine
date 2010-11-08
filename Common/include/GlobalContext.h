@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DeviceContext.h"
+#include <DeviceContext.h>
 
 namespace GlobalContext
 {

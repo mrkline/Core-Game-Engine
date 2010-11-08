@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GameCore
+namespace Core
 {
 	class GameObject;
 
@@ -8,4 +8,4 @@ namespace GameCore
 	class GameObjectManager
 	{
 	};
-} //end namespace GameCore
+} //end namespace Core

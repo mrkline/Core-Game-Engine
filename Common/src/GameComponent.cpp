@@ -1,8 +1,8 @@
-#include "GameComponent.h"
-#include "ErrorHandling.h"
-#include "GameObject.h"
+#include <GameComponent.h>
+#include <ErrorHandling.h>
+#include <GameObject.h>
 
-namespace GameCore
+namespace Core
 {
 	GameComponent::GameComponent(GameObject* objOwner)
 		: owner(objOwner)
@@ -69,4 +69,4 @@ namespace GameCore
 	{
 		RemoveFromParent(updateHierarchy);
 	}
-} //end namespace GameCore
+} //end namespace Core

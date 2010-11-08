@@ -1,5 +1,5 @@
-#include "ResourceManager.h"
-#include "GlobalContext.h"
+#include <ResourceManager.h>
+#include <GlobalContext.h>
 
 using namespace GlobalContext;
 
