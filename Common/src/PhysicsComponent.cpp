@@ -22,6 +22,8 @@ namespace Core
 		{
 			throw new Error::ArgumentNullException("Each physics component must be given a collision shape");
 		}
+		//Allow this collision shape to be traced back to us
+		collisionShape->setUserPointer(this);
 	}
 
 	void PhysicsComponent::OnHierarchyChange(bool goingUp)
@@ -68,6 +70,8 @@ namespace Core
 						* (curr->absoluteMass / absoluteMass);
 				}
 			}
+			//Allow collision shape to be traced back to us
+			absoluteCShape->setUserPointer(this);
 
 			//Only entities with no parents should have rigid bodies.
 			if(parent == nullptr)

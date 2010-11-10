@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
     <ClInclude Include="..\..\Common\include\core.h" />
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
@@ -94,10 +95,12 @@
     <ClInclude Include="BasicObjectTests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
     <ClCompile Include="..\..\Common\src\Context.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
     <ClCompile Include="..\..\Common\src\GameComponent.cpp" />
     <ClCompile Include="..\..\Common\src\GameObject.cpp" />
+    <ClCompile Include="..\..\Common\src\MapPhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />

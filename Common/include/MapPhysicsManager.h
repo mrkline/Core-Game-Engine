@@ -10,17 +10,19 @@ namespace Core
 	class MapPhysicsManager : public PhysicsManager
 	{
 	public:
+		virtual ~MapPhysicsManager() {}
+
 		void DispatchCollisions(float timeStep);
 
 	protected:
 		struct SCollisionPairInfo
 		{
-			//Start of collision in game time
-			irr::u32 collisionStartTime;
+			//Elapsed collision time
+			float totalCollisionTime;
 			//Tracks if collision pair has been matched to a manifold yet.
 			bool matchedToManifold;
 		};
 
-		irr::core::map<PointerKey, SCollisionPairInfo> collisionPairMap;
+		irr::core::map<PointerKey<GameObject>, SCollisionPairInfo> collisionPairMap;
 	};
 } //end namespace Core

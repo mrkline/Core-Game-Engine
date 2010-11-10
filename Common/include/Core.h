@@ -1,5 +1,6 @@
 #pragma once
 
+#include <CollisionDetector.h>
 #include <ComponentManager.h>
 #include <DeviceContext.h>
 #include <ErrorHandling.h>

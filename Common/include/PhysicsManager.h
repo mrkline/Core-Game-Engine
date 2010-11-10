@@ -9,11 +9,17 @@ class btConstraintSolver;
 
 namespace Core
 {
+	class GameObject;
+
 	//Manager of all PhysicsComponents.  Uses Bullet to manage them
 	class PhysicsManager : public ComponentManager
 	{
 	public:
-		PhysicsManager();
+		
+		//This lets CollisionDetector be a sealed box that only the PhysicsManager can access (and vice versa)
+		friend class CollisionDetector;
+
+		PhysicsManager(CollisionDetector* detector);
 		virtual ~PhysicsManager();
 
 		btDynamicsWorld* GetWorld() { return physWorld; }
@@ -22,14 +28,26 @@ namespace Core
 		btBroadphaseInterface* GetBroadphase() { return broadphase; }
 		btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
 
-		void Update(irr::u32 gameTime);
+		//Called by the GameObjectManager each cycle of the game loop, passing in the elapsed
+		//game time.
+		virtual void Update(irr::u32 gameTime);
+
+		//Dispatch OnCollisionStart, OnCollisionContinue, and OnCollisionEnd
+		//to caring logic components of the colliding GameObjects
 		virtual void DispatchCollisions(float timeStep) = 0;
 
 	protected:
+		//CollisionDetector will call this to add collision pairs each Update call.
+		//Collision pairs must be re-added each Update so that pairs that are no longer
+		//colliding can be notified.
+		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2) = 0;
+
 		static void TickCallback(btDynamicsWorld *world, float timeStep);
 
 		const float kFixedTimeStep;
 		const int kMaxSubsteps;
+		
+		irr::u32 lastTime;
 
 		btDynamicsWorld *physWorld;
 		btDefaultCollisionConfiguration* collisionConfig;
@@ -37,7 +55,7 @@ namespace Core
 		btBroadphaseInterface* broadphase;
 		btConstraintSolver*	constraintSolver;
 
-		irr::u32 lastTime;
+		CollisionDetector* collDetector;
 
 		void InitBullet();
 	};

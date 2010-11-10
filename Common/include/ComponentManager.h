@@ -3,7 +3,7 @@
 
 namespace Core
 {
-	class ComponentManager
+	class ComponentManager : public irr::IReferenceCounted
 	{
 	public:
 		virtual ~ComponentManager() {}
