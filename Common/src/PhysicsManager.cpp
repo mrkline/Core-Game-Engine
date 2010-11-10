@@ -46,6 +46,7 @@ namespace Core
 		lastTime = gameTime;
 		physWorld->stepSimulation(dt, kMaxSubsteps, kFixedTimeStep);
 		collDetector->GetCollisionPairs();
+		DispatchCollisions(dt);
 	}
 
 	void PhysicsManager::TickCallback(btDynamicsWorld *world, float timeStep)

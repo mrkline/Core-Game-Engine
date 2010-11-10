@@ -12,6 +12,8 @@ namespace Core
 	public:
 		virtual ~MapPhysicsManager() {}
 
+		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
+		//to caring logic components of the colliding GameObjects
 		void DispatchCollisions(float timeStep);
 
 	protected:
@@ -23,6 +25,8 @@ namespace Core
 			bool matchedToManifold;
 		};
 
-		irr::core::map<PointerKey<GameObject>, SCollisionPairInfo> collisionPairMap;
+		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2);
+
+		irr::core::map<PointerKey<GameObject>, SCollisionPairInfo> pairMap;
 	};
 } //end namespace Core

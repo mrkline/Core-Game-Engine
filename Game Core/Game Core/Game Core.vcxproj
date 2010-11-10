@@ -82,6 +82,7 @@
     <ClInclude Include="..\..\Common\include\GameObjectManager.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\IrrlichtBulletConversions.h" />
+    <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
     <ClInclude Include="..\..\Common\include\Paths.h" />

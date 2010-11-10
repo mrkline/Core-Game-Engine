@@ -32,7 +32,7 @@ namespace Core
 		//game time.
 		virtual void Update(irr::u32 gameTime);
 
-		//Dispatch OnCollisionStart, OnCollisionContinue, and OnCollisionEnd
+		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
 		//to caring logic components of the colliding GameObjects
 		virtual void DispatchCollisions(float timeStep) = 0;
 

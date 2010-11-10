@@ -18,6 +18,7 @@ namespace Core
 		{
 			E_GCT_GRAPHICS, //A graphics component
 			E_GCT_PHYSICS, //A physics component
+			E_GCT_LOGIC,	//A logic component
 			E_GCT_UNKNOWN, //A default value that generally shouldn't be used
 			E_GCT_COUNT //Not a type, but a count of the types
 		};
