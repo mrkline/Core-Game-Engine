@@ -45,8 +45,8 @@ namespace Core
 		f32 dt = static_cast<f32>(gameTime - lastTime) / static_cast<f32>(1000);
 		lastTime = gameTime;
 		physWorld->stepSimulation(dt, kMaxSubsteps, kFixedTimeStep);
-		collDetector->GetCollisionPairs();
-		DispatchCollisions(dt);
+		collDetector->GetCollisionPairs(gameTime);
+		DispatchCollisions(gameTime, dt);
 	}
 
 	void PhysicsManager::TickCallback(btDynamicsWorld *world, float timeStep)

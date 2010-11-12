@@ -24,7 +24,7 @@ namespace Core
 		//Will be called by the physics manager every Update() call.
 		//Looks at the collision world and calls AddCollisionPair
 		//for each pair of collision shapes (linked to PhysicsComponents)
-		virtual void GetCollisionPairs() = 0;
+		virtual void GetCollisionPairs(irr::u32 gameTime) = 0;
 
 		PhysicsManager* physMan;
 		btCollisionWorld* collWorld;
