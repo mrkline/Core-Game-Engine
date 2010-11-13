@@ -7,7 +7,8 @@ using namespace irr;
 namespace Core
 {
 	PhysicsManager::PhysicsManager(CollisionDetector* detector)
-		: kFixedTimeStep(1.0f / 60.0f), kMaxSubsteps(3), lastTime(0), collDetector(detector)
+		: kFixedTimeStep(1.0f / 60.0f), kMaxSubsteps(3),
+		substepNum(0), lastTime(0), collDetector(detector)
 	{
 		//Does this call the destructor?  This will cause problems if it doesn't (since all
 		//the things being deleted haven't been allocated yet)
@@ -45,13 +46,13 @@ namespace Core
 		f32 dt = static_cast<f32>(gameTime - lastTime) / static_cast<f32>(1000);
 		lastTime = gameTime;
 		physWorld->stepSimulation(dt, kMaxSubsteps, kFixedTimeStep);
-		collDetector->GetCollisionPairs(gameTime);
-		DispatchCollisions(gameTime, dt);
 	}
 
 	void PhysicsManager::TickCallback(btDynamicsWorld *world, float timeStep)
 	{
 		PhysicsManager* physMan = static_cast<PhysicsManager*>(world->getWorldUserInfo());
-		physMan->DispatchCollisions(timeStep);
+		physMan->collDetector->GetCollisionPairs(physMan->substepNum);
+		physMan->DispatchCollisions(physMan->substepNum, timeStep);
+		++(physMan->substepNum);
 	}
 } //end namespace Core

@@ -14,22 +14,22 @@ namespace Core
 
 		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
 		//to caring logic components of the colliding GameObjects
-		void DispatchCollisions(irr::u32 currentTime, float timeStep);
+		void DispatchCollisions(irr::u32 substepNum, float dt);
 
 	protected:
 		struct SCollisionPairInfo
 		{
 			//Used to determine if collision is new or not
-			irr::u32 collisionStartTime;
+			irr::u32 startingSubstep;
 			//Elapsed collision time
 			float totalCollisionTime;
 			//Tracks if collision pair has been matched to a manifold yet.
 			bool matchedToManifold;
 		};
 
-		typedef irr::core::map<PointerKey<GameObject>*, SCollisionPairInfo*> CollisionPairMap;
+		typedef irr::core::map<PointerKey<GameObject>, SCollisionPairInfo*> CollisionPairMap;
 
-		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2);
+		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2, irr::u32 subsetNum);
 
 		CollisionPairMap pairMap;
 	};

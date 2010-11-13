@@ -35,20 +35,21 @@ namespace Core
 		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
 		//to caring logic components of the colliding GameObjects
 		//The argument is the ms passed since the last call, not total time
-		virtual void DispatchCollisions(irr::u32 currentTime, float timeStep) = 0;
+		virtual void DispatchCollisions(irr::u32 currentTime, float dt) = 0;
 
 	protected:
 		//CollisionDetector will call this to add collision pairs each Update call.
 		//Collision pairs must be re-added each Update so that pairs that are no longer
 		//colliding can be notified.
 		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2,
-			irr::u32 collisionStart) = 0;
+			irr::u32 subsetNum) = 0;
 
 		static void TickCallback(btDynamicsWorld *world, float timeStep);
 
 		const float kFixedTimeStep;
 		const int kMaxSubsteps;
 		
+		irr::u32 substepNum;
 		irr::u32 lastTime;
 
 		btDynamicsWorld *physWorld;

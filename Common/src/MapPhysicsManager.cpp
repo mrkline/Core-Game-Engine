@@ -7,20 +7,20 @@ using namespace core;
 
 namespace Core
 {
-	void MapPhysicsManager::DispatchCollisions(irr::u32 currentTime, float timeStep)
+	void MapPhysicsManager::DispatchCollisions(irr::u32 substepNum, float dt)
 	{
 
 		for(CollisionPairMap::ParentFirstIterator it = pairMap.getParentFirstIterator();
 			!it.atEnd(); it++)
 		{
-			PointerKey<GameObject>* key = it->getKey();
+			PointerKey<GameObject> key = it->getKey();
 			SCollisionPairInfo* pairInfo = it->getValue();
 			//Get any existing logic components to notify
-			LogicComponent* log1 = static_cast<LogicComponent*>(key->GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
-			LogicComponent* log2 = static_cast<LogicComponent*>(key->GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
+			LogicComponent* log1 = static_cast<LogicComponent*>(key.GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
+			LogicComponent* log2 = static_cast<LogicComponent*>(key.GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
 
 			//Notify new collisions that they're colliding
-			if(pairInfo->collisionStartTime == currentTime)
+			if(pairInfo->startingSubstep == substepNum)
 			{
 				log1->OnCollisionStart();
 				log2->OnCollisionStart();
@@ -28,7 +28,7 @@ namespace Core
 			else
 			{
 				//Otherwise, increase the time of collision
-				pairInfo->totalCollisionTime += timeStep;
+				pairInfo->totalCollisionTime += dt;
 				
 				if(pairInfo->matchedToManifold)
 				{
@@ -42,7 +42,6 @@ namespace Core
 					log1->OnCollisionEnd(pairInfo->totalCollisionTime);
 					log2->OnCollisionEnd(pairInfo->totalCollisionTime);
 					pairMap.remove(key);
-					delete key;
 					delete pairInfo;
 				}
 			}
@@ -51,13 +50,8 @@ namespace Core
 		}
 	}
 
-	void MapPhysicsManager::AddCollisionPair(GameObject* obj1, GameObject* obj2)
+	void MapPhysicsManager::AddCollisionPair(GameObject* obj1, GameObject* obj2, u32 substepNum)
 	{
 
-	}
-
-	void MapPhysicsManager::AllocateNodeData(CollisionPairMap::Node& node)
-	{
-		node.setValue
 	}
 };

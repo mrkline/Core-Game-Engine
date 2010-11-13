@@ -20,7 +20,7 @@ namespace Core
 			}
 		}
 
-		bool operator>(const PointerKey& other)
+		bool operator>(const PointerKey& other) const
 		{
 			if(higher > other.higher)
 			{
@@ -33,7 +33,7 @@ namespace Core
 			return false;
 		}
 
-		bool operator<(const PointerKey& other)
+		bool operator<(const PointerKey& other) const
 		{
 			if(higher < other.higher)
 			{
@@ -46,16 +46,16 @@ namespace Core
 			return false;
 		}
 
-		bool operator==(const PointerKey& other)
+		bool operator==(const PointerKey& other) const
 		{
 			return higher == other.higher && lower == other.lower;
 		}
 
-		bool operator>=(const PointerKey& other) { return *this == other || *this > other; }
-		bool operator<=(const PointerKey& other) { return *this == other || *this < other; }
+		bool operator>=(const PointerKey& other) const { return *this == other || *this > other; }
+		bool operator<=(const PointerKey& other) const { return *this == other || *this < other; }
 
-		T* GetHigher() { return higher; }
-		T* GetLower() { return lower; }
+		T* GetHigher() const { return higher; }
+		T* GetLower() const { return lower; }
 
 	private:
 		T* higher;

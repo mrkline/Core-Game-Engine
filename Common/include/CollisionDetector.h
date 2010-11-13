@@ -21,10 +21,11 @@ namespace Core
 		//Will be called by the physics manager itself, because they're friends
 		void SetPhysicsManager(PhysicsManager* manager);
 		
-		//Will be called by the physics manager every Update() call.
+		//Will be called by the physics manager every Bullet substep.
 		//Looks at the collision world and calls AddCollisionPair
 		//for each pair of collision shapes (linked to PhysicsComponents)
-		virtual void GetCollisionPairs(irr::u32 gameTime) = 0;
+		//needs the substep number to pass on to AddCollisionPair
+		virtual void GetCollisionPairs(irr::u32 substep) = 0;
 
 		PhysicsManager* physMan;
 		btCollisionWorld* collWorld;
