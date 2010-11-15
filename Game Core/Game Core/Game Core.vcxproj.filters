@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\Common\include\LogicComponent.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\LibraryPragmas.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,44 +131,6 @@
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\Bullet 2.77\lib\BulletCollision.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\BulletDynamics.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\BulletFileLoader.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\BulletMultiThreaded.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\BulletSoftBody.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\BulletWorldImporter.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\ConvexDecomposition.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\GIMPACTUtils.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\GLUI.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\LinearMath.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\MiniCL.lib">
-      <Filter>Libraries</Filter>
-    </Library>
-    <Library Include="..\..\Bullet 2.77\lib\OpenGLSupport.lib">
-      <Filter>Libraries</Filter>
-    </Library>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

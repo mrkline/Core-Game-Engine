@@ -10,6 +10,7 @@
 #include <GameObjectManager.h>
 #include <GlobalContext.h>
 #include <IrrlichtBulletConversions.h>
+#include <LibraryPragmas.h>
 #include <LogicComponent.h>
 #include <MapPhysicsManager.h>
 #include <NamedClass.h>

@@ -38,16 +38,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Dev\Git\void\Common\include;C:\Dev\Git\void\Irrlicht 1.7.1\include;C:\Dev\Git\void\Bullet 2.77\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.1\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>C:\Dev\Git\void\Irrlicht 1.7.1\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Irrlicht 1.7.1\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Dev\Git\void\Common\include;C:\Dev\Git\void\Irrlicht 1.7.1\include;C:\Dev\Git\void\Bullet 2.77\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.1\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>C:\Dev\Git\void\Irrlicht 1.7.1\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Irrlicht 1.7.1\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,6 +82,7 @@
     <ClInclude Include="..\..\Common\include\GameObjectManager.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\IrrlichtBulletConversions.h" />
+    <ClInclude Include="..\..\Common\include\LibraryPragmas.h" />
     <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
@@ -108,20 +109,6 @@
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
     <ClCompile Include="BasicObjectTests.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\Bullet 2.77\lib\BulletCollision.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\BulletDynamics.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\BulletFileLoader.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\BulletMultiThreaded.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\BulletSoftBody.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\BulletWorldImporter.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\ConvexDecomposition.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\GIMPACTUtils.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\GLUI.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\LinearMath.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\MiniCL.lib" />
-    <Library Include="..\..\Bullet 2.77\lib\OpenGLSupport.lib" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

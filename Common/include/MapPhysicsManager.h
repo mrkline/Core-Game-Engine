@@ -25,6 +25,11 @@ namespace Core
 			float totalCollisionTime;
 			//Tracks if collision pair has been matched to a manifold yet.
 			bool matchedToManifold;
+
+			SCollisionPairInfo(irr::u32 startingSS)
+				: startingSubstep(startingSS), totalCollisionTime(0.0f),
+				matchedToManifold(true)
+			{}
 		};
 
 		typedef irr::core::map<PointerKey<GameObject>, SCollisionPairInfo*> CollisionPairMap;

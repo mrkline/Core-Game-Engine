@@ -13,9 +13,9 @@ namespace Core
 
 		//Used by collision dispatching system to notify GameObjects that they're hitting each other
 
-		virtual void OnCollisionStart() {}
-		virtual void OnCollisionStay(float duration) {}
-		virtual void OnCollisionEnd(float duration) {}
+		virtual void OnCollisionStart(GameObject* otherObj) {}
+		virtual void OnCollisionStay(float duration, GameObject* otherObj) {}
+		virtual void OnCollisionEnd(float duration, GameObject* otherObj) {}
 	};
 
 } //end namespace Core

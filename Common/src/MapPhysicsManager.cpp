@@ -17,13 +17,13 @@ namespace Core
 			SCollisionPairInfo* pairInfo = it->getValue();
 			//Get any existing logic components to notify
 			LogicComponent* log1 = static_cast<LogicComponent*>(key.GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
-			LogicComponent* log2 = static_cast<LogicComponent*>(key.GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
+			LogicComponent* log2 = static_cast<LogicComponent*>(key.GetLower()->GetComponentByType(GameComponent::E_GCT_LOGIC));
 
 			//Notify new collisions that they're colliding
 			if(pairInfo->startingSubstep == substepNum)
 			{
-				log1->OnCollisionStart();
-				log2->OnCollisionStart();
+				if(log1 != nullptr) log1->OnCollisionStart(key.GetLower());
+				if(log2 != nullptr) log2->OnCollisionStart(key.GetHigher());
 			}
 			else
 			{
@@ -32,15 +32,15 @@ namespace Core
 				
 				if(pairInfo->matchedToManifold)
 				{
-					log1->OnCollisionStay(pairInfo->totalCollisionTime);
-					log2->OnCollisionStay(pairInfo->totalCollisionTime);
+					if(log1 != nullptr) log1->OnCollisionStay(pairInfo->totalCollisionTime, key.GetLower());
+					if(log2 != nullptr) log2->OnCollisionStay(pairInfo->totalCollisionTime, key.GetHigher());
 				}
 				//If the collision pair no longer exists, this collision no longer exists.
 				//Kill it with fire.
 				else
 				{
-					log1->OnCollisionEnd(pairInfo->totalCollisionTime);
-					log2->OnCollisionEnd(pairInfo->totalCollisionTime);
+					if(log1 != nullptr) log1->OnCollisionEnd(pairInfo->totalCollisionTime, key.GetLower());
+					if(log2 != nullptr) log2->OnCollisionEnd(pairInfo->totalCollisionTime, key.GetHigher());
 					pairMap.remove(key);
 					delete pairInfo;
 				}
@@ -52,6 +52,17 @@ namespace Core
 
 	void MapPhysicsManager::AddCollisionPair(GameObject* obj1, GameObject* obj2, u32 substepNum)
 	{
-
+		//See if this pair already exists.  If so, just mark matchedToManifold to true again
+		PointerKey<GameObject> key(obj1, obj2);
+		CollisionPairMap::Node* existingNode =  pairMap.find(key);
+		if(existingNode != nullptr)
+		{
+			existingNode->getValue()->matchedToManifold = true;
+		}
+		//Otherwise, create a new node and insert it
+		else
+		{
+			pairMap.insert(key, new SCollisionPairInfo(substepNum));
+		}
 	}
 };

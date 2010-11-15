@@ -1,4 +1,3 @@
-#pragma comment(lib, "irrlicht.lib")
 #include "BasicObjectTests.h"
 
 int main()
