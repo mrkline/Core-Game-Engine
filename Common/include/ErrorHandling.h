@@ -2,118 +2,185 @@
 
 #include <irrlicht.h>
 using namespace irr;
-using namespace core;
 
-namespace Error
+
+namespace Core
 {
-	class EHandler
+	namespace Error
 	{
-	public:
-		//TODO: Currently displays a Windows message box.  We probably want to change this behavior.
-		static void ShowErrorDialog(const char* const message, const char* const title);
-	};
-
-	//Drop the exception when it has been handled
-	//Most exception types are lovingly borrowed from the .NET framework
-	class Exception : public IReferenceCounted
-	{
-	public:
-		Exception(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: message(exceptionMessage),
-			cf(callingFunctionName),
-			ie(internalException)
+		class EHandler
 		{
-		}
+		public:
+			//TODO: Currently displays a Windows message box.  We probably want to change this behavior.
+			static void ShowErrorDialog(const char* const message, const char* const title);
+		};
 
-		virtual ~Exception()
+		//Error codes that could be returned by functions if they fail
+		enum ECode
 		{
-			if(ie != nullptr)
-				ie->drop();
-		}
+			E_CEK_SUCCESS, //No errors occurred
+			E_CEK_FAILURE, //General failure.  Try to avoid using this (be more specific)
+			E_CEK_BAD_ARG, //Bad argument
+			E_CEK_NULL_ARG, //null argument
+			E_CEK_ARG_OUT_OF_RANGE, //argument is out of range
+			E_CEK_INDEX_OUT_OF_RANGE, //index is out of range
+			E_CEK_INVALID_STATE, //Object is not in the correct state to perform this operation
+			E_CEK_COUNT //Count of error codes, not an actual error code
+		};
 
-		const char* const GetExceptionMessage() const
+		static inline bool Failed(ECode code) { return code != E_CEK_SUCCESS; }
+		static inline bool Succeeded(ECode code) { return code == E_CEK_SUCCESS; }
+
+		//Class which can set and return error codes for itself.  Error codes are done per-instance
+		//So that different threads don't have to wait on a global GetLastError call.
+		class CanErr
 		{
-			return message;
-		}
+		public:
+			CanErr() : lastError(E_CEK_SUCCESS), customLastErrorMessage(nullptr),
+							lastErrorFunction(nullptr) {}
 
-		const char* const GetCallingFunction() const
+			virtual ~CanErr() {}
+
+			ECode GetLastError() const { return lastError; }
+			char* GetLastErrorFunction() const { return lastErrorFunction; }
+			char* GetLastErrorMessage() const
+			{
+				switch(lastError)
+				{
+				case E_CEK_SUCCESS:
+					return "Operation succeeded.";
+				case E_CEK_FAILURE:
+					return "An unspecified problem occurred.";
+				case E_CEK_BAD_ARG:
+					return "A bad argument was passed to the function.";
+				case E_CEK_NULL_ARG:
+					return "An invalid null argument was passed to the function";
+				case E_CEK_INVALID_STATE:
+					return "Object is not in the correct state to perform the function";
+				case E_CEK_ARG_OUT_OF_RANGE:
+					return "Argument is out of range";
+				case E_CEK_INDEX_OUT_OF_RANGE:
+					return "An index is out of range";
+				default:
+					return "Last error code is not recognized";
+				};
+			}
+			char* GetCustomErrorMessage() const
+			{
+				return customLastErrorMessage == nullptr ?
+					GetLastErrorMessage() : customLastErrorMessage;
+			}
+
+		protected:
+			ECode lastError; //Functions should set this when they error out
+			char* customLastErrorMessage; //User can set a custom last error message.
+			char* lastErrorFunction; //The function that errored out should set this to itself
+		};
+
+		//Drop the exception when it has been handled
+		//Most exception types are lovingly borrowed from the .NET framework.
+		//Exceptions will only be used in constructors, since they will be handled by factory functions.
+		//Otherwise, exceptions are not used since we need to be able to pass errors through dll linkage.
+		class Exception : public IReferenceCounted
 		{
-			return cf;
-		}
+		public:
+			Exception(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: message(exceptionMessage),
+				cf(callingFunctionName),
+				ie(internalException)
+			{
+			}
 
-		const Exception* const GetInnerException() const
+			virtual ~Exception()
+			{
+				if(ie != nullptr)
+					ie->drop();
+			}
+
+			const char* const GetExceptionMessage() const
+			{
+				return message;
+			}
+
+			const char* const GetCallingFunction() const
+			{
+				return cf;
+			}
+
+			const Exception* const GetInnerException() const
+			{
+				return ie;
+			}
+
+		protected:
+			//Exception message
+			const char* const message;
+			//name of calling function
+			const char* const cf;
+			//Internal exception
+			const Exception* const ie;
+		};
+
+		//Thrown if an argument to a method was invalid
+		class ArgumentException : public Exception
 		{
-			return ie;
-		}
+		public:
+			ArgumentException(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: Exception(exceptionMessage, callingFunctionName, internalException)
+			{
+			}
+		};
 
-	protected:
-		//Exception message
-		const char* const message;
-		//name of calling function
-		const char* const cf;
-		//Internal exception
-		const Exception* const ie;
-	};
-
-	//Thrown if an argument to a method was invalid
-	class ArgumentException : public Exception
-	{
-	public:
-		ArgumentException(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+		//Thrown if a null argument was passed to a method that doesn't accept it.
+		class ArgumentNullException : public ArgumentException
 		{
-		}
-	};
+		public:
+			ArgumentNullException(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+			{
+			}
+		};
 
-	//Thrown if a null argument was passed to a method that doesn't accept it.
-	class ArgumentNullException : public ArgumentException
-	{
-	public:
-		ArgumentNullException(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+		//Argument value is out of range
+		class ArgumentOutOfRangeException : public ArgumentException
 		{
-		}
-	};
+		public:
+				ArgumentOutOfRangeException(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+			{
+			}
+		};
 
-	//Argument value is out of range
-	class ArgumentOutOfRangeException : public ArgumentException
-	{
-	public:
-			ArgumentOutOfRangeException(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+		//array index is out of bounds
+		class IndexOutOfRangeException : public Exception
 		{
-		}
-	};
+		public:
+			IndexOutOfRangeException(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: Exception(exceptionMessage, callingFunctionName, internalException)
+			{
+			}
+		};
 
-	//array index is out of bounds
-	class IndexOutOfRangeException : public Exception
-	{
-	public:
-		IndexOutOfRangeException(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+		//method was called at an invalid time
+		class InvalidOperationException : public Exception
 		{
-		}
-	};
-
-	//method was called at an invalid time
-	class InvalidOperationException : public Exception
-	{
-	public:
-		InvalidOperationException(const char* const exceptionMessage,
-			const char* const callingFunctionName = nullptr,
-			const Exception* const internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
-		{
-		}
-	};
-} //end namespace Error
+		public:
+			InvalidOperationException(const char* const exceptionMessage,
+				const char* const callingFunctionName = nullptr,
+				const Exception* const internalException = nullptr)
+				: Exception(exceptionMessage, callingFunctionName, internalException)
+			{
+			}
+		};
+	} //end namespace Error
+} //end namespace Core

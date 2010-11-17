@@ -4,12 +4,15 @@
 using namespace irr;
 using namespace io;
 
-//Since resources could be loaded in different ways (i.e. resource file), provide a resource manager
-namespace Resources
+namespace Core
 {
-	class ResourceManager
+	//Since resources could be loaded in different ways (i.e. resource file), provide a resource manager
+	namespace Resources
 	{
-	public:
-		static IReadFile* OpenResource(const path& name);
-	};
-} //end namespace Resources
+		class ResourceManager
+		{
+		public:
+			static IReadFile* OpenResource(const path& name);
+		};
+	} //end namespace Resources
+} //end namespace Core

@@ -5,6 +5,8 @@ using namespace core;
 
 namespace Core
 {
+	using namespace Error;
+
 	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, irr::s32 id, const irr::core::stringc& name)
 		: NamedClass(id, name)
 	{
@@ -27,12 +29,15 @@ namespace Core
 		}
 	}
 
-	void GameObject::AddComponent(GameComponent* newComponent)
+	ECode GameObject::AddComponent(GameComponent* newComponent)
 	{
 		//Make sure it's not null
 		if(newComponent == nullptr)
 		{
-			throw new Error::ArgumentNullException("A game object cannot add a null component.", __FUNCTION__);
+			lastError = Error::E_CEK_NULL_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A game object cannot add a null component.";
+			return lastError;
 		}
 		//Make sure we don't already have a component of this type
 		GameComponent::EType ncType = newComponent->GetComponentType();
@@ -41,18 +46,25 @@ namespace Core
 		{
 			if((*it)->GetComponentType() == ncType)
 			{
-				throw new Error::ArgumentException("A game object can only have one of each type of component", __FUNCTION__);
+				lastError = Error::E_CEK_BAD_ARG;
+				lastErrorFunction = __FUNCTION__;
+				customLastErrorMessage = "A game object can only have one of each type of component";
+				return lastError;
 			}
 		}
 		components.push_back(newComponent);
 		newComponent->grab();
+		return Error::E_CEK_SUCCESS;
 	}
 
-	void GameObject::RemoveComponent(GameComponent* toRemove)
+	ECode GameObject::RemoveComponent(GameComponent* toRemove)
 	{
 		if(toRemove == nullptr)
 		{
-			throw new Error::ArgumentNullException("A game object has no null components to remove.", __FUNCTION__);
+			lastError = Error::E_CEK_NULL_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A game object has no null components to remove.";
+			return lastError;
 		}
 		for(list<GameComponent*>::Iterator it = components.begin();
 			it != components.end(); ++it)
@@ -61,10 +73,13 @@ namespace Core
 			{
 				(*it)->drop();
 				components.erase(it);
-				return;
+				return Error::E_CEK_SUCCESS;
 			}
 		}
-		throw new Error::ArgumentException("The game object did not contain the given component.", __FUNCTION__);
+		lastError = Error::E_CEK_BAD_ARG;
+		lastErrorFunction = __FUNCTION__;
+		customLastErrorMessage = "The game object did not contain the given component.";
+		return lastError;
 	}
 
 	void GameObject::ClearComponents()
@@ -91,14 +106,18 @@ namespace Core
 		return nullptr;
 	}
 
-	void GameObject::SetParent(GameObject* newParent)
+	ECode GameObject::SetParent(GameObject* newParent)
 	{
-		RefCountedTreeNode::SetParent(parent);
-		for(list<GameComponent*>::Iterator it = components.begin();
-			it != components.end(); ++it)
+		ECode ret = RefCountedTreeNode::SetParent(parent);
+		if(Succeeded(ret))
 		{
-			(*it)->OwnerSetParent(newParent);
+			for(list<GameComponent*>::Iterator it = components.begin();
+				it != components.end(); ++it)
+			{
+				(*it)->OwnerSetParent(newParent);
+			}
 		}
+		return ret;
 	}
 
 	void GameObject::RemoveFromParent(bool updateHierarchy)
@@ -111,24 +130,32 @@ namespace Core
 		}
 	}
 
-	void GameObject::AddChild(GameObject* child)
+	ECode GameObject::AddChild(GameObject* child)
 	{
-		RefCountedTreeNode::AddChild(child);
-		for(list<GameComponent*>::Iterator it = components.begin();
-			it != components.end(); ++it)
+		ECode ret =	RefCountedTreeNode::AddChild(child);
+		if(Succeeded(ret))
 		{
-			(*it)->OwnerAddedChild(child);
+			for(list<GameComponent*>::Iterator it = components.begin();
+				it != components.end(); ++it)
+			{
+				(*it)->OwnerAddedChild(child);
+			}
 		}
+		return ret;
 	}
 
-	void GameObject::RemoveChild(GameObject* child)
+	ECode GameObject::RemoveChild(GameObject* child)
 	{
-		RefCountedTreeNode::RemoveChild(child);
-		for(list<GameComponent*>::Iterator it = components.begin();
-			it != components.end(); ++it)
+		ECode ret = RefCountedTreeNode::RemoveChild(child);
+		if(Succeeded(ret))
 		{
-			(*it)->OwnerRemovedChild(child);
+			for(list<GameComponent*>::Iterator it = components.begin();
+				it != components.end(); ++it)
+			{
+				(*it)->OwnerRemovedChild(child);
+			}
 		}
+		return ret;
 	}
 
 	void GameObject::RemoveAllChildren()

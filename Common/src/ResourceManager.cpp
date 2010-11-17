@@ -1,13 +1,14 @@
 #include <ResourceManager.h>
 #include <GlobalContext.h>
 
-using namespace GlobalContext;
-
-namespace Resources
+namespace Core
 {
-	IReadFile* ResourceManager::OpenResource(const path& name)
+	namespace Resources
 	{
-		//Currently, we're just reading files
-		return DeviceContext.GetFileSystem()->createAndOpenFile(name);
-	}
-} //end namespace Resources
+		IReadFile* ResourceManager::OpenResource(const path& name)
+		{
+			//Currently, we're just reading files
+			return GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile(name);
+		}
+	} //end namespace Resources
+} //end namespace Core

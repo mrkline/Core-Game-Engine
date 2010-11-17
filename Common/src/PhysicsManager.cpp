@@ -10,6 +10,7 @@ namespace Core
 		: kFixedTimeStep(1.0f / 60.0f), kMaxSubsteps(3),
 		substepNum(0), lastTime(0), collDetector(detector)
 	{
+		//TODO:
 		//Does this call the destructor?  This will cause problems if it doesn't (since all
 		//the things being deleted haven't been allocated yet)
 		if(detector == nullptr)

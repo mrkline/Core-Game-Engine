@@ -2,6 +2,9 @@
 #include <ErrorHandling.h>
 #include <GameObject.h>
 
+using namespace irr;
+using namespace core;
+
 namespace Core
 {
 	GameComponent::GameComponent(GameObject* objOwner)

@@ -20,8 +20,8 @@ namespace Core
 		GameObjectManager* getObectManager() const { return man; }
 
 		//Each component type can only have on instance per object
-		void AddComponent(GameComponent* newComponent);
-		void RemoveComponent(GameComponent* toRemove);
+		Error::ECode AddComponent(GameComponent* newComponent);
+		Error::ECode RemoveComponent(GameComponent* toRemove);
 		void ClearComponents();
 		
 		//Returns nullptr if the GameObject does not have this type
@@ -32,12 +32,12 @@ namespace Core
 
 		//Functions to manipulate the object tree
 
-		virtual void SetParent(GameObject* newParent);
+		virtual Error::ECode SetParent(GameObject* newParent);
 		virtual GameObject* GetParent() { return static_cast<GameObject*>(parent); }
 		virtual void RemoveFromParent(bool updateHierarchy = true);
 
-		virtual void AddChild(GameObject* child);
-		virtual void RemoveChild(GameObject* child);
+		virtual Error::ECode AddChild(GameObject* child);
+		virtual Error::ECode RemoveChild(GameObject* child);
 		virtual void RemoveAllChildren();
 
 		//Notify children of changes

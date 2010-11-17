@@ -1,7 +1,10 @@
 #include <DeviceContext.h>
 #include <PhysicsManager.h>
 
-namespace GlobalContext
+namespace Core
 {
-	IrrlichtDeviceContext DeviceContext;
-} //end namespace GlobalContext
+	namespace GlobalContext
+	{
+		IrrlichtDeviceContext DeviceContext;
+	} //end namespace GlobalContext
+}
