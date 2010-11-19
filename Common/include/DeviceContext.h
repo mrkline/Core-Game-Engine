@@ -1,11 +1,6 @@
 #pragma once
 
 #include <irrlicht.h>
-using namespace irr;
-using namespace video;
-using namespace scene;
-using namespace io;
-using namespace gui;
 
 #include <ErrorHandling.h>
 
@@ -28,7 +23,7 @@ namespace Core
 			}
 
 			//Creates a graphics device based on creation parameters
-			void SetDevice(const SIrrlichtCreationParameters& cp)
+			void SetDevice(const irr::SIrrlichtCreationParameters& cp)
 			{
 				//Clear out a previous device if we're creating a new one
 				ClearDevice();
@@ -60,7 +55,7 @@ namespace Core
 
 			//The scene manager could be set to something besides the
 			//default scene manager
-			void SetSceneManager(ISceneManager* newSceneManager)
+			void SetSceneManager(irr::scene::ISceneManager* newSceneManager)
 			{
 				if(newSceneManager == nullptr)
 					throw new Error::ArgumentNullException("SetSceneManager does not accept null scene managers",
@@ -69,21 +64,21 @@ namespace Core
 				sm = newSceneManager;
 			}
 
-			__forceinline IrrlichtDevice* GetDevice() { return device; }
-			__forceinline IVideoDriver* GetVideoDriver() { return vd; }
-			__forceinline ISceneManager* GetSceneManager() { return sm; }
-			__forceinline IFileSystem* GetFileSystem() { return fs; }
-			__forceinline ITimer* GetTimer() { return timer; }
-			__forceinline IGUIEnvironment* GetGUIEnvironment() { return guienv; }
+			__forceinline irr::IrrlichtDevice* GetDevice() { return device; }
+			__forceinline irr::video::IVideoDriver* GetVideoDriver() { return vd; }
+			__forceinline irr::scene::ISceneManager* GetSceneManager() { return sm; }
+			__forceinline irr::io::IFileSystem* GetFileSystem() { return fs; }
+			__forceinline irr::ITimer* GetTimer() { return timer; }
+			__forceinline irr::gui::IGUIEnvironment* GetGUIEnvironment() { return guienv; }
 
 	
 		private:
-			IrrlichtDevice* device;
-			IVideoDriver* vd;
-			ISceneManager* sm;
-			IFileSystem* fs;
-			ITimer* timer;
-			IGUIEnvironment* guienv;
+			irr::IrrlichtDevice* device;
+			irr::video::IVideoDriver* vd;
+			irr::scene::ISceneManager* sm;
+			irr::io::IFileSystem* fs;
+			irr::ITimer* timer;
+			irr::gui::IGUIEnvironment* guienv;
 		};
 	} //end namespace GlobalContext
 } //end namespace Core

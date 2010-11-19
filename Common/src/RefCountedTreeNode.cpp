@@ -1,7 +1,6 @@
 #include <RefCountedTreeNode.h>
 
-using namespace irr;
-using namespace core;
+using namespace std;
 
 namespace Core
 {
@@ -65,7 +64,7 @@ namespace Core
 			customLastErrorMessage = "A tree node cannot add itself as a child.";
 			return lastError;
 		}
-		for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+		for(list<RefCountedTreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			//We're trying to add a duplicate child
@@ -94,7 +93,7 @@ namespace Core
 			customLastErrorMessage = "A tree node cannot remove a null child.";
 			return lastError;
 		}
-		for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+		for(list<RefCountedTreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			if(*it == toRemove)
@@ -115,7 +114,7 @@ namespace Core
 
 	void RefCountedTreeNode::RemoveAllChildren()
 	{
-		for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+		for(list<RefCountedTreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			RefCountedTreeNode* curr = *it;
@@ -151,7 +150,7 @@ namespace Core
 		//Walk down the tree, updating all children
 		else
 		{
-			for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+			for(list<RefCountedTreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 			{
 				(*it)->OnHierarchyChange(false);

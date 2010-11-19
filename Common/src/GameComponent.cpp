@@ -2,8 +2,7 @@
 #include <ErrorHandling.h>
 #include <GameObject.h>
 
-using namespace irr;
-using namespace core;
+using namespace std;
 
 namespace Core
 {
@@ -16,7 +15,7 @@ namespace Core
 		}
 		//Automatically link us into this component's hierarchy
 		const list<GameComponent*>& add = owner->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::ConstIterator it = add.begin();
+		for(list<GameComponent*>::const_iterator it = add.begin();
 			it != add.end(); ++it)
 		{
 			AddChild(*it);
@@ -30,7 +29,7 @@ namespace Core
 		//The parent will automatically have the children remove us
 		if(parent != nullptr)
 		{
-			for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+			for(list<RefCountedTreeNode*>::iterator it = children.begin();
 				it != children.end(); ++it)
 			{
 				parent->AddChild(*it);
@@ -41,7 +40,7 @@ namespace Core
 	void GameComponent::OwnerAddedChild(GameObject* added)
 	{
 		const list<GameComponent*>& add = added->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::ConstIterator it = add.begin();
+		for(list<GameComponent*>::const_iterator it = add.begin();
 			it != add.end(); ++it)
 		{
 			AddChild(*it);
@@ -51,7 +50,7 @@ namespace Core
 	void GameComponent::OwnerRemovedChild(GameObject* removed)
 	{
 		const list<GameComponent*>& remove = removed->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::ConstIterator it = remove.begin();
+		for(list<GameComponent*>::const_iterator it = remove.begin();
 			it != remove.end(); ++it)
 		{
 			RemoveChild(*it);

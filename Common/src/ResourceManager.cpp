@@ -1,6 +1,10 @@
 #include <ResourceManager.h>
 #include <GlobalContext.h>
 
+using namespace irr;
+using namespace core;
+using namespace io;
+
 namespace Core
 {
 	namespace Resources

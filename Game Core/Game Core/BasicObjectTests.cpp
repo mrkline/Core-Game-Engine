@@ -1,9 +1,6 @@
 #include <core.h>
 #include <memory>
-#include <irrlicht.h>
-
 using namespace Core;
-using namespace irr;
 
 namespace Tests
 {

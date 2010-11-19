@@ -3,8 +3,7 @@
 #include <ErrorHandling.h>
 #include <IrrlichtBulletConversions.h>
 
-using namespace irr;
-using namespace core;
+using namespace std;
 
 namespace Core
 {
@@ -41,7 +40,7 @@ namespace Core
 
 			absoluteMass = mass;
 
-			if(children.getSize() == 0)
+			if(children.size() == 0)
 			{
 				absoluteCOG = cog;
 				absoluteCShape = cShape;
@@ -52,7 +51,7 @@ namespace Core
 				btCompoundShape* compAbsShape = static_cast<btCompoundShape*>(absoluteCShape);
 				compAbsShape->addChildShape(btTransform(), cShape);
 
-				list<RefCountedTreeNode*>::Iterator it = children.begin();
+				list<RefCountedTreeNode*>::iterator it = children.begin();
 				for(; it != children.end(); ++it)
 				{
 					PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);

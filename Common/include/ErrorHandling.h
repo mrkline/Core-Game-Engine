@@ -1,7 +1,5 @@
 #pragma once
-
-#include <irrlicht.h>
-using namespace irr;
+#include <CoreTypes.h>
 
 
 namespace Core
@@ -81,7 +79,7 @@ namespace Core
 		//Most exception types are lovingly borrowed from the .NET framework.
 		//Exceptions will only be used in constructors, since they will be handled by factory functions.
 		//Otherwise, exceptions are not used since we need to be able to pass errors through dll linkage.
-		class Exception : public IReferenceCounted
+		class Exception : public ReferenceCounted
 		{
 		public:
 			Exception(const char* const exceptionMessage,

@@ -1,14 +1,14 @@
 #pragma once
-#include <irrlicht.h>
+#include <CoreTypes.h>
 
 namespace Core
 {
-	class ComponentManager : public irr::IReferenceCounted
+	class ComponentManager : public ReferenceCounted
 	{
 	public:
 		virtual ~ComponentManager() {}
 
-		virtual void Update(irr::u32 gameTime) = 0;
+		virtual void Update(u32 gameTime) = 0;
 	protected:
 
 	};

@@ -10,7 +10,7 @@ namespace Core
 	//structure of their owner GameObjects
 	//Tree node functions should be managed through the Onwer... functions.
 	//Because of this, we're making the tree node base class protected
-	class GameComponent : protected RefCountedTreeNode, virtual public irr::IReferenceCounted
+	class GameComponent : protected RefCountedTreeNode, virtual public ReferenceCounted
 	{
 	public:
 		//The types of Game components to be returned by GetComponentType()

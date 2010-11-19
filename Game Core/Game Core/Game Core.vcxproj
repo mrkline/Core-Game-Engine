@@ -75,6 +75,7 @@
     <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
     <ClInclude Include="..\..\Common\include\core.h" />
+    <ClInclude Include="..\..\Common\include\CoreTypes.h" />
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="..\..\Common\include\ThrusterData.h" />
+    <ClInclude Include="..\..\Common\include\Transform.h" />
     <ClInclude Include="BasicObjectTests.h" />
   </ItemGroup>
   <ItemGroup>
@@ -114,10 +116,6 @@
     <CustomBuild Include="..\..\Common\include\GameObject.h">
       <DeploymentContent>true</DeploymentContent>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

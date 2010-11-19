@@ -1,8 +1,9 @@
 #pragma once
-#include <irrlicht.h>
+#include <CoreTypes.h>
 #include <GameComponent.h>
 #include <RefCountedTreeNode.h>
 #include <NamedClass.h>
+#include <list>
 
 namespace Core
 {
@@ -14,7 +15,7 @@ namespace Core
 	class GameObject : public RefCountedTreeNode, public NamedClass
 	{
 	public:
-		GameObject(GameObject* parent, GameObjectManager* objMan, irr::s32 id = -1, const irr::core::stringc& name = irr::core::stringc());
+		GameObject(GameObject* parent, GameObjectManager* objMan, s32 id = -1, const stringc& name = irr::core::stringc());
 		virtual ~GameObject();
 
 		GameObjectManager* getObectManager() const { return man; }
@@ -26,9 +27,9 @@ namespace Core
 		
 		//Returns nullptr if the GameObject does not have this type
 		GameComponent* GetComponentByType(GameComponent::EType type);
-
-		const irr::core::list<GameComponent*>& GetComponents() const { return components; }
-		irr::core::list<GameComponent*>& GetComponents() { return components; }
+		
+		const std::list<GameComponent*>& GetComponents() const { return components; }
+		std::list<GameComponent*>& GetComponents() { return components; }
 
 		//Functions to manipulate the object tree
 
@@ -56,15 +57,15 @@ namespace Core
 
 		//Used by components searching for a parent
 		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);
-		const irr::core::list<GameComponent*>& FindNearestDescendantComponents(GameComponent::EType compType);
+		const std::list<GameComponent*>& FindNearestDescendantComponents(GameComponent::EType compType);
 
 	protected:
 		GameObjectManager* man;
-		irr::core::list<GameComponent*> components;
-		irr::core::list<GameComponent*> holder; //Used for finding descendants with certain components
+		std::list<GameComponent*> components;
+		std::list<GameComponent*> holder; //Used for finding descendants with certain components
 
 		//Recursive function used to find descendants with a given component
-		static void  DescendantSearchRecursor(irr::core::list<GameComponent*>* compList,
+		static void  DescendantSearchRecursor(std::list<GameComponent*>* compList,
 			GameObject* obj, GameComponent::EType compType);
 	};
 } //end namespace Core

@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{d03ea375-200e-41ae-bb39-090c97dab7d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Libraries">
-      <UniqueIdentifier>{0819f2a3-ea38-4222-88c3-cd2d228600dc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\DeviceContext.h">
@@ -93,6 +90,12 @@
     <ClInclude Include="..\..\Common\include\LibraryPragmas.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\Transform.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\CoreTypes.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,9 +139,5 @@
     <CustomBuild Include="..\..\Common\include\GameObject.h">
       <Filter>Header Files\Common</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>

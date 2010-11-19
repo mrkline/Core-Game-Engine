@@ -1,6 +1,6 @@
 #pragma once
-#include <irrlicht.h>
 #include <ErrorHandling.h>
+#include <list>
 
 namespace Core
 {
@@ -20,8 +20,8 @@ namespace Core
 		virtual Error::ECode RemoveChild(RefCountedTreeNode* child);
 		virtual void RemoveAllChildren();
 	
-		virtual irr::core::list<RefCountedTreeNode*>& GetChildren() { return children; }
-		virtual const irr::core::list<RefCountedTreeNode*>& GetChildren() const { return children; }
+		virtual std::list<RefCountedTreeNode*>& GetChildren() { return children; }
+		virtual const std::list<RefCountedTreeNode*>& GetChildren() const { return children; }
 
 		//Used to update any necessary info by a derived class when the tree changes.
 		//If caresAboutChildren is false, changes to children will not cause this to be called.
@@ -30,7 +30,7 @@ namespace Core
 
 	protected:
 		RefCountedTreeNode* parent;
-		irr::core::list<RefCountedTreeNode*> children;
+		std::list<RefCountedTreeNode*> children;
 		//If this is true, changes to children will not cause OnHierarchyChange to be called
 		bool caresAboutChildren;
 	};

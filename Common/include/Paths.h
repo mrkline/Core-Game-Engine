@@ -1,8 +1,6 @@
 #pragma once
 
 #include <irrlicht.h>
-using namespace irr;
-using namespace io;
 
 //Used to store directory and file paths
 
@@ -13,27 +11,27 @@ namespace Core
 		//Post processes
 		namespace PostProcesses
 		{
-			const path PostProcessDir("PostProcesses\\");
-			const path Invert(PostProcessDir + "Invert.fx");
-			const path DownSampleX4(PostProcessDir + "DownSampleX4.fx");
-			const path BrightPass(PostProcessDir + "BrightPass.fx");
-			const path Bloom(PostProcessDir + "Bloom.fx");
-			const path GaussianBlur(PostProcessDir + "GaussianBlur.fx");
-			const path Luminance(PostProcessDir + "Luminance.fx");
-			const path HDR(PostProcessDir + "HDR.fx");
-			const path TextureAdder(PostProcessDir + "TextureAdder.fx");
+			const irr::io::path PostProcessDir("PostProcesses\\");
+			const irr::io::path Invert(PostProcessDir + "Invert.fx");
+			const irr::io::path DownSampleX4(PostProcessDir + "DownSampleX4.fx");
+			const irr::io::path BrightPass(PostProcessDir + "BrightPass.fx");
+			const irr::io::path Bloom(PostProcessDir + "Bloom.fx");
+			const irr::io::path GaussianBlur(PostProcessDir + "GaussianBlur.fx");
+			const irr::io::path Luminance(PostProcessDir + "Luminance.fx");
+			const irr::io::path HDR(PostProcessDir + "HDR.fx");
+			const irr::io::path TextureAdder(PostProcessDir + "TextureAdder.fx");
 		}
 
 		namespace DeferredMatTypes
 		{
-			const path DeferredMatTypesDir("DeferredMatTypes\\");
-			const path UnlitColorMaterial(DeferredMatTypesDir + "UnlitColorMaterial.fx");
+			const irr::io::path DeferredMatTypesDir("DeferredMatTypes\\");
+			const irr::io::path UnlitColorMaterial(DeferredMatTypesDir + "UnlitColorMaterial.fx");
 		}
 
 		namespace DeferredHelperTypes
 		{
-			const path DeferredHelperTypesDir("DeferredHelperTypes\\");
-			const path PositionCreator(DeferredHelperTypesDir + "PositionCreator.fx");
+			const irr::io::path DeferredHelperTypesDir("DeferredHelperTypes\\");
+			const irr::io::path PositionCreator(DeferredHelperTypesDir + "PositionCreator.fx");
 		}
 	} //end namespace Graphics
 } //end namespace Core

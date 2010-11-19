@@ -1,8 +1,6 @@
 #pragma once
 
 #include <irrlicht.h>
-using namespace irr;
-using namespace io;
 
 namespace Core
 {
@@ -12,7 +10,7 @@ namespace Core
 		class ResourceManager
 		{
 		public:
-			static IReadFile* OpenResource(const path& name);
+			static irr::io::IReadFile* OpenResource(const irr::io::path& name);
 		};
 	} //end namespace Resources
 } //end namespace Core

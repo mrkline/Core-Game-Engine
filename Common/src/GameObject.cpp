@@ -1,7 +1,7 @@
 #include <GameObject.h>
 #include <ErrorHandling.h>
-using namespace irr;
-using namespace core;
+
+using namespace std;
 
 namespace Core
 {
@@ -22,7 +22,7 @@ namespace Core
 
 	GameObject::~GameObject()
 	{
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			(*it)->drop();
@@ -41,7 +41,7 @@ namespace Core
 		}
 		//Make sure we don't already have a component of this type
 		GameComponent::EType ncType = newComponent->GetComponentType();
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			if((*it)->GetComponentType() == ncType)
@@ -66,7 +66,7 @@ namespace Core
 			customLastErrorMessage = "A game object has no null components to remove.";
 			return lastError;
 		}
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			if((*it) == toRemove)
@@ -84,7 +84,7 @@ namespace Core
 
 	void GameObject::ClearComponents()
 	{
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			(*it)->drop();
@@ -94,7 +94,7 @@ namespace Core
 
 	GameComponent* GameObject::GetComponentByType(GameComponent::EType type)
 	{
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			GameComponent* curr = (*it);
@@ -111,7 +111,7 @@ namespace Core
 		ECode ret = RefCountedTreeNode::SetParent(parent);
 		if(Succeeded(ret))
 		{
-			for(list<GameComponent*>::Iterator it = components.begin();
+			for(list<GameComponent*>::iterator it = components.begin();
 				it != components.end(); ++it)
 			{
 				(*it)->OwnerSetParent(newParent);
@@ -123,7 +123,7 @@ namespace Core
 	void GameObject::RemoveFromParent(bool updateHierarchy)
 	{
 		RefCountedTreeNode::RemoveFromParent(updateHierarchy);
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			(*it)->OwnerRemovedFromParent(updateHierarchy);
@@ -135,7 +135,7 @@ namespace Core
 		ECode ret =	RefCountedTreeNode::AddChild(child);
 		if(Succeeded(ret))
 		{
-			for(list<GameComponent*>::Iterator it = components.begin();
+			for(list<GameComponent*>::iterator it = components.begin();
 				it != components.end(); ++it)
 			{
 				(*it)->OwnerAddedChild(child);
@@ -149,7 +149,7 @@ namespace Core
 		ECode ret = RefCountedTreeNode::RemoveChild(child);
 		if(Succeeded(ret))
 		{
-			for(list<GameComponent*>::Iterator it = components.begin();
+			for(list<GameComponent*>::iterator it = components.begin();
 				it != components.end(); ++it)
 			{
 				(*it)->OwnerRemovedChild(child);
@@ -161,7 +161,7 @@ namespace Core
 	void GameObject::RemoveAllChildren()
 	{
 		RefCountedTreeNode::RemoveAllChildren();
-		for(list<GameComponent*>::Iterator it = components.begin();
+		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
 			(*it)->OwnerRemovedAllChildren();
@@ -199,7 +199,7 @@ namespace Core
 		else
 		{
 			list<RefCountedTreeNode*>& children = obj->GetChildren();
-			for(list<RefCountedTreeNode*>::Iterator it = children.begin();
+			for(list<RefCountedTreeNode*>::iterator it = children.begin();
 				it != children.end(); ++it)
 			{
 				DescendantSearchRecursor(compList, static_cast<GameObject*>(*it), compType);
