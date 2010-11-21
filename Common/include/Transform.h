@@ -57,13 +57,17 @@ namespace Core
 		void SetInverseTranslation(const Vector3& invTranslation);
 		void SetRotationDegrees(const Vector3& rotation);
 		void SetRotationRadians(const Vector3& rotation);
+		void SetScale(const Vector3& rotation);
 		void SetFromArray(const float* matrix);
 
 		//Change point:
 		void InverseRotatePoint(Vector3& pointOut) const;
 		void InverseTranslatePoint(Vector3& pointOut) const;
 		void InverseScalePoint(Vector3& pointOut) const;
-
+		void RotatePoint(Vector3& pointOut) const;
+		void TranslatePoint(Vector3& pointOut) const;
+		void ScalePoint(Vector3& pointOut) const;
+		void TransformPoint(Vector3& pointOut) const;
 
 		//Operators:
 
