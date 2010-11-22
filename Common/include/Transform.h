@@ -1,32 +1,31 @@
 #pragma once
 #include <irrlicht.h>
 #include <ErrorHandling.h>
+#include <CoreTypes.h>
 
 namespace Core
 {
-	//An basic transform class, inspired by Irrlicht's transform. Uses floats
+	//An basic transform class, inspired by and borrowed heavily from Irrlicht's transform matrix. Uses floats.
 	class Transform : public Error::CanErr
 	{
 	public:
 		//Type of matrix to construct
 		enum ConstructType
 		{
-			E_MT_NOTHING, 	
-			E_MT_COPY, 	
-			E_MT_IDENTITY, 	
-			E_MT_TRANSPOSED,
-			E_MT_INVERSE, 	
-			E_MT_INVERSE_TRANSPOSED 	
+			E_MT_EMPTY,
+			E_MT_IDENTITY
 		};
 
 		//Copy constructor
-		Transform(const Transform& other, ConstructType type = E_MT_COPY);
-		//Default 
+		Transform(const Transform& other);
+		//Creates tranform from an array of 16 floats
+		Transform(const f32* matrixArray);
+		//Default Constructor
 		Transform(ConstructType type = E_MT_IDENTITY);
 		
 		//Set other matrices:
 
-		Error::ECode GetInverse(const Transform& out) const;
+		Error::ECode GetInverse(Transform& out) const;
 		void GetTransposed(Transform& out) const;
 		void Interpolate(const Transform& other, f32 t, Transform& out) const;
 		void Mul(f32 scalar, Transform& out) const;
@@ -43,8 +42,8 @@ namespace Core
 		void GetRotationRads(Vector3& vecOut) const;
 		void GetScale(Vector3& vecOut) const;
 		void GetTranslation(Vector3& vecOut) const;
-		float* GetArray() { return matrix; }
-		const float* GetArray() const { return matrix; }
+		f32* GetArray() { return matrix; }
+		const f32* GetArray() const { return matrix; }
 
 
 		//Mutators:
@@ -82,14 +81,16 @@ namespace Core
 		Transform operator-(const Transform& other) const;
 		Transform& operator-=(const Transform& other);
 		Transform& operator=(const Transform& other);
-		float& operator[](u32 index);
-		float operator[](u32 index) const;
-		float& operator()(u32 row, u32 col);
-		float operator()(u32 row, u32 col) const;
+		
+		//Inline accessors:
+		f32& operator[](u32 index);
+		f32 operator[](u32 index) const;
+		f32& operator()(u32 row, u32 col);
+		f32 operator()(u32 row, u32 col) const;
 
 	protected:
 		//The array of floats for the matrix
-		float matrix[16];
+		f32 matrix[16];
 	};
 
 } //end namespace Core

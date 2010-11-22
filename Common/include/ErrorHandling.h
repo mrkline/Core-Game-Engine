@@ -70,9 +70,9 @@ namespace Core
 			}
 
 		protected:
-			ECode lastError; //Functions should set this when they error out
-			char* customLastErrorMessage; //User can set a custom last error message.
-			char* lastErrorFunction; //The function that errored out should set this to itself
+			mutable ECode lastError; //Functions should set this when they error out
+			mutable char* customLastErrorMessage; //User can set a custom last error message.
+			mutable char* lastErrorFunction; //The function that errored out should set this to itself
 		};
 
 		//Drop the exception when it has been handled
