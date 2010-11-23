@@ -1,20 +1,30 @@
 #include <Transform.h>
 
+using namespace irr;
+using namespace core;
+
 namespace Core
 {
 	using namespace Error;
 
 	//Used for very quickly setting the identity matrices
-	static const float kIdentityMatrix[16] = { 1, 0, 0, 0,
-											   0, 1, 0, 0,
-											   0, 0, 1, 0,
-											   0, 0, 0, 1 };
+	static const f32 kIdentityMatrix[16] = { 1, 0, 0, 0,
+											 0, 1, 0, 0,
+											 0, 0, 1, 0,
+											 0, 0, 0, 1 };
+
+	//const instances of identity transform
+	static const Transform kIdentityTransform(kIdentityMatrix);
 
 	Transform::Transform(ConstructType type)
 	{
 		if(type == E_MT_IDENTITY)
 		{
 			SetToIdentity();
+		}
+		else
+		{
+			memset(matrix, 0, sizeof(f32) * 16);
 		}
 	}
 
@@ -26,6 +36,11 @@ namespace Core
 	Transform::Transform(const Transform& other)
 	{
 		*this = other;
+	}
+
+	const Transform& Transform::GetIdentity()
+	{
+		return kIdentityTransform;
 	}
 
 	/// Calculates the inverse of this Matrix
@@ -42,7 +57,7 @@ namespace Core
 			(m(0, 1) * m(1, 3) - m(0, 3) * m(1, 1)) * (m(2, 0) * m(3, 2) - m(2, 2) * m(3, 0)) +
 			(m(0, 2) * m(1, 3) - m(0, 3) * m(1, 2)) * (m(2, 0) * m(3, 1) - m(2, 1) * m(3, 0));
 
-		if(irr::core::iszero(d))
+		if(iszero(d))
 		{
 			lastError = Error::E_CEK_INVALID_STATE;
 			lastErrorFunction = __FUNCTION__;
@@ -50,7 +65,7 @@ namespace Core
 			return lastError;
 		}
 
-		d = irr::core::reciprocal ( d );
+		d = reciprocal ( d );
 
 		out(0, 0) = d * (m(1, 1) * (m(2, 2) * m(3, 3) - m(2, 3) * m(3, 2)) +
 				m(1, 2) * (m(2, 3) * m(3, 1) - m(2, 1) * m(3, 3)) +
@@ -102,5 +117,427 @@ namespace Core
 				m(0, 2) * (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0)));
 
 		return Error::E_CEK_SUCCESS;
+	}
+
+	void Transform::GetTransposed(Transform& out) const
+	{
+		out[ 0] = matrix[ 0];
+		out[ 1] = matrix[ 4];
+		out[ 2] = matrix[ 8];
+		out[ 3] = matrix[12];
+
+		out[ 4] = matrix[ 1];
+		out[ 5] = matrix[ 5];
+		out[ 6] = matrix[ 9];
+		out[ 7] = matrix[13];
+
+		out[ 8] = matrix[ 2];
+		out[ 9] = matrix[ 6];
+		out[10] = matrix[10];
+		out[11] = matrix[14];
+
+		out[12] = matrix[ 3];
+		out[13] = matrix[ 7];
+		out[14] = matrix[11];
+		out[15] = matrix[15];
+	}
+
+	void Transform::Interpolate(const Transform& other, f32 t, Transform& out) const
+	{
+		for(u32 c = 0; c < 16; ++c)
+		{
+			out[c] = matrix[c] + (other[c] - matrix[c]) * t;
+		}
+	}
+
+	bool Transform::Equals(const Transform& other, f32 roundingTolerance) const
+	{
+		for(u32 c = 0; c < 16; ++c)
+		{
+			if(!equals(matrix[c], other[c], roundingTolerance))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool Transform::IsIdentity() const
+	{
+		for(u32 c = 0; c < 16; ++c)
+		{
+			if(!equals(matrix[c], kIdentityMatrix[c]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool Transform::IsOrthogonal() const
+	{
+		f32 dp=matrix[0] * matrix[4 ] + matrix[1] * matrix[5 ] + matrix[2 ] * matrix[6 ] + matrix[3 ] * matrix[7 ];
+		if (!iszero(dp))
+			return false;
+		dp = matrix[0] * matrix[8 ] + matrix[1] * matrix[9 ] + matrix[2 ] * matrix[10] + matrix[3 ] * matrix[11];
+		if (!iszero(dp))
+			return false;
+		dp = matrix[0] * matrix[12] + matrix[1] * matrix[13] + matrix[2 ] * matrix[14] + matrix[3 ] * matrix[15];
+		if (!iszero(dp))
+			return false;
+		dp = matrix[4] * matrix[8 ] + matrix[5] * matrix[9 ] + matrix[6 ] * matrix[10] + matrix[7 ] * matrix[11];
+		if (!iszero(dp))
+			return false;
+		dp = matrix[4] * matrix[12] + matrix[5] * matrix[13] + matrix[6 ] * matrix[14] + matrix[7 ] * matrix[15];
+		if (!iszero(dp))
+			return false;
+		dp = matrix[8] * matrix[12] + matrix[9] * matrix[13] + matrix[10] * matrix[14] + matrix[11] * matrix[15];
+		return (iszero(dp));
+	}
+
+	void Transform::GetRotationRadians(Vector3& vecOut) const
+	{
+		//Original code used 64-bit floats.
+
+		Vector3 scale;
+		GetScale(scale);
+		const Vector3 invScale(reciprocal(scale.X), reciprocal(scale.Y), reciprocal(scale.Z));
+
+		//was 64-bit
+		f32 Y = -asin(matrix[2]*invScale.X);
+		//was 64-bit
+		const f32 C = cos(Y);
+
+		f32 rotx, roty, X, Z;
+
+		if (!iszero(C))
+		{
+			const f32 invC = core::reciprocal(C);
+			rotx = matrix[10] * invC * invScale.Z;
+			roty = matrix[6] * invC * invScale.Y;
+			X = atan2( roty, rotx );
+			rotx = matrix[0] * invC * invScale.X;
+			roty = matrix[1] * invC * invScale.X;
+			Z = atan2( roty, rotx );
+		}
+		else
+		{
+			X = 0.0;
+			rotx = matrix[5] * invScale.Y;
+			roty = -matrix[4] * invScale.Y;
+			Z = atan2( roty, rotx );
+		}
+
+		// fix values that get below zero
+		// before it would set (!) values to 360
+		// that were above 360:
+		if (X < 0.0) X += 2 * PI;
+		if (Y < 0.0) Y += 2 * PI;
+		if (Z < 0.0) Z += 2 * PI;
+
+	}
+
+	void Transform::GetRotationDegrees(Vector3& vecOut) const
+	{
+		GetRotationRadians(vecOut);
+		vecOut *= RADTODEG;
+	}
+
+	void Transform::GetScale(Vector3& vecOut) const
+	{
+		// See http://www.robertblum.com/articles/2005/02/14/decomposing-matrices
+
+		// Deal with the 0 rotation case first
+		if(iszero(matrix[1]) && iszero(matrix[2]) &&
+			iszero(matrix[4]) && iszero(matrix[6]) &&
+			iszero(matrix[8]) && iszero(matrix[9]))
+			vecOut.set(matrix[0], matrix[5], matrix[10]);
+
+		// We have to do the full calculation.
+		vecOut.set(sqrtf(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]),
+							sqrtf(matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6]),
+							sqrtf(matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10]));
+	}
+
+	void Transform::GetTranslation(Vector3& vecOut) const
+	{
+		vecOut.set(matrix[12], matrix[13], matrix[14]);
+	}
+
+	void Transform::SetToIdentity()
+	{
+		memcpy(matrix, kIdentityMatrix, sizeof(f32) * 16);
+	}
+
+	ECode Transform::SetToInverse()
+	{
+		Transform temp = *this;
+		ECode ret = temp.GetInverse(*this);
+		if(Failed(ret))
+		{
+			lastError = temp.lastError;
+			lastErrorFunction = temp.lastErrorFunction;
+			customLastErrorMessage = temp.customLastErrorMessage;
+		}
+		return ret;
+	}
+
+	void Transform::SetAsProductOf(const Transform& t1, const Transform& t2)
+	{
+		const f32* m1 = t1.matrix;
+		const f32* m2 = t2.matrix;
+
+		matrix[0] = m1[0]*m2[0] + m1[4]*m2[1] + m1[8]*m2[2] + m1[12]*m2[3];
+		matrix[1] = m1[1]*m2[0] + m1[5]*m2[1] + m1[9]*m2[2] + m1[13]*m2[3];
+		matrix[2] = m1[2]*m2[0] + m1[6]*m2[1] + m1[10]*m2[2] + m1[14]*m2[3];
+		matrix[3] = m1[3]*m2[0] + m1[7]*m2[1] + m1[11]*m2[2] + m1[15]*m2[3];
+
+		matrix[4] = m1[0]*m2[4] + m1[4]*m2[5] + m1[8]*m2[6] + m1[12]*m2[7];
+		matrix[5] = m1[1]*m2[4] + m1[5]*m2[5] + m1[9]*m2[6] + m1[13]*m2[7];
+		matrix[6] = m1[2]*m2[4] + m1[6]*m2[5] + m1[10]*m2[6] + m1[14]*m2[7];
+		matrix[7] = m1[3]*m2[4] + m1[7]*m2[5] + m1[11]*m2[6] + m1[15]*m2[7];
+
+		matrix[8] = m1[0]*m2[8] + m1[4]*m2[9] + m1[8]*m2[10] + m1[12]*m2[11];
+		matrix[9] = m1[1]*m2[8] + m1[5]*m2[9] + m1[9]*m2[10] + m1[13]*m2[11];
+		matrix[10] = m1[2]*m2[8] + m1[6]*m2[9] + m1[10]*m2[10] + m1[14]*m2[11];
+		matrix[11] = m1[3]*m2[8] + m1[7]*m2[9] + m1[11]*m2[10] + m1[15]*m2[11];
+
+		matrix[12] = m1[0]*m2[12] + m1[4]*m2[13] + m1[8]*m2[14] + m1[12]*m2[15];
+		matrix[13] = m1[1]*m2[12] + m1[5]*m2[13] + m1[9]*m2[14] + m1[13]*m2[15];
+		matrix[14] = m1[2]*m2[12] + m1[6]*m2[13] + m1[10]*m2[14] + m1[14]*m2[15];
+		matrix[15] = m1[3]*m2[12] + m1[7]*m2[13] + m1[11]*m2[14] + m1[15]*m2[15];
+	}
+
+	void Transform::SetInverseRotationRadians(const Vector3& rotation)
+	{
+		f32 cr = cos( rotation.X );
+		f32 sr = sin( rotation.X );
+		f32 cp = cos( rotation.Y );
+		f32 sp = sin( rotation.Y );
+		f32 cy = cos( rotation.Z );
+		f32 sy = sin( rotation.Z );
+
+		matrix[0] = cp * cy;
+		matrix[4] = cp * sy;
+		matrix[8] = -sp;
+
+		f32 srsp = sr * sp;
+		f32 crsp = cr * sp;
+
+		matrix[1] = srsp * cy - cr * sy;
+		matrix[5] = srsp * sy + cr * cy;
+		matrix[9] = sr * cp;
+
+		matrix[2] = crsp * cy + sr * sy;
+		matrix[6] = crsp * sy - sr * cy;
+		matrix[10] = cr*cp;
+	}
+
+	void Transform::SetInverseRotationDegrees(const Vector3& rotation)
+	{
+		SetInverseRotationRadians(rotation * DEGTORAD);
+	}
+
+	void Transform::SetInverseTranslation(const Vector3& translation)
+	{
+		matrix[12] = -translation.X;
+		matrix[13] = -translation.Y;
+		matrix[14] = -translation.Z;
+	}
+
+	void Transform::SetRotationRadians(const Vector3& rotation)
+	{
+		const f32 cr = cos( rotation.X );
+		const f32 sr = sin( rotation.X );
+		const f32 cp = cos( rotation.Y );
+		const f32 sp = sin( rotation.Y );
+		const f32 cy = cos( rotation.Z );
+		const f32 sy = sin( rotation.Z );
+
+		matrix[0] = cp * cy;
+		matrix[1] = cp * sy;
+		matrix[2] = -sp;
+
+		const f32 srsp = sr * sp;
+		const f32 crsp = cr * sp;
+
+		matrix[4] = srsp * cy - cr * sy;
+		matrix[5] = srsp * sy + cr * cy;
+		matrix[6] = sr * cp;
+
+		matrix[8] = crsp * cy + sr * sy;
+		matrix[9] = crsp * sy - sr * cy;
+		matrix[10] = cr * cp;
+	}
+
+	void Transform::SetRotationDegrees(const Vector3& rotation)
+	{
+		SetRotationRadians(rotation * DEGTORAD);
+	}
+
+	void Transform::SetScale(const Vector3& scale)
+	{
+		matrix[0] = scale.X;
+		matrix[5] = scale.Y;
+		matrix[10] = scale.Z;
+	}
+
+	void Transform::SetFromArray(const f32* transformMatrix)
+	{
+		memcpy(matrix, transformMatrix, sizeof(f32) * 16);
+	}
+
+	void Transform::InverseRotatePoint(Vector3& point) const
+	{
+		Vector3& tmp = point;
+		point.X = tmp.X * matrix[0] + tmp.Y * matrix[1] + tmp.Z *matrix[2];
+		point.Y = tmp.X * matrix[4] + tmp.Y * matrix[5] + tmp.Z * matrix[6];
+		point.Z = tmp.X * matrix[8] + tmp.Y * matrix[9] + tmp.Z * matrix[10];
+	}
+
+	void Transform::InverseTranslatePoint(Vector3& point) const
+	{
+		point.X = point.X - matrix[12];
+		point.Y = point.Y - matrix[13];
+		point.Z = point.Z - matrix[14];
+	}
+
+	void Transform::RotatePoint(Vector3& point) const
+	{
+		Vector3& tmp = point;
+		point.X = tmp.X * matrix[0] + tmp.Y * matrix[4] + tmp.Z * matrix[8];
+		point.Y = tmp.X * matrix[1] + tmp.Y * matrix[5] + tmp.Z * matrix[9];
+		point.Z = tmp.X * matrix[2] + tmp.Y * matrix[6] + tmp.Z * matrix[10];
+	}
+
+	void Transform::TranslatePoint(Vector3& point) const
+	{
+		point.X = point.X + matrix[12];
+		point.Y = point.Y + matrix[13];
+		point.Z = point.Z + matrix[14];
+	}
+
+	void Transform::ScalePoint(Vector3& point) const
+	{
+		Vector3 scale;
+		GetScale(scale);
+		point *= scale;
+	}
+
+	Transform Transform::operator*(const Transform& m2) const
+	{
+		Transform m3(E_MT_EMPTY);
+
+		const f32 *m1 = matrix;
+
+		m3[0] = m1[0]*m2[0] + m1[4]*m2[1] + m1[8]*m2[2] + m1[12]*m2[3];
+		m3[1] = m1[1]*m2[0] + m1[5]*m2[1] + m1[9]*m2[2] + m1[13]*m2[3];
+		m3[2] = m1[2]*m2[0] + m1[6]*m2[1] + m1[10]*m2[2] + m1[14]*m2[3];
+		m3[3] = m1[3]*m2[0] + m1[7]*m2[1] + m1[11]*m2[2] + m1[15]*m2[3];
+
+		m3[4] = m1[0]*m2[4] + m1[4]*m2[5] + m1[8]*m2[6] + m1[12]*m2[7];
+		m3[5] = m1[1]*m2[4] + m1[5]*m2[5] + m1[9]*m2[6] + m1[13]*m2[7];
+		m3[6] = m1[2]*m2[4] + m1[6]*m2[5] + m1[10]*m2[6] + m1[14]*m2[7];
+		m3[7] = m1[3]*m2[4] + m1[7]*m2[5] + m1[11]*m2[6] + m1[15]*m2[7];
+
+		m3[8] = m1[0]*m2[8] + m1[4]*m2[9] + m1[8]*m2[10] + m1[12]*m2[11];
+		m3[9] = m1[1]*m2[8] + m1[5]*m2[9] + m1[9]*m2[10] + m1[13]*m2[11];
+		m3[10] = m1[2]*m2[8] + m1[6]*m2[9] + m1[10]*m2[10] + m1[14]*m2[11];
+		m3[11] = m1[3]*m2[8] + m1[7]*m2[9] + m1[11]*m2[10] + m1[15]*m2[11];
+
+		m3[12] = m1[0]*m2[12] + m1[4]*m2[13] + m1[8]*m2[14] + m1[12]*m2[15];
+		m3[13] = m1[1]*m2[12] + m1[5]*m2[13] + m1[9]*m2[14] + m1[13]*m2[15];
+		m3[14] = m1[2]*m2[12] + m1[6]*m2[13] + m1[10]*m2[14] + m1[14]*m2[15];
+		m3[15] = m1[3]*m2[12] + m1[7]*m2[13] + m1[11]*m2[14] + m1[15]*m2[15];
+		return m3;
+	}
+
+	Transform Transform::operator*(const f32 scalar) const
+	{
+		Transform ret(matrix);
+		f32* arr = ret.matrix;
+
+		for(u32 c = 0; c < 16; ++c)
+		{
+			arr[c] *= scalar;
+		}
+
+		return ret;
+	}
+
+	Transform& Transform::operator*=(const Transform& other)
+	{
+		Transform temp(matrix);
+		SetAsProductOf(temp, other);
+		return *this;
+	}
+
+	Transform& Transform::operator*=(const f32 scalar)
+	{
+		for(u32 c = 0; c < 16; ++c)
+		{
+			matrix[c] *= scalar;
+		}
+		return *this;
+	}
+
+	Transform Transform::operator+(const Transform& other) const
+	{
+		const f32* otherMat = other.matrix;
+
+		Transform ret(matrix);
+		f32* arr = ret.matrix;
+
+		for(u32 c = 0; c < 16; ++c)
+		{
+			arr[c] += otherMat[c];
+		}
+
+		return ret;
+	}
+
+	Transform& Transform::operator+=(const Transform& other)
+	{
+		const f32* otherMat = other.matrix;
+
+		for(u32 c = 0; c < 16; ++c)
+		{
+			matrix[c] += otherMat[c];
+		}
+
+		return *this;
+	}
+	
+	Transform Transform::operator-(const Transform& other) const
+	{
+		const f32* otherMat = other.matrix;
+
+		Transform ret(matrix);
+		f32* arr = ret.matrix;
+
+		for(u32 c = 0; c < 16; ++c)
+		{
+			arr[c] -= otherMat[c];
+		}
+
+		return ret;
+	}
+
+	Transform& Transform::operator-=(const Transform& other)
+	{
+		const f32* otherMat = other.matrix;
+
+		for(u32 c = 0; c < 16; ++c)
+		{
+			matrix[c] -= otherMat[c];
+		}
+
+		return *this;
+	}
+
+	Transform& Transform::operator=(const Transform& other)
+	{
+		memcpy(matrix, other.matrix, sizeof(f32) * 16);
+		return *this;
 	}
 } //end namespace Core
