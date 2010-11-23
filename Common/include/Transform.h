@@ -31,6 +31,20 @@ namespace Core
 		void GetTransposed(Transform& out) const;
 		void Interpolate(const Transform& other, f32 t, Transform& out) const;
 
+		//byVal versions of some of these functions
+		__forceinline Transform GetTransposed() const
+		{
+			Transform ret;
+			GetTransposed(ret);
+			return ret;
+		}
+		__forceinline Transform Interpolate(const Transform& other, f32 t)
+		{
+			Transform ret;
+			Interpolate(other, t, ret);
+			return ret;
+		}
+
 		//Accessors:
 
 		bool Equals(const Transform& other, f32 roundingTolerance = irr::core::ROUNDING_ERROR_f32) const;
@@ -44,6 +58,31 @@ namespace Core
 		f32* GetArray() { return matrix; }
 		const f32* GetArray() const { return matrix; }
 
+		//byVal versions of some accessors
+		__forceinline Vector3 GetRotationDegrees() const
+		{
+			Vector3 ret;
+			GetRotationDegrees(ret);
+			return ret;
+		}
+		__forceinline Vector3 GetRotationRadians() const
+		{
+			Vector3 ret;
+			GetRotationRadians(ret);
+			return ret;
+		}
+		__forceinline Vector3 GetScale() const
+		{
+			Vector3 ret;
+			GetScale(ret);
+			return ret;
+		}
+		__forceinline Vector3 GetTranslation() const
+		{
+			Vector3 ret;
+			GetTranslation(ret);
+			return ret;
+		}
 
 		//Mutators:
 
