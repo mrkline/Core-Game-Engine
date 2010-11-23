@@ -4,6 +4,7 @@
 #include <RefCountedTreeNode.h>
 #include <NamedClass.h>
 #include <list>
+#include <Transform.h>
 
 namespace Core
 {
@@ -19,6 +20,17 @@ namespace Core
 		virtual ~GameObject();
 
 		GameObjectManager* getObectManager() const { return man; }
+
+		virtual void Update();
+	
+		//Transform manipulation
+		void SetTransform(const Transform& newTransform) { trans = newTransform; }
+		Transform& GetTransform() { return trans; }
+		const Transform& GetTransform() const { return trans; }
+		//Only updates based on parent, does not recursively travel up the hierarchy.
+		//Because of this, call on object tree from root down
+		void UpdateAbsoluteTransform();
+		const Transform& GetAbsoluteTransform() const { return absTrans; }
 
 		//Each component type can only have on instance per object
 		Error::ECode AddComponent(GameComponent* newComponent);
@@ -63,6 +75,8 @@ namespace Core
 		GameObjectManager* man;
 		std::list<GameComponent*> components;
 		std::list<GameComponent*> holder; //Used for finding descendants with certain components
+		Transform trans; //Transform for the game object
+		Transform absTrans; //Cumulative absolute transform for the game object
 
 		//Recursive function used to find descendants with a given component
 		static void  DescendantSearchRecursor(std::list<GameComponent*>* compList,

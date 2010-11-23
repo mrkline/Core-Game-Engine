@@ -29,6 +29,28 @@ namespace Core
 		}
 	}
 
+	void GameObject::Update()
+	{
+		UpdateAbsoluteTransform();
+		for(std::list<RefCountedTreeNode*>::iterator it = children.begin();
+			it != children.end(); ++it)
+		{
+			static_cast<GameObject*>(*it)->Update();
+		}
+	}
+
+	void GameObject::UpdateAbsoluteTransform()
+	{
+		if(parent == nullptr)
+		{
+			absTrans = trans;
+		}
+		else
+		{
+			absTrans = trans * static_cast<GameObject*>(parent)->absTrans;
+		}
+	}
+
 	ECode GameObject::AddComponent(GameComponent* newComponent)
 	{
 		//Make sure it's not null
