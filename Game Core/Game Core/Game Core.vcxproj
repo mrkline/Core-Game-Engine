@@ -75,6 +75,8 @@
     <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
     <ClInclude Include="..\..\Common\include\core.h" />
+    <ClInclude Include="..\..\Common\include\CoreConstants.h" />
+    <ClInclude Include="..\..\Common\include\CoreTransform.h" />
     <ClInclude Include="..\..\Common\include\CoreTypes.h" />
     <ClInclude Include="..\..\Common\include\DeviceContext.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
@@ -95,12 +97,13 @@
     <ClInclude Include="..\..\Common\include\ResourceManager.h" />
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="..\..\Common\include\ThrusterData.h" />
-    <ClInclude Include="..\..\Common\include\Transform.h" />
     <ClInclude Include="BasicObjectTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
     <ClCompile Include="..\..\Common\src\Context.cpp" />
+    <ClCompile Include="..\..\Common\src\CoreConstants.cpp" />
+    <ClCompile Include="..\..\Common\src\CoreTransform.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
     <ClCompile Include="..\..\Common\src\GameComponent.cpp" />
     <ClCompile Include="..\..\Common\src\GameObject.cpp" />
@@ -109,7 +112,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
-    <ClCompile Include="..\..\Common\src\Transform.cpp" />
     <ClCompile Include="BasicObjectTests.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

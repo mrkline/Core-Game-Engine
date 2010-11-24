@@ -1,4 +1,4 @@
-#include <Transform.h>
+#include <CoreTransform.h>
 
 using namespace irr;
 using namespace core;
@@ -12,9 +12,6 @@ namespace Core
 											 0, 1, 0, 0,
 											 0, 0, 1, 0,
 											 0, 0, 0, 1 };
-
-	//const instances of identity transform
-	static const Transform kIdentityTransform(kIdentityMatrix);
 
 	Transform::Transform(ConstructType type)
 	{
@@ -36,11 +33,6 @@ namespace Core
 	Transform::Transform(const Transform& other)
 	{
 		*this = other;
-	}
-
-	const Transform& Transform::GetIdentity()
-	{
-		return kIdentityTransform;
 	}
 
 	/// Calculates the inverse of this Matrix

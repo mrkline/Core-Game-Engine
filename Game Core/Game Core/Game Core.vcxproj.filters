@@ -90,10 +90,13 @@
     <ClInclude Include="..\..\Common\include\LibraryPragmas.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\Transform.h">
+    <ClInclude Include="..\..\Common\include\CoreTypes.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\CoreTypes.h">
+    <ClInclude Include="..\..\Common\include\CoreTransform.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\CoreConstants.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,8 +137,11 @@
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\Transform.cpp">
+    <ClCompile Include="..\..\Common\src\CoreTransform.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\src\CoreConstants.cpp">
+      <Filter>Header Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

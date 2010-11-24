@@ -22,8 +22,6 @@ namespace Core
 		Transform(const f32* matrixArray);
 		//Default Constructor
 		Transform(ConstructType type = E_MT_IDENTITY);
-
-		static const Transform& GetIdentity();
 		
 		//Set other matrices:
 
