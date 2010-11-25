@@ -24,6 +24,7 @@ namespace Core
 		virtual void Update();
 	
 		//Transform manipulation
+
 		void SetTransform(const Transform& newTransform) { trans = newTransform; }
 		Transform& GetTransform() { return trans; }
 		const Transform& GetTransform() const { return trans; }
@@ -32,7 +33,7 @@ namespace Core
 		void UpdateAbsoluteTransform();
 		const Transform& GetAbsoluteTransform() const { return absTrans; }
 
-		//Each component type can only have on instance per object
+		//Each component type can only have one instance per object
 		Error::ECode AddComponent(GameComponent* newComponent);
 		Error::ECode RemoveComponent(GameComponent* toRemove);
 		void ClearComponents();
@@ -68,6 +69,7 @@ namespace Core
 		}
 
 		//Used by components searching for a parent
+
 		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);
 		const std::list<GameComponent*>& FindNearestDescendantComponents(GameComponent::EType compType);
 

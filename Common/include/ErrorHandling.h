@@ -26,7 +26,9 @@ namespace Core
 			E_CEK_COUNT //Count of error codes, not an actual error code
 		};
 
+		//Returns true if the error code indicates failure.
 		static inline bool Failed(ECode code) { return code != E_CEK_SUCCESS; }
+		//Returns true if the error code indicates success.
 		static inline bool Succeeded(ECode code) { return code == E_CEK_SUCCESS; }
 
 		//Class which can set and return error codes for itself.  Error codes are done per-instance
@@ -39,8 +41,11 @@ namespace Core
 
 			virtual ~CanErr() {}
 
+			//Get the error code from the last error that occurred in this object
 			ECode GetLastError() const { return lastError; }
+			//Get the nme of the function that last errored out in this object
 			char* GetLastErrorFunction() const { return lastErrorFunction; }
+			//Get the error message pertaining to the last error code
 			char* GetLastErrorMessage() const
 			{
 				switch(lastError)
@@ -63,6 +68,9 @@ namespace Core
 					return "Last error code is not recognized";
 				};
 			}
+
+			//Returns a custom error message with more specific information, if it exists.
+			//Otherwise returns the same as GetLastErrorMessage.
 			char* GetCustomErrorMessage() const
 			{
 				return customLastErrorMessage == nullptr ?

@@ -2,6 +2,8 @@
 
 #include <CollisionDetector.h>
 #include <ComponentManager.h>
+#include <CoreConstants.h>
+#include <CoreTransform.h>
 #include <CoreTypes.h>
 #include <DeviceContext.h>
 #include <ErrorHandling.h>
@@ -11,6 +13,7 @@
 #include <GameObjectManager.h>
 #include <GlobalContext.h>
 #include <IrrlichtBulletConversions.h>
+#include <IterativeManifoldCollisionDetector.h>
 #include <LibraryPragmas.h>
 #include <LogicComponent.h>
 #include <MapPhysicsManager.h>
@@ -18,7 +21,7 @@
 #include <Paths.h>
 #include <PhysicsComponent.h>
 #include <PhysicsManager.h>
+#include <PointerKey.h>
 #include <RefCountedTreeNode.h>
 #include <ScreenQuad.h>
 #include <ThrusterData.h>
-#include <CoreTransform.h>

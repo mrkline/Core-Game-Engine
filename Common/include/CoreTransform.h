@@ -119,6 +119,7 @@ namespace Core
 		
 		//Inline accessors
 		//force inlined for speed, as they are used frequently by many internal functions.
+
 		__forceinline f32& operator[](u32 index) { return matrix[index]; }
 		__forceinline f32 operator[](u32 index) const { return matrix[index]; }
 		__forceinline f32& operator()(u32 row, u32 col) { return matrix[row * 4 + col]; }

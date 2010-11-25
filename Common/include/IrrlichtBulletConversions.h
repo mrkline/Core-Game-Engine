@@ -7,7 +7,7 @@ namespace Core
 {
 	namespace Convert
 	{
-		//Should we be using __forceinline or just inline?
+		//TODO: Should we be using __forceinline or just inline?
 
 		inline void VectorBTI(const btVector3& bVec, irr::core::vector3df& iVec)
 		{
