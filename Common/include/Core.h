@@ -3,6 +3,7 @@
 #include <CollisionDetector.h>
 #include <ComponentManager.h>
 #include <CoreConstants.h>
+#include <CoreConversions.h>
 #include <CoreTransform.h>
 #include <CoreTypes.h>
 #include <DeviceContext.h>
@@ -12,7 +13,6 @@
 #include <GameObject.h>
 #include <GameObjectManager.h>
 #include <GlobalContext.h>
-#include <IrrlichtBulletConversions.h>
 #include <IterativeManifoldCollisionDetector.h>
 #include <LibraryPragmas.h>
 #include <LogicComponent.h>

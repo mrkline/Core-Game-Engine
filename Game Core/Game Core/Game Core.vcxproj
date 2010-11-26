@@ -84,7 +84,8 @@
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
     <ClInclude Include="..\..\Common\include\GameObjectManager.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
-    <ClInclude Include="..\..\Common\include\IrrlichtBulletConversions.h" />
+    <ClInclude Include="..\..\Common\include\CoreConversions.h" />
+    <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\LibraryPragmas.h" />
     <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
     <ClCompile Include="..\..\Common\src\GameComponent.cpp" />
     <ClCompile Include="..\..\Common\src\GameObject.cpp" />
+    <ClCompile Include="..\..\common\src\IterativeManifoldCollisionDetector.cpp" />
     <ClCompile Include="..\..\Common\src\MapPhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />

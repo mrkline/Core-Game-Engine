@@ -1,5 +1,6 @@
 #include <btBulletDynamicsCommon.h>
 #include <irrlicht.h>
+#include <CoreTransform.h>
 
 //Converts Irrlicht data structures to Bullet ones and vice versa
 
@@ -37,6 +38,26 @@ namespace Core
 			bQuat.setY(iQuat.Y);
 			bQuat.setZ(iQuat.Z);
 			bQuat.setW(iQuat.W);
+		}
+		
+		inline void TransformCTI(const Core::Transform& cTransform, irr::core::matrix4& iTransform)
+		{
+			iTransform.setM(cTransform.GetArray());
+		}
+
+		inline void TransformITC(const irr::core::matrix4& iTransform, Core::Transform& cTransform)
+		{
+			cTransform.SetFromArray(iTransform.pointer());
+		}
+
+		inline void TransformCTB(const Core::Transform& cTransform, btTransform& bTransform)
+		{
+			bTransform.setFromOpenGLMatrix(cTransform.GetArray());
+		}
+
+		inline void TransformBTC(const btTransform& bTransform, Core::Transform& cTransform)
+		{
+			bTransform.getOpenGLMatrix(cTransform.GetArray());
 		}
 
 		inline void TransformBTI(const btTransform& bTransform, irr::core::matrix4& iTransform)

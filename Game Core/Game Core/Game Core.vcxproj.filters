@@ -45,9 +45,6 @@
     <ClInclude Include="..\..\Common\include\ThrusterData.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\IrrlichtBulletConversions.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\GameComponent.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
@@ -99,6 +96,12 @@
     <ClInclude Include="..\..\Common\include\CoreConstants.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\CoreConversions.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -141,7 +144,10 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\CoreConstants.cpp">
-      <Filter>Header Files\Common</Filter>
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\src\IterativeManifoldCollisionDetector.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
