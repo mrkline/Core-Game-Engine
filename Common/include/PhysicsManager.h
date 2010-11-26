@@ -10,14 +10,12 @@ class btConstraintSolver;
 namespace Core
 {
 	class GameObject;
+	class CollisionDetector;
 
 	//Manager of all PhysicsComponents.  Uses Bullet to manage them
 	class PhysicsManager : public ComponentManager
 	{
 	public:
-		
-		//This lets CollisionDetector be a sealed box that only the PhysicsManager can access (and vice versa)
-		friend class CollisionDetector;
 
 		PhysicsManager(CollisionDetector* detector);
 		virtual ~PhysicsManager();
@@ -32,17 +30,18 @@ namespace Core
 		//game time.
 		virtual void Update(irr::u32 gameTime);
 
+		//CollisionDetector will call this to add collision pairs each Update call.
+		//Collision pairs must be re-added each Update so that pairs that are no longer
+		//colliding can be notified.
+		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2,
+			irr::u32 subsetNum) = 0;
+
 		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
 		//to caring logic components of the colliding GameObjects
 		//The argument is the ms passed since the last call, not total time
 		virtual void DispatchCollisions(irr::u32 currentTime, float dt) = 0;
 
 	protected:
-		//CollisionDetector will call this to add collision pairs each Update call.
-		//Collision pairs must be re-added each Update so that pairs that are no longer
-		//colliding can be notified.
-		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2,
-			irr::u32 subsetNum) = 0;
 
 		static void TickCallback(btDynamicsWorld *world, float timeStep);
 

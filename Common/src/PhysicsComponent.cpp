@@ -1,7 +1,6 @@
 #include <PhysicsComponent.h>
 #include <PhysicsManager.h>
 #include <ErrorHandling.h>
-#include <IrrlichtBulletConversions.h>
 
 using namespace std;
 
