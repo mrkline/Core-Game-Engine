@@ -1,99 +1,155 @@
-#include "TreeNode.h"
-#include "ErrorHandling.h"
+#include <TreeNode.h>
 
-using namespace irr;
-using namespace core;
+using namespace std;
 
-TreeNode::~TreeNode()
+namespace Core
 {
-	RemoveFromParent(false);
-	RemoveAllChildren();
-}
+	using namespace Error;
 
-void TreeNode::SetParent(TreeNode* newParent)
-{
-	if(newParent == this)
+	TreeNode::TreeNode(TreeNode* nodeParent, bool updateOnChildrenChange)
+		: parent(nodeParent), caresAboutChildren(updateOnChildrenChange)
 	{
-		throw new Error::ArgumentException("A tree node cannot be its own parent.", __FUNCTION__);
-	}
-	RemoveFromParent(false);
-	if(newParent != nullptr)
-	{
-		newParent->AddChild(this);
-	}
-	else
-	{
-		OnHierarchyChange();
-	}
-}
-
-void TreeNode::AddChild(TreeNode* newChild)
-{
-		if(newChild == nullptr || newChild == this)
+		if(parent != nullptr)
 		{
-			throw new Error::ArgumentException("A child of an tree node cannot be null or itself.", __FUNCTION__);
+			parent->AddChild(this);
 		}
-		for(list<TreeNode*>::Iterator it = children.begin();
+	}
+
+	TreeNode::~TreeNode()
+	{
+		RemoveAllChildren();
+	}
+
+	ECode TreeNode::SetParent(TreeNode* newParent)
+	{
+		if(newParent == this)
+		{
+			lastError = Error::E_CEK_BAD_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A tree node cannot set itself as its parent.";
+			return lastError;
+		}
+		RemoveFromParent(false);
+		if(newParent != nullptr)
+		{
+			if(Failed(newParent->AddChild(this)))
+			{
+				lastErrorFunction = __FUNCTION__;
+				customLastErrorMessage = "A tree node could not add itself as a child of its parent.";
+				return newParent->lastError;
+			}
+		}
+		else
+		{
+			OnHierarchyChange(true);
+		}
+		return Error::E_CEK_SUCCESS;
+	}
+
+	ECode TreeNode::AddChild(TreeNode* newChild)
+	{
+		if(newChild == nullptr)
+		{
+			lastError = Error::E_CEK_NULL_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A tree node cannot add a null child.";
+			return lastError;
+		}
+		if(newChild == this)
+		{
+			lastError = Error::E_CEK_BAD_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A tree node cannot add itself as a child.";
+			return lastError;
+		}
+		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
+			//We're trying to add a duplicate child
 			if(*it == newChild)
 			{
-				throw new Error::ArgumentException("The provided tree node is already a child of this node.", __FUNCTION__);
+				lastError = Error::E_CEK_BAD_ARG;
+				lastErrorFunction =  __FUNCTION__;
+				customLastErrorMessage = "A tree node cannot have duplicate children.";
+				return lastError;
 			}
 		}
 		newChild->RemoveFromParent(false);
 		children.push_back(newChild);
 		newChild->parent = this;
-		OnHierarchyChange();
-}
-
-void TreeNode::RemoveChild(TreeNode* toRemove)
-{
-	if(toRemove == nullptr)
-	{
-		throw new Error::ArgumentNullException("You cannot remove a null tree node.", __FUNCTION__);
+		OnHierarchyChange(true);
+		return Error::E_CEK_SUCCESS;
 	}
-	for(list<TreeNode*>::Iterator it = children.begin();
-		it != children.end(); ++it)
+
+	ECode TreeNode::RemoveChild(TreeNode* toRemove)
 	{
-		if(*it == toRemove)
+		if(toRemove == nullptr)
 		{
-			toRemove->parent = nullptr;
-			toRemove->OnHierarchyChange();
-			children.erase(it);
-			OnHierarchyChange();
-			return;
+			lastError = Error::E_CEK_NULL_ARG;
+			lastErrorFunction = __FUNCTION__;
+			customLastErrorMessage = "A tree node cannot remove a null child.";
+			return lastError;
+		}
+		for(list<TreeNode*>::iterator it = children.begin();
+			it != children.end(); ++it)
+		{
+			if(*it == toRemove)
+			{
+				toRemove->parent = nullptr;
+				toRemove->OnHierarchyChange(false);
+				children.erase(it);
+				OnHierarchyChange(true);
+				return Error::E_CEK_SUCCESS;
+			}
+		}
+		lastError = Error::E_CEK_BAD_ARG;
+		lastErrorFunction = __FUNCTION__;
+		customLastErrorMessage = "A tree node could not find the child that was to be removed.";
+		return lastError;
+	}
+
+	void TreeNode::RemoveAllChildren()
+	{
+		for(list<TreeNode*>::iterator it = children.begin();
+			it != children.end(); ++it)
+		{
+			TreeNode* curr = *it;
+			curr->parent = nullptr;
+			curr->OnHierarchyChange(false);
+		}
+
+		children.clear();
+		OnHierarchyChange(true);
+	}
+
+	void TreeNode::RemoveFromParent(bool updateHD)
+	{
+		if (parent != nullptr)
+				parent->RemoveChild(this);
+		if(updateHD)
+			OnHierarchyChange(false);
+	}
+
+	void TreeNode::OnHierarchyChange(bool goingUp)
+	{
+		//Keep walking up the tree until it's time to stop and go back down
+		if(goingUp && parent != nullptr && parent->caresAboutChildren)
+		{
+			parent->OnHierarchyChange(true);
+		}
+		//Don't forget to hit ourselves on the way back down
+		else if(goingUp)
+		{
+				OnHierarchyChange(false);
+		}
+		//Walk down the tree, updating all children
+		else
+		{
+			for(list<TreeNode*>::iterator it = children.begin();
+			it != children.end(); ++it)
+			{
+				(*it)->OnHierarchyChange(false);
+			}
 		}
 	}
-	throw new Error::ArgumentException("The given tree node is not a child of this node.", __FUNCTION__);
-}
-
-void TreeNode::RemoveAllChildren()
-{
-	for(list<TreeNode*>::Iterator it = children.begin();
-		it != children.end(); ++it)
-	{
-		(*it)->parent = nullptr;
-		(*it)->OnHierarchyChange();
-	}
-
-	children.clear();
-	OnHierarchyChange();
-}
-
-void TreeNode::RemoveFromParent(bool updateHD)
-{
-	if (parent != nullptr)
-			parent->RemoveChild(this);
-	if(updateHD)
-		OnHierarchyChange();
-}
-
-void TreeNode::OnHierarchyChange()
-{
-	for(list<TreeNode*>::Iterator it = children.begin();
-		it != children.end(); ++it)
-	{
-		(*it)->OnHierarchyChange();
-	}
-}
+} //end namespace Core

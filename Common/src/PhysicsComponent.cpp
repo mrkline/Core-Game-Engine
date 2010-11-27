@@ -27,7 +27,7 @@ namespace Core
 	void PhysicsComponent::OnHierarchyChange(bool goingUp)
 	{
 		//Call this on our children
-		RefCountedTreeNode::OnHierarchyChange(goingUp);
+		TreeNode::OnHierarchyChange(goingUp);
 
 		if(!goingUp)
 		{
@@ -50,7 +50,7 @@ namespace Core
 				btCompoundShape* compAbsShape = static_cast<btCompoundShape*>(absoluteCShape);
 				compAbsShape->addChildShape(btTransform(), cShape);
 
-				list<RefCountedTreeNode*>::iterator it = children.begin();
+				list<TreeNode*>::iterator it = children.begin();
 				for(; it != children.end(); ++it)
 				{
 					PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);

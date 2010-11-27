@@ -1,28 +1,40 @@
 #pragma once
-#include <irrlicht.h>
+#include <ErrorHandling.h>
+#include <list>
 
-class TreeNode
+namespace Core
 {
-public:
-	virtual ~TreeNode();
+	//A class that provides tree functionality (with a parent and children) with reference counting
+	//using Irrlicht's IReferenceCounted class.
+	class TreeNode : public Error::CanErr
+	{
+	public:
+		TreeNode(TreeNode* nodeParent = nullptr, bool updateOnChildrenChange = true);
+		virtual ~TreeNode();
 
-	virtual void SetParent(TreeNode* newParent);
-	virtual TreeNode* GetParent() { return parent; }
-	virtual void RemoveFromParent(bool updateHierarchy = true);
+		virtual Error::ECode SetParent(TreeNode* newParent);
+		virtual TreeNode* GetParent() { return parent; }
+		virtual void RemoveFromParent(bool updateHierarchy = true);
 
-	virtual void AddChild(TreeNode* child);
-	virtual void RemoveChild(TreeNode* child);
-	virtual void RemoveAllChildren();
+		virtual Error::ECode AddChild(TreeNode* child);
+		virtual Error::ECode RemoveChild(TreeNode* child);
+		virtual void RemoveAllChildren();
 	
-	virtual irr::core::list<TreeNode*>& GetChildren() { return children; }
-	virtual const irr::core::list<TreeNode*>& GetChildren() const { return children; }
+		virtual std::list<TreeNode*>& GetChildren() { return children; }
+		virtual const std::list<TreeNode*>& GetChildren() const { return children; }
 
-	//Notify children of changes
-	//Called recursively on all children
-	virtual void OnHierarchyChange();
+		void SetUpdateOnChildren(bool update) { caresAboutChildren = update; }
+		bool GetUpdateOnChildren(bool update) { return caresAboutChildren; }
 
-protected:
+		//Used to update any necessary info by a derived class when the tree changes.
+		//If caresAboutChildren is false, changes to children will not cause this to be called.
+		//Otherwise, this will be called recursively up, then down the tree.
+		virtual void OnHierarchyChange(bool goingUp);
 
-	TreeNode* parent;
-	irr::core::list<TreeNode*> children;
-};
+	protected:
+		TreeNode* parent;
+		std::list<TreeNode*> children;
+		//If this is true, changes to children will not cause OnHierarchyChange to be called
+		bool caresAboutChildren;
+	};
+} //end namespace Core

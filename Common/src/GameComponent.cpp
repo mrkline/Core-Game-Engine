@@ -29,7 +29,7 @@ namespace Core
 		//The parent will automatically have the children remove us
 		if(parent != nullptr)
 		{
-			for(list<RefCountedTreeNode*>::iterator it = children.begin();
+			for(list<TreeNode*>::iterator it = children.begin();
 				it != children.end(); ++it)
 			{
 				parent->AddChild(*it);

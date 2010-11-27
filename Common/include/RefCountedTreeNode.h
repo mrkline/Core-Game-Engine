@@ -23,6 +23,9 @@ namespace Core
 		virtual std::list<RefCountedTreeNode*>& GetChildren() { return children; }
 		virtual const std::list<RefCountedTreeNode*>& GetChildren() const { return children; }
 
+		void SetUpdateOnChildren(bool update) { caresAboutChildren = update; }
+		bool GetUpdateOnChildren(bool update) { return caresAboutChildren; }
+
 		//Used to update any necessary info by a derived class when the tree changes.
 		//If caresAboutChildren is false, changes to children will not cause this to be called.
 		//Otherwise, this will be called recursively up, then down the tree.
