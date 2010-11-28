@@ -23,5 +23,6 @@
 #include <PhysicsManager.h>
 #include <PointerKey.h>
 #include <RefCountedTreeNode.h>
+#include <Scene.h>
 #include <ScreenQuad.h>
 #include <ThrusterData.h>

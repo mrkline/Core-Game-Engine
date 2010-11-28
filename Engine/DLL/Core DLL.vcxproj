@@ -13,16 +13,16 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2E635852-8B98-4F8E-B714-7F55FD53990D}</ProjectGuid>
     <RootNamespace>GameCore</RootNamespace>
-    <ProjectName>Game Core Testbed</ProjectName>
+    <ProjectName>Core DLL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -38,16 +38,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.1\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.2\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>..\..\Irrlicht 1.7.1\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Irrlicht 1.7.2\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
+    <TargetName>Core</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.1\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.2\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>..\..\Irrlicht 1.7.1\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Irrlicht 1.7.2\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Release;$(LibraryPath)</LibraryPath>
+    <TargetName>Core</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,7 +78,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
-    <ClInclude Include="..\..\Common\include\core.h" />
+    <ClInclude Include="..\..\common\include\CoreBase.h" />
     <ClInclude Include="..\..\Common\include\CoreConstants.h" />
     <ClInclude Include="..\..\Common\include\CoreTransform.h" />
     <ClInclude Include="..\..\Common\include\CoreTypes.h" />
@@ -82,11 +86,13 @@
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
-    <ClInclude Include="..\..\Common\include\GameObjectManager.h" />
+    <ClInclude Include="..\..\common\include\IrrlichtPragma.h" />
+    <ClInclude Include="..\..\common\include\Level.h" />
+    <ClInclude Include="..\..\Common\include\Scene.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\CoreConversions.h" />
     <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h" />
-    <ClInclude Include="..\..\Common\include\LibraryPragmas.h" />
+    <ClInclude Include="..\..\Common\include\BulletPragmas.h" />
     <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
@@ -99,7 +105,6 @@
     <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
     <ClInclude Include="..\..\Common\include\ThrusterData.h" />
     <ClInclude Include="..\..\Common\include\TreeNode.h" />
-    <ClInclude Include="BasicObjectTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
@@ -115,9 +120,8 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />
     <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
+    <ClCompile Include="..\..\Common\src\Scene.cpp" />
     <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
-    <ClCompile Include="BasicObjectTests.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">
