@@ -93,6 +93,7 @@
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
+    <ClInclude Include="..\..\Common\include\GraphicsThread.h" />
     <ClInclude Include="..\..\common\include\IrrlichtHeaders.h" />
     <ClInclude Include="..\..\common\include\Level.h" />
     <ClInclude Include="..\..\Common\include\Scene.h" />

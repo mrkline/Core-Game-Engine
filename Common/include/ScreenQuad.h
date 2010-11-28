@@ -17,6 +17,11 @@ namespace Core
 			{
 				vd = GlobalContext::DeviceContext.GetVideoDriver();
 
+				if(vd == nullptr)
+				{
+					throw new Error::ArgumentNullException("The global device context has not been set yet", __FUNCTION__);
+				}
+
 				//Indices are as follows:
 				/* 0---1
 				// |   |
