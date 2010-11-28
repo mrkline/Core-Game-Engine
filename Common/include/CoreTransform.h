@@ -1,5 +1,4 @@
 #pragma once
-#include <irrlicht.h>
 #include <ErrorHandling.h>
 #include <CoreTypes.h>
 

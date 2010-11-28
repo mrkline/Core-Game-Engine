@@ -41,7 +41,7 @@
     <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.2\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>..\..\Irrlicht 1.7.2\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\irrlicht\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>Core</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
@@ -57,6 +57,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,6 +71,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
+    <ClInclude Include="..\..\Common\include\Core.h" />
     <ClInclude Include="..\..\common\include\CoreBase.h" />
     <ClInclude Include="..\..\Common\include\CoreConstants.h" />
     <ClInclude Include="..\..\Common\include\CoreTransform.h" />
@@ -86,13 +93,12 @@
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
-    <ClInclude Include="..\..\common\include\IrrlichtPragma.h" />
+    <ClInclude Include="..\..\common\include\IrrlichtHeaders.h" />
     <ClInclude Include="..\..\common\include\Level.h" />
     <ClInclude Include="..\..\Common\include\Scene.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\CoreConversions.h" />
     <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h" />
-    <ClInclude Include="..\..\Common\include\BulletPragmas.h" />
     <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
@@ -109,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
     <ClCompile Include="..\..\Common\src\Context.cpp" />
+    <ClCompile Include="..\..\common\src\Core.cpp" />
     <ClCompile Include="..\..\Common\src\CoreConstants.cpp" />
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />

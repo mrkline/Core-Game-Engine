@@ -1,7 +1,6 @@
 #pragma once
 
 #include <irrlicht.h>
-
 #include <ErrorHandling.h>
 
 namespace Core
@@ -23,12 +22,14 @@ namespace Core
 			}
 
 			//Creates a graphics device based on creation parameters
-			void SetDevice(const irr::SIrrlichtCreationParameters& cp)
+			void SetDevice(irr::IrrlichtDevice* irrDevice)
 			{
-				//Clear out a previous device if we're creating a new one
-				ClearDevice();
+				if(irrDevice == nullptr)
+				{
+					throw new Error::ArgumentNullException("Device cannot be set to null, only cleared.", __FUNCTION__);
+				}
 
-				device = createDeviceEx(cp);
+				device = irrDevice;
 				vd = device->getVideoDriver();
 				sm = device->getSceneManager();
 				fs = device->getFileSystem();
@@ -41,16 +42,12 @@ namespace Core
 			//Should be called at the end of the program.
 			void ClearDevice()
 			{
-				if(device != nullptr)
-				{
-					device->drop();
-					device = nullptr;
-					vd = nullptr;
-					sm = nullptr;
-					fs = nullptr;
-					timer = nullptr;
-					guienv = nullptr;
-				}
+				device = nullptr;
+				vd = nullptr;
+				sm = nullptr;
+				fs = nullptr;
+				timer = nullptr;
+				guienv = nullptr;
 			}
 
 			//The scene manager could be set to something besides the

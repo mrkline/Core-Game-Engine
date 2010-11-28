@@ -110,10 +110,10 @@
     <ClInclude Include="..\..\Common\include\CoreTransform.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\include\IrrlichtPragma.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+    <ClInclude Include="..\..\Common\include\Core.h">
+      <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\BulletPragmas.h">
+    <ClInclude Include="..\..\common\include\IrrlichtHeaders.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -162,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\src\Scene.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\src\Core.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
