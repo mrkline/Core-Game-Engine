@@ -116,11 +116,11 @@
     <ClInclude Include="..\..\Common\include\ScreenQuad.h">
       <Filter>Header Files\Common\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\GraphicsThread.h">
-      <Filter>Header Files\Common\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\include\ILevel.h">
       <Filter>Header Files\Common\Core Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\IGraphicsThread.h">
+      <Filter>Header Files\Common\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

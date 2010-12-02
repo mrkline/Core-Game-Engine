@@ -1,6 +1,6 @@
 #include <CoreBase.h>
 #include <ILevel.h>
-#include <GraphicsThread.h>
+#include <IGraphicsThread.h>
 
 namespace Core
 {
@@ -48,7 +48,8 @@ namespace Core
 		}
 		try
 		{
-			gThread = new GraphicsThread(cp);
+			//TODO: Implement platform-specific thread
+			gThread = new IGraphicsThread(cp);
 		}
 		//This will get thrown if creation fails
 		catch(Error::Exception*)

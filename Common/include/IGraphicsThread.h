@@ -8,10 +8,10 @@ namespace irr
 namespace Core
 {
 	//Graphics thread is not reference counted since only the CoreBase should handle it
-	class GraphicsThread
+	class IGraphicsThread
 	{
 	public:
-		GraphicsThread(const irr::SIrrlichtCreationParameters& cp);
-		virtual ~GraphicsThread();
+		IGraphicsThread(const irr::SIrrlichtCreationParameters& cp);
+		virtual ~IGraphicsThread();
 	};
 };

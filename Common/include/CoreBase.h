@@ -5,7 +5,7 @@
 namespace Core
 {
 	class ILevel;
-	class GraphicsThread;
+	class IGraphicsThread;
 
 	//The base for the entire engine.  Instantiates all other objects in the engine.
 	class CoreBase : public ReferenceCounted, public Error::CanErr
@@ -20,7 +20,7 @@ namespace Core
 		//CoreBase will grab the provided level (if it isn't null)
 		void SetNextLevel(ILevel* nLevel);
 
-		GraphicsThread* GetGraphicsThread() { return gThread; }
+		IGraphicsThread* GetGraphicsThread() { return gThread; }
 		//Resets Graphics Thread if it has already been created.
 		//If this happens, all textures, shaders, etc. must be reloaded.
 		Error::ECode InitGraphicsThread(const irr::SIrrlichtCreationParameters& cp);
@@ -32,6 +32,6 @@ namespace Core
 
 	protected:
 		ILevel *currentLevel, *nextLevel;
-		GraphicsThread* gThread;
+		IGraphicsThread* gThread;
 	};
 } //end namespace Core
