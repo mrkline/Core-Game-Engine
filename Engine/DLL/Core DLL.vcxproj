@@ -95,7 +95,7 @@
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
     <ClInclude Include="..\..\Common\include\GraphicsThread.h" />
     <ClInclude Include="..\..\common\include\IrrlichtHeaders.h" />
-    <ClInclude Include="..\..\common\include\Level.h" />
+    <ClInclude Include="..\..\common\include\ILevel.h" />
     <ClInclude Include="..\..\Common\include\Scene.h" />
     <ClInclude Include="..\..\Common\include\GlobalContext.h" />
     <ClInclude Include="..\..\Common\include\CoreConversions.h" />
@@ -117,6 +117,7 @@
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
     <ClCompile Include="..\..\Common\src\Context.cpp" />
     <ClCompile Include="..\..\common\src\Core.cpp" />
+    <ClCompile Include="..\..\common\src\CoreBase.cpp" />
     <ClCompile Include="..\..\Common\src\CoreConstants.cpp" />
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />

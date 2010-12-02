@@ -4,7 +4,7 @@
 
 namespace Core
 {
-	class Level;
+	class ILevel;
 	class GraphicsThread;
 
 	//The base for the entire engine.  Instantiates all other objects in the engine.
@@ -14,10 +14,11 @@ namespace Core
 		CoreBase();
 		virtual ~CoreBase();
 
-		Level* GetCurrentLevel() { return currentLevel; }
-		Level* GetNextLevel() { return nextLevel; }
+		ILevel* GetCurrentLevel() { return currentLevel; }
+		ILevel* GetNextLevel() { return nextLevel; }
 		bool HasNextLevel() { return nextLevel != nullptr; }
-		void SetNextLevel(Level* nLevel) { nextLevel = nLevel; }
+		//CoreBase will grab the provided level (if it isn't null)
+		void SetNextLevel(ILevel* nLevel);
 
 		GraphicsThread* GetGraphicsThread() { return gThread; }
 		//Resets Graphics Thread if it has already been created.
@@ -26,11 +27,11 @@ namespace Core
 
 		//Run the game, starting with the given level.  The graphics thread must be
 		//initialized before this.
-		Error::ECode Run(Level* firstLevel);
+		Error::ECode Run(ILevel* firstLevel);
 
 
 	protected:
-		Level *currentLevel, *nextLevel;
+		ILevel *currentLevel, *nextLevel;
 		GraphicsThread* gThread;
 	};
-};
+} //end namespace Core

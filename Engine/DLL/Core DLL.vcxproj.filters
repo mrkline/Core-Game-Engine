@@ -104,9 +104,6 @@
     <ClInclude Include="..\..\Common\include\Scene.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\include\Level.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\CoreTransform.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
     <ClInclude Include="..\..\Common\include\GraphicsThread.h">
       <Filter>Header Files\Common\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\include\ILevel.h">
+      <Filter>Header Files\Common\Core Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">
@@ -131,9 +131,6 @@
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\Context.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\src\CoreConstants.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp">
@@ -171,6 +168,12 @@
     </ClCompile>
     <ClCompile Include="..\..\common\src\Core.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\src\CoreConstants.cpp">
+      <Filter>Source Files\Common\Core Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\src\CoreBase.cpp">
+      <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

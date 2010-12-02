@@ -8,16 +8,16 @@ namespace Core
 
 	//A level contains one or more scenes.
 	//One scene is presumably the main scene, and others could be 3D UIs, etc.
-	class Level : public ReferenceCounted
+	class ILevel : public ReferenceCounted
 	{
 	public:
-		virtual ~Level();
+		virtual ~ILevel();
 
 		//Load the entire level.
 		//This level will be deleted if E_CEK_SUCCESS is not returned.
 		virtual Error::ECode Load(GraphicsThread* gThread) = 0;
 		//Called if the GraphicsThread was reset (due to resolution change, etc.).
-		//This level will be deleted if E_CEK_SUCCESS is not returned.
+		//This level should exit out of its Run method if E_CEK_SUCCESS is not returned.
 		virtual Error::ECode OnGraphicsReset(GraphicsThread* newGThread) = 0;
 
 		//Called after Load.  Game loop here.
