@@ -1,14 +1,11 @@
 #include <CoreTransform.h>
 
-using namespace irr;
-using namespace core;
-
 namespace Core
 {
 	using namespace Error;
 
 	//Used for very quickly setting the identity matrices
-	static const f32 kIdentityMatrix[16] = { 1, 0, 0, 0,
+	static const float kIdentityMatrix[16] = { 1, 0, 0, 0,
 											 0, 1, 0, 0,
 											 0, 0, 1, 0,
 											 0, 0, 0, 1 };
@@ -21,13 +18,13 @@ namespace Core
 		}
 		else
 		{
-			memset(matrix, 0, sizeof(f32) * 16);
+			memset(matrix, 0, sizeof(float) * 16);
 		}
 	}
 
-	Transform::Transform(const f32* matrixArray)
+	Transform::Transform(const float* matrixArray)
 	{
-		memcpy(matrix, matrixArray, sizeof(f32) * 16);
+		memcpy(matrix, matrixArray, sizeof(float) * 16);
 	}
 
 	Transform::Transform(const Transform& other)
@@ -42,14 +39,14 @@ namespace Core
 	{
 		const Transform &m = *this;
 
-		f32 d = (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0)) * (m(2, 2) * m(3, 3) - m(2, 3) * m(3, 2)) -
+		float d = (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0)) * (m(2, 2) * m(3, 3) - m(2, 3) * m(3, 2)) -
 			(m(0, 0) * m(1, 2) - m(0, 2) * m(1, 0)) * (m(2, 1) * m(3, 3) - m(2, 3) * m(3, 1)) +
 			(m(0, 0) * m(1, 3) - m(0, 3) * m(1, 0)) * (m(2, 1) * m(3, 2) - m(2, 2) * m(3, 1)) +
 			(m(0, 1) * m(1, 2) - m(0, 2) * m(1, 1)) * (m(2, 0) * m(3, 3) - m(2, 3) * m(3, 0)) -
 			(m(0, 1) * m(1, 3) - m(0, 3) * m(1, 1)) * (m(2, 0) * m(3, 2) - m(2, 2) * m(3, 0)) +
 			(m(0, 2) * m(1, 3) - m(0, 3) * m(1, 2)) * (m(2, 0) * m(3, 1) - m(2, 1) * m(3, 0));
 
-		if(iszero(d))
+		if(Math::Equals(d, 0.0f))
 		{
 			lastError = Error::E_CEK_INVALID_STATE;
 			lastErrorFunction = __FUNCTION__;
@@ -57,7 +54,7 @@ namespace Core
 			return lastError;
 		}
 
-		d = reciprocal ( d );
+		d = 1.0f / d;
 
 		out(0, 0) = d * (m(1, 1) * (m(2, 2) * m(3, 3) - m(2, 3) * m(3, 2)) +
 				m(1, 2) * (m(2, 3) * m(3, 1) - m(2, 1) * m(3, 3)) +
@@ -134,19 +131,19 @@ namespace Core
 		out[15] = matrix[15];
 	}
 
-	void Transform::Interpolate(const Transform& other, f32 t, Transform& out) const
+	void Transform::Interpolate(const Transform& other, float t, Transform& out) const
 	{
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
 			out[c] = matrix[c] + (other[c] - matrix[c]) * t;
 		}
 	}
 
-	bool Transform::Equals(const Transform& other, f32 roundingTolerance) const
+	bool Transform::Equals(const Transform& other, float roundingTolerance) const
 	{
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
-			if(!equals(matrix[c], other[c], roundingTolerance))
+			if(!Math::Equals(matrix[c], other[c], roundingTolerance))
 			{
 				return false;
 			}
@@ -156,9 +153,9 @@ namespace Core
 
 	bool Transform::IsIdentity() const
 	{
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
-			if(!equals(matrix[c], kIdentityMatrix[c]))
+			if(!Math::Equals(matrix[c], kIdentityMatrix[c]))
 			{
 				return false;
 			}
@@ -168,23 +165,23 @@ namespace Core
 
 	bool Transform::IsOrthogonal() const
 	{
-		f32 dp=matrix[0] * matrix[4 ] + matrix[1] * matrix[5 ] + matrix[2 ] * matrix[6 ] + matrix[3 ] * matrix[7 ];
-		if (!iszero(dp))
+		float dp=matrix[0] * matrix[4 ] + matrix[1] * matrix[5 ] + matrix[2 ] * matrix[6 ] + matrix[3 ] * matrix[7 ];
+		if (!Math::IsZero(dp))
 			return false;
 		dp = matrix[0] * matrix[8 ] + matrix[1] * matrix[9 ] + matrix[2 ] * matrix[10] + matrix[3 ] * matrix[11];
-		if (!iszero(dp))
+		if (!Math::IsZero(dp))
 			return false;
 		dp = matrix[0] * matrix[12] + matrix[1] * matrix[13] + matrix[2 ] * matrix[14] + matrix[3 ] * matrix[15];
-		if (!iszero(dp))
+		if (!Math::IsZero(dp))
 			return false;
 		dp = matrix[4] * matrix[8 ] + matrix[5] * matrix[9 ] + matrix[6 ] * matrix[10] + matrix[7 ] * matrix[11];
-		if (!iszero(dp))
+		if (!Math::IsZero(dp))
 			return false;
 		dp = matrix[4] * matrix[12] + matrix[5] * matrix[13] + matrix[6 ] * matrix[14] + matrix[7 ] * matrix[15];
-		if (!iszero(dp))
+		if (!Math::IsZero(dp))
 			return false;
 		dp = matrix[8] * matrix[12] + matrix[9] * matrix[13] + matrix[10] * matrix[14] + matrix[11] * matrix[15];
-		return (iszero(dp));
+		return (Math::IsZero(dp));
 	}
 
 	void Transform::GetRotationRadians(Vector3& vecOut) const
@@ -193,18 +190,18 @@ namespace Core
 
 		Vector3 scale;
 		GetScale(scale);
-		const Vector3 invScale(reciprocal(scale.X), reciprocal(scale.Y), reciprocal(scale.Z));
+		const Vector3 invScale(1.0f / scale.X, 1.0f / scale.Y, 1.0f / scale.Z);
 
 		//was 64-bit
-		f32 Y = -asin(matrix[2]*invScale.X);
+		float Y = -asin(matrix[2]*invScale.X);
 		//was 64-bit
-		const f32 C = cos(Y);
+		const float C = cos(Y);
 
-		f32 rotx, roty, X, Z;
+		float rotx, roty, X, Z;
 
-		if (!iszero(C))
+		if (!Math::IsZero(C))
 		{
-			const f32 invC = core::reciprocal(C);
+			const float invC = 1.0f / C;
 			rotx = matrix[10] * invC * invScale.Z;
 			roty = matrix[6] * invC * invScale.Y;
 			X = atan2( roty, rotx );
@@ -223,16 +220,16 @@ namespace Core
 		// fix values that get below zero
 		// before it would set (!) values to 360
 		// that were above 360:
-		if (X < 0.0) X += 2 * PI;
-		if (Y < 0.0) Y += 2 * PI;
-		if (Z < 0.0) Z += 2 * PI;
+		if (X < 0.0) X += 2 * Math::kPi;
+		if (Y < 0.0) Y += 2 * Math::kPi;
+		if (Z < 0.0) Z += 2 * Math::kPi;
 
 	}
 
 	void Transform::GetRotationDegrees(Vector3& vecOut) const
 	{
 		GetRotationRadians(vecOut);
-		vecOut *= RADTODEG;
+		vecOut.Scale(Math::kRadToDeg);
 	}
 
 	void Transform::GetScale(Vector3& vecOut) const
@@ -240,25 +237,25 @@ namespace Core
 		// See http://www.robertblum.com/articles/2005/02/14/decomposing-matrices
 
 		// Deal with the 0 rotation case first
-		if(iszero(matrix[1]) && iszero(matrix[2]) &&
-			iszero(matrix[4]) && iszero(matrix[6]) &&
-			iszero(matrix[8]) && iszero(matrix[9]))
-			vecOut.set(matrix[0], matrix[5], matrix[10]);
+		if(Math::IsZero(matrix[1]) && Math::IsZero(matrix[2]) &&
+			Math::IsZero(matrix[4]) && Math::IsZero(matrix[6]) &&
+			Math::IsZero(matrix[8]) && Math::IsZero(matrix[9]))
+			vecOut.Set(matrix[0], matrix[5], matrix[10]);
 
 		// We have to do the full calculation.
-		vecOut.set(sqrtf(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]),
+		vecOut.Set(sqrtf(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]),
 							sqrtf(matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6]),
 							sqrtf(matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10]));
 	}
 
 	void Transform::GetTranslation(Vector3& vecOut) const
 	{
-		vecOut.set(matrix[12], matrix[13], matrix[14]);
+		vecOut.Set(matrix[12], matrix[13], matrix[14]);
 	}
 
 	void Transform::SetToIdentity()
 	{
-		memcpy(matrix, kIdentityMatrix, sizeof(f32) * 16);
+		memcpy(matrix, kIdentityMatrix, sizeof(float) * 16);
 	}
 
 	ECode Transform::SetToInverse()
@@ -276,8 +273,8 @@ namespace Core
 
 	void Transform::SetAsProductOf(const Transform& t1, const Transform& t2)
 	{
-		const f32* m1 = t1.matrix;
-		const f32* m2 = t2.matrix;
+		const float* m1 = t1.matrix;
+		const float* m2 = t2.matrix;
 
 		matrix[0] = m1[0]*m2[0] + m1[4]*m2[1] + m1[8]*m2[2] + m1[12]*m2[3];
 		matrix[1] = m1[1]*m2[0] + m1[5]*m2[1] + m1[9]*m2[2] + m1[13]*m2[3];
@@ -302,19 +299,19 @@ namespace Core
 
 	void Transform::SetInverseRotationRadians(const Vector3& rotation)
 	{
-		f32 cr = cos( rotation.X );
-		f32 sr = sin( rotation.X );
-		f32 cp = cos( rotation.Y );
-		f32 sp = sin( rotation.Y );
-		f32 cy = cos( rotation.Z );
-		f32 sy = sin( rotation.Z );
+		float cr = cos( rotation.X );
+		float sr = sin( rotation.X );
+		float cp = cos( rotation.Y );
+		float sp = sin( rotation.Y );
+		float cy = cos( rotation.Z );
+		float sy = sin( rotation.Z );
 
 		matrix[0] = cp * cy;
 		matrix[4] = cp * sy;
 		matrix[8] = -sp;
 
-		f32 srsp = sr * sp;
-		f32 crsp = cr * sp;
+		float srsp = sr * sp;
+		float crsp = cr * sp;
 
 		matrix[1] = srsp * cy - cr * sy;
 		matrix[5] = srsp * sy + cr * cy;
@@ -327,7 +324,7 @@ namespace Core
 
 	void Transform::SetInverseRotationDegrees(const Vector3& rotation)
 	{
-		SetInverseRotationRadians(rotation * DEGTORAD);
+		SetInverseRotationRadians(rotation.Scale(Math::kDegToRad));
 	}
 
 	void Transform::SetInverseTranslation(const Vector3& translation)
@@ -339,19 +336,19 @@ namespace Core
 
 	void Transform::SetRotationRadians(const Vector3& rotation)
 	{
-		const f32 cr = cos( rotation.X );
-		const f32 sr = sin( rotation.X );
-		const f32 cp = cos( rotation.Y );
-		const f32 sp = sin( rotation.Y );
-		const f32 cy = cos( rotation.Z );
-		const f32 sy = sin( rotation.Z );
+		const float cr = cos( rotation.X );
+		const float sr = sin( rotation.X );
+		const float cp = cos( rotation.Y );
+		const float sp = sin( rotation.Y );
+		const float cy = cos( rotation.Z );
+		const float sy = sin( rotation.Z );
 
 		matrix[0] = cp * cy;
 		matrix[1] = cp * sy;
 		matrix[2] = -sp;
 
-		const f32 srsp = sr * sp;
-		const f32 crsp = cr * sp;
+		const float srsp = sr * sp;
+		const float crsp = cr * sp;
 
 		matrix[4] = srsp * cy - cr * sy;
 		matrix[5] = srsp * sy + cr * cy;
@@ -364,7 +361,7 @@ namespace Core
 
 	void Transform::SetRotationDegrees(const Vector3& rotation)
 	{
-		SetRotationRadians(rotation * DEGTORAD);
+		SetRotationRadians(rotation.Scale(Math::kDegToRad));
 	}
 
 	void Transform::SetScale(const Vector3& scale)
@@ -374,9 +371,9 @@ namespace Core
 		matrix[10] = scale.Z;
 	}
 
-	void Transform::SetFromArray(const f32* transformMatrix)
+	void Transform::SetFromArray(const float* transformMatrix)
 	{
-		memcpy(matrix, transformMatrix, sizeof(f32) * 16);
+		memcpy(matrix, transformMatrix, sizeof(float) * 16);
 	}
 
 	void Transform::InverseRotatePoint(Vector3& point) const
@@ -413,14 +410,14 @@ namespace Core
 	{
 		Vector3 scale;
 		GetScale(scale);
-		point *= scale;
+		point.Scale(scale);
 	}
 
 	Transform Transform::operator*(const Transform& m2) const
 	{
 		Transform m3(E_MT_EMPTY);
 
-		const f32 *m1 = matrix;
+		const float *m1 = matrix;
 
 		m3[0] = m1[0]*m2[0] + m1[4]*m2[1] + m1[8]*m2[2] + m1[12]*m2[3];
 		m3[1] = m1[1]*m2[0] + m1[5]*m2[1] + m1[9]*m2[2] + m1[13]*m2[3];
@@ -444,12 +441,12 @@ namespace Core
 		return m3;
 	}
 
-	Transform Transform::operator*(const f32 scalar) const
+	Transform Transform::operator*(const float scalar) const
 	{
 		Transform ret(matrix);
-		f32* arr = ret.matrix;
+		float* arr = ret.matrix;
 
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
 			arr[c] *= scalar;
 		}
@@ -464,9 +461,9 @@ namespace Core
 		return *this;
 	}
 
-	Transform& Transform::operator*=(const f32 scalar)
+	Transform& Transform::operator*=(const float scalar)
 	{
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
 			matrix[c] *= scalar;
 		}
@@ -475,14 +472,13 @@ namespace Core
 
 	Transform Transform::operator+(const Transform& other) const
 	{
-		const f32* otherMat = other.matrix;
+		const float* otherMat = other.matrix;
 
 		Transform ret(matrix);
-		f32* arr = ret.matrix;
 
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
-			arr[c] += otherMat[c];
+			ret.matrix[c] += otherMat[c];
 		}
 
 		return ret;
@@ -490,9 +486,9 @@ namespace Core
 
 	Transform& Transform::operator+=(const Transform& other)
 	{
-		const f32* otherMat = other.matrix;
+		const float* otherMat = other.matrix;
 
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
 			matrix[c] += otherMat[c];
 		}
@@ -502,14 +498,13 @@ namespace Core
 	
 	Transform Transform::operator-(const Transform& other) const
 	{
-		const f32* otherMat = other.matrix;
+		const float* otherMat = other.matrix;
 
 		Transform ret(matrix);
-		f32* arr = ret.matrix;
 
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
-			arr[c] -= otherMat[c];
+			ret.matrix[c] -= otherMat[c];
 		}
 
 		return ret;
@@ -517,9 +512,9 @@ namespace Core
 
 	Transform& Transform::operator-=(const Transform& other)
 	{
-		const f32* otherMat = other.matrix;
+		const float* otherMat = other.matrix;
 
-		for(u32 c = 0; c < 16; ++c)
+		for(unsigned int c = 0; c < 16; ++c)
 		{
 			matrix[c] -= otherMat[c];
 		}
@@ -529,7 +524,7 @@ namespace Core
 
 	Transform& Transform::operator=(const Transform& other)
 	{
-		memcpy(matrix, other.matrix, sizeof(f32) * 16);
+		memcpy(matrix, other.matrix, sizeof(float) * 16);
 		return *this;
 	}
 } //end namespace Core

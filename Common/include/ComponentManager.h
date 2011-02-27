@@ -1,14 +1,13 @@
 #pragma once
-#include <CoreTypes.h>
 
 namespace Core
 {
-	class ComponentManager : public ReferenceCounted
+	class ComponentManager
 	{
 	public:
 		virtual ~ComponentManager() {}
 
-		virtual void Update(u32 gameTime) = 0;
+		virtual void Update(unsigned int gameTime) = 0;
 	protected:
 
 	};

@@ -15,7 +15,7 @@ namespace Core
 		delete co1;
 	}
 
-	void IterativeManifoldCollisionDetector::GetCollisionPairs(u32 substep)
+	void IterativeManifoldCollisionDetector::GetCollisionPairs(unsigned int substep)
 	{
 		btDispatcher* dis = collWorld->getDispatcher();
 		btPersistentManifold* man;

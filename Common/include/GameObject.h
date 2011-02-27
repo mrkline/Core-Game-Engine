@@ -1,10 +1,12 @@
 #pragma once
-#include <CoreTypes.h>
-#include <GameComponent.h>
-#include <RefCountedTreeNode.h>
-#include <NamedClass.h>
+
 #include <list>
-#include <CoreTransform.h>
+#include <string>
+
+#include "GameComponent.h"
+#include "TreeNode.h"
+#include "NamedClass.h"
+#include "CoreTransform.h"
 
 namespace Core
 {
@@ -13,10 +15,13 @@ namespace Core
 	//The GameObject is the core object of the engine.  A tree of GameObjects is managed by the
 	//GameObjectManager.  Each object can have a collection of GameComponenents, which do various things
 	//such as manage physics, sound, scripts, logic, etc.
-	class GameObject : public RefCountedTreeNode, public NamedClass
+	class GameObject : public TreeNode, public NamedClass
 	{
 	public:
-		GameObject(GameObject* parent, GameObjectManager* objMan, s32 id = -1, const stringc& name = irr::core::stringc());
+		typedef std::list<GameComponent*> ComponentList;
+
+		GameObject(GameObject* parent, GameObjectManager* objMan,
+			int id = -1, const std::string& name = std::string());
 		virtual ~GameObject();
 
 		GameObjectManager* getObectManager() const { return man; }
@@ -36,13 +41,13 @@ namespace Core
 		//Each component type can only have one instance per object
 		Error::ECode AddComponent(GameComponent* newComponent);
 		Error::ECode RemoveComponent(GameComponent* toRemove);
-		void ClearComponents();
+		void DeleteComponents();
 		
 		//Returns nullptr if the GameObject does not have this type
 		GameComponent* GetComponentByType(GameComponent::EType type);
 		
-		const std::list<GameComponent*>& GetComponents() const { return components; }
-		std::list<GameComponent*>& GetComponents() { return components; }
+		const ComponentList& GetComponents() const { return components; }
+		ComponentList& GetComponents() { return components; }
 
 		//Functions to manipulate the object tree
 
@@ -52,13 +57,13 @@ namespace Core
 
 		virtual Error::ECode AddChild(GameObject* child);
 		virtual Error::ECode RemoveChild(GameObject* child);
-		virtual void RemoveAllChildren();
+		virtual void DeleteAllChildren();
 
 		//Notify children of changes
 		//Called recursively on all children
 		virtual void OnHierarchyChange(bool goingUp)
 		{
-			RefCountedTreeNode::OnHierarchyChange(goingUp);
+			TreeNode::OnHierarchyChange(goingUp);
 			//TEST:
 			/*if(!goingUp)
 			{
@@ -71,12 +76,11 @@ namespace Core
 		//Used by components searching for a parent
 
 		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);
-		const std::list<GameComponent*>& FindNearestDescendantComponents(GameComponent::EType compType);
+		ComponentList FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
 
 	protected:
 		GameObjectManager* man;
 		std::list<GameComponent*> components;
-		std::list<GameComponent*> holder; //Used for finding descendants with certain components
 		Transform trans; //Transform for the game object
 		Transform absTrans; //Cumulative absolute transform for the game object
 

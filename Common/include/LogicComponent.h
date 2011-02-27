@@ -1,6 +1,5 @@
 #pragma once
 #include <GameComponent.h>
-#include <irrlicht.h>
 
 namespace Core
 {

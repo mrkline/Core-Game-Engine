@@ -1,6 +1,6 @@
 #pragma once
 #include <ErrorHandling.h>
-#include <CoreTypes.h>
+#include <Vector3.h>
 
 namespace Core
 {
@@ -18,7 +18,7 @@ namespace Core
 		//Copy constructor
 		Transform(const Transform& other);
 		//Creates tranform from an array of 16 floats
-		Transform(const f32* matrixArray);
+		Transform(const float* matrixArray);
 		//Default Constructor
 		Transform(ConstructType type = E_MT_IDENTITY);
 		
@@ -26,16 +26,16 @@ namespace Core
 
 		Error::ECode GetInverse(Transform& out) const;
 		void GetTransposed(Transform& out) const;
-		void Interpolate(const Transform& other, f32 t, Transform& out) const;
+		void Interpolate(const Transform& other, float t, Transform& out) const;
 
 		//byVal versions of some of these functions
-		__forceinline Transform GetTransposed() const
+		Transform GetTransposed() const
 		{
 			Transform ret;
 			GetTransposed(ret);
 			return ret;
 		}
-		__forceinline Transform Interpolate(const Transform& other, f32 t)
+		Transform Interpolate(const Transform& other, float t)
 		{
 			Transform ret;
 			Interpolate(other, t, ret);
@@ -44,7 +44,7 @@ namespace Core
 
 		//Accessors:
 
-		bool Equals(const Transform& other, f32 roundingTolerance = irr::core::ROUNDING_ERROR_f32) const;
+		bool Equals(const Transform& other, float roundingTolerance = Math::kFloatRoundError) const;
 		bool IsIdentity() const;
 		bool IsOrthogonal() const;
 		void GetRotationDegrees(Vector3& vecOut) const; 
@@ -52,29 +52,29 @@ namespace Core
 		//Note that this always returns the absolute values of the scale components
 		void GetScale(Vector3& vecOut) const;
 		void GetTranslation(Vector3& vecOut) const;
-		f32* GetArray() { return matrix; }
-		const f32* GetArray() const { return matrix; }
+		float* GetArray() { return matrix; }
+		const float* GetArray() const { return matrix; }
 
 		//byVal versions of some accessors
-		__forceinline Vector3 GetRotationDegrees() const
+		Vector3 GetRotationDegrees() const
 		{
 			Vector3 ret;
 			GetRotationDegrees(ret);
 			return ret;
 		}
-		__forceinline Vector3 GetRotationRadians() const
+		Vector3 GetRotationRadians() const
 		{
 			Vector3 ret;
 			GetRotationRadians(ret);
 			return ret;
 		}
-		__forceinline Vector3 GetScale() const
+		Vector3 GetScale() const
 		{
 			Vector3 ret;
 			GetScale(ret);
 			return ret;
 		}
-		__forceinline Vector3 GetTranslation() const
+		Vector3 GetTranslation() const
 		{
 			Vector3 ret;
 			GetTranslation(ret);
@@ -92,7 +92,7 @@ namespace Core
 		void SetRotationDegrees(const Vector3& rotation);
 		void SetRotationRadians(const Vector3& rotation);
 		void SetScale(const Vector3& rotation);
-		void SetFromArray(const f32* transformMatrix);
+		void SetFromArray(const float* transformMatrix);
 
 		//Change point:
 		void InverseRotatePoint(Vector3& pointOut) const;
@@ -107,9 +107,9 @@ namespace Core
 		bool operator==(const Transform& other) const { return Equals(other); }
 		bool operator!=(const Transform& other) const { return !Equals(other); }
 		Transform operator*(const Transform& m2) const;
-		Transform operator*(const f32 scalar) const;
+		Transform operator*(const float scalar) const;
 		Transform& operator*=(const Transform& other);
-		Transform& operator*=(f32 scalar);
+		Transform& operator*=(float scalar);
 		Transform operator+(const Transform& other) const;
 		Transform& operator+=(const Transform& other);
 		Transform operator-(const Transform& other) const;
@@ -119,14 +119,14 @@ namespace Core
 		//Inline accessors
 		//force inlined for speed, as they are used frequently by many internal functions.
 
-		__forceinline f32& operator[](u32 index) { return matrix[index]; }
-		__forceinline f32 operator[](u32 index) const { return matrix[index]; }
-		__forceinline f32& operator()(u32 row, u32 col) { return matrix[row * 4 + col]; }
-		__forceinline f32 operator()(u32 row, u32 col) const { return matrix[row * 4 + col]; }
+		float& operator[](unsigned int index) { return matrix[index]; }
+		float operator[](unsigned int index) const { return matrix[index]; }
+		float& operator()(unsigned int row, unsigned int col) { return matrix[row * 4 + col]; }
+		float operator()(unsigned int row, unsigned int col) const { return matrix[row * 4 + col]; }
 
 	protected:
 		//The array of floats for the matrix
-		f32 matrix[16];
+		float matrix[16];
 	};
 
 } //end namespace Core

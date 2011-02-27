@@ -15,11 +15,11 @@ namespace Core
 	{
 		if(currentLevel != nullptr)
 		{
-			currentLevel->drop();
+			delete currentLevel;
 		}
 		if(nextLevel != nullptr)
 		{
-			nextLevel->drop();
+			delete nextLevel;
 		}
 		if(gThread != nullptr)
 		{
@@ -31,16 +31,12 @@ namespace Core
 	{
 		if(nextLevel != nullptr)
 		{
-			nextLevel->drop();
+			delete nextLevel;
 		}
 		nextLevel = nLevel;
-		if(nextLevel != nullptr)
-		{
-			nextLevel->grab();
-		}
 	}
 
-	ECode CoreBase::InitGraphicsThread(const irr::SIrrlichtCreationParameters& cp)
+	ECode CoreBase::InitGraphicsThread(/*need params here*/)
 	{
 		if(gThread != nullptr)
 		{
@@ -49,7 +45,7 @@ namespace Core
 		try
 		{
 			//TODO: Implement platform-specific thread
-			gThread = new IGraphicsThread(cp);
+			gThread = new IGraphicsThread();
 		}
 		//This will get thrown if creation fails
 		catch(Error::Exception*)
@@ -68,7 +64,7 @@ namespace Core
 		return Error::E_CEK_SUCCESS;
 	}
 
-	Error::ECode CoreBase::Run(ILevel* firstLevel)
+	Error::ECode CoreBase::Run()
 	{
 		if(gThread == nullptr)
 		{
@@ -78,11 +74,7 @@ namespace Core
 			return lastError;
 		}
 
-		currentLevel = firstLevel;
-		if(currentLevel != nullptr)
-		{
-			currentLevel->grab();
-		}
+		currentLevel = nextLevel;
 		
 		while(currentLevel != nullptr)
 		{
@@ -90,7 +82,7 @@ namespace Core
 			{
 				currentLevel->Run();
 			}
-			currentLevel->drop();
+			delete currentLevel;
 			currentLevel = nextLevel;
 		}
 

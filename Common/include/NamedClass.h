@@ -1,5 +1,5 @@
 #pragma once
-#include <irrlicht.h>
+#include <string>
 
 namespace Core
 {
@@ -7,22 +7,22 @@ namespace Core
 	class NamedClass
 	{
 	public:
-		NamedClass(irr::s32 cid = -1, const irr::core::stringc& cName = irr::core::stringc())
+		NamedClass(int cid = -1, const std::string& cName = std::string())
 			: id(cid), name(cName)
 		{}
 
 		virtual ~NamedClass() {}
 
-		void SetID(irr::s32 newID) { id = newID; }
-		void SetName(const irr::core::stringc& newName) { name = newName; }
-		void SetName(const irr::c8* newName) { name = newName; }
+		void SetID(int newID) { id = newID; }
+		void SetName(const std::string& newName) { name = newName; }
+		void SetName(const char* newName) { name = newName; }
 
-		irr::s32 GetID() const { return id; }
-		const irr::core::stringc& GetName() const { return name; }
-		irr::core::stringc& GetName() { return name; }
+		int GetID() const { return id; }
+		const std::string& GetName() const { return name; }
+		std::string& GetName() { return name; }
 
 	protected:
-		irr::s32 id;
-		irr::core::stringc name;
+		int id;
+		std::string name;
 	};
 } //end namespace Core

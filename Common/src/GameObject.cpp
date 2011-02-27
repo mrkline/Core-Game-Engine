@@ -7,7 +7,7 @@ namespace Core
 {
 	using namespace Error;
 
-	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, irr::s32 id, const irr::core::stringc& name)
+	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, int id, const std::string& name)
 		: NamedClass(id, name)
 	{
 		if(objMan == nullptr)
@@ -22,17 +22,18 @@ namespace Core
 
 	GameObject::~GameObject()
 	{
+		//Kill the components
 		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
-			(*it)->drop();
+			delete *it;
 		}
 	}
 
 	void GameObject::Update()
 	{
 		UpdateAbsoluteTransform();
-		for(std::list<RefCountedTreeNode*>::iterator it = children.begin();
+		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			static_cast<GameObject*>(*it)->Update();
@@ -75,7 +76,6 @@ namespace Core
 			}
 		}
 		components.push_back(newComponent);
-		newComponent->grab();
 		return Error::E_CEK_SUCCESS;
 	}
 
@@ -93,7 +93,6 @@ namespace Core
 		{
 			if((*it) == toRemove)
 			{
-				(*it)->drop();
 				components.erase(it);
 				return Error::E_CEK_SUCCESS;
 			}
@@ -104,12 +103,12 @@ namespace Core
 		return lastError;
 	}
 
-	void GameObject::ClearComponents()
+	void GameObject::DeleteComponents()
 	{
 		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
-			(*it)->drop();
+			delete *it;
 		}
 		components.clear();
 	}
@@ -130,7 +129,7 @@ namespace Core
 
 	ECode GameObject::SetParent(GameObject* newParent)
 	{
-		ECode ret = RefCountedTreeNode::SetParent(parent);
+		ECode ret = TreeNode::SetParent(parent);
 		if(Succeeded(ret))
 		{
 			for(list<GameComponent*>::iterator it = components.begin();
@@ -144,7 +143,7 @@ namespace Core
 
 	void GameObject::RemoveFromParent(bool updateHierarchy)
 	{
-		RefCountedTreeNode::RemoveFromParent(updateHierarchy);
+		TreeNode::RemoveFromParent(updateHierarchy);
 		for(list<GameComponent*>::iterator it = components.begin();
 			it != components.end(); ++it)
 		{
@@ -154,7 +153,7 @@ namespace Core
 
 	ECode GameObject::AddChild(GameObject* child)
 	{
-		ECode ret =	RefCountedTreeNode::AddChild(child);
+		ECode ret =	TreeNode::AddChild(child);
 		if(Succeeded(ret))
 		{
 			for(list<GameComponent*>::iterator it = components.begin();
@@ -168,7 +167,7 @@ namespace Core
 
 	ECode GameObject::RemoveChild(GameObject* child)
 	{
-		ECode ret = RefCountedTreeNode::RemoveChild(child);
+		ECode ret = TreeNode::RemoveChild(child);
 		if(Succeeded(ret))
 		{
 			for(list<GameComponent*>::iterator it = components.begin();
@@ -180,14 +179,9 @@ namespace Core
 		return ret;
 	}
 
-	void GameObject::RemoveAllChildren()
+	void GameObject::DeleteAllChildren()
 	{
-		RefCountedTreeNode::RemoveAllChildren();
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
-		{
-			(*it)->OwnerRemovedAllChildren();
-		}
+		TreeNode::DeleteAllChildren();
 	}
 
 	GameComponent* GameObject::FindNearestAncestorComponent(GameComponent::EType compType)
@@ -202,11 +196,23 @@ namespace Core
 		return nullptr;
 	}
 
-	const list<GameComponent*>& GameObject::FindNearestDescendantComponents(GameComponent::EType compType)
+	GameObject::ComponentList GameObject::FindNearestDescendantComponents(GameComponent::EType compType,
+		bool includingThisObject)
 	{
-		holder.clear();
-		DescendantSearchRecursor(&holder, this, compType);
-		return holder;
+		ComponentList ret;
+		if(includingThisObject)
+		{
+			DescendantSearchRecursor(&ret, this, compType);
+		}
+		else
+		{
+			for(list<TreeNode*>::iterator it = children.begin();
+				it != children.end(); ++it)
+			{
+				DescendantSearchRecursor(&ret, static_cast<GameObject*>(*it), compType);
+			}
+		}
+		return ret;
 	}
 
 	void  GameObject::DescendantSearchRecursor(list<GameComponent*>* compList,
@@ -220,8 +226,8 @@ namespace Core
 		}
 		else
 		{
-			list<RefCountedTreeNode*>& children = obj->GetChildren();
-			for(list<RefCountedTreeNode*>::iterator it = children.begin();
+			list<TreeNode*>& children = obj->GetChildren();
+			for(list<TreeNode*>::iterator it = children.begin();
 				it != children.end(); ++it)
 			{
 				DescendantSearchRecursor(compList, static_cast<GameObject*>(*it), compType);

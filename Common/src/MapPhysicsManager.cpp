@@ -2,19 +2,17 @@
 #include <btBulletDynamicsCommon.h>
 #include <LogicComponent.h>
 #include <GameObject.h>
-using namespace irr;
-using namespace core;
 
 namespace Core
 {
-	void MapPhysicsManager::DispatchCollisions(irr::u32 substepNum, float dt)
+	void MapPhysicsManager::DispatchCollisions(unsigned int substepNum, float dt)
 	{
 
-		for(CollisionPairMap::ParentFirstIterator it = pairMap.getParentFirstIterator();
-			!it.atEnd(); it++)
+		for(CollisionPairMap::iterator it = pairMap.begin();
+			it != pairMap.end(); ++it)
 		{
-			PointerKey<GameObject> key = it->getKey();
-			SCollisionPairInfo* pairInfo = it->getValue();
+			PointerKey<GameObject> key = it->first;
+			SCollisionPairInfo* pairInfo = it->second;
 			//Get any existing logic components to notify
 			LogicComponent* log1 = static_cast<LogicComponent*>(key.GetHigher()->GetComponentByType(GameComponent::E_GCT_LOGIC));
 			LogicComponent* log2 = static_cast<LogicComponent*>(key.GetLower()->GetComponentByType(GameComponent::E_GCT_LOGIC));
@@ -41,7 +39,7 @@ namespace Core
 				{
 					if(log1 != nullptr) log1->OnCollisionEnd(pairInfo->totalCollisionTime, key.GetLower());
 					if(log2 != nullptr) log2->OnCollisionEnd(pairInfo->totalCollisionTime, key.GetHigher());
-					pairMap.remove(key);
+					pairMap.erase(it);
 					delete pairInfo;
 				}
 			}
@@ -50,19 +48,19 @@ namespace Core
 		}
 	}
 
-	void MapPhysicsManager::AddCollisionPair(GameObject* obj1, GameObject* obj2, u32 substepNum)
+	void MapPhysicsManager::AddCollisionPair(GameObject* obj1, GameObject* obj2, unsigned int substepNum)
 	{
 		//See if this pair already exists.  If so, just mark matchedToManifold to true again
 		PointerKey<GameObject> key(obj1, obj2);
-		CollisionPairMap::Node* existingNode =  pairMap.find(key);
-		if(existingNode != nullptr)
+		CollisionPairMap::iterator existingNode =  pairMap.find(key);
+		if(existingNode != pairMap.end())
 		{
-			existingNode->getValue()->matchedToManifold = true;
+			existingNode->second->matchedToManifold = true;
 		}
 		//Otherwise, create a new node and insert it
 		else
 		{
-			pairMap.insert(key, new SCollisionPairInfo(substepNum));
+			pairMap.insert(CollisionPairMap::value_type(key, new SCollisionPairInfo(substepNum)));
 		}
 	}
 };

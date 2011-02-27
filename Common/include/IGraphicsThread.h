@@ -11,7 +11,7 @@ namespace Core
 	class IGraphicsThread
 	{
 	public:
-		IGraphicsThread(const irr::SIrrlichtCreationParameters& cp);
+		IGraphicsThread(/*params*/);
 		virtual ~IGraphicsThread();
 	};
 };

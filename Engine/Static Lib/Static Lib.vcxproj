@@ -72,10 +72,8 @@
     <ClInclude Include="..\..\Common\include\core.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Common\src\CoreConstants.cpp" />
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
-    <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />
     <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

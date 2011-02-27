@@ -1,5 +1,4 @@
 #pragma once
-#include <CoreTypes.h>
 
 namespace Core
 {
@@ -7,7 +6,7 @@ namespace Core
 	class PhysicsManager;
 
 	//A scene contains everything you would render, be it the game scene, a UI scene, etc.
-	class Scene : public ReferenceCounted
+	class Scene
 	{
 	public:
 		Scene(PhysicsManager* physicsMan);

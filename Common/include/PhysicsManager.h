@@ -28,18 +28,18 @@ namespace Core
 
 		//Called by the GameObjectManager each cycle of the game loop, passing in the elapsed
 		//game time.
-		virtual void Update(irr::u32 gameTime);
+		virtual void Update(unsigned int gameTime);
 
 		//CollisionDetector will call this to add collision pairs each Update call.
 		//Collision pairs must be re-added each Update so that pairs that are no longer
 		//colliding can be notified.
 		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2,
-			irr::u32 subsetNum) = 0;
+			unsigned int subsetNum) = 0;
 
 		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
 		//to caring logic components of the colliding GameObjects
 		//The argument is the ms passed since the last call, not total time
-		virtual void DispatchCollisions(irr::u32 currentTime, float dt) = 0;
+		virtual void DispatchCollisions(unsigned int currentTime, float dt) = 0;
 
 	protected:
 
@@ -48,8 +48,8 @@ namespace Core
 		const float kFixedTimeStep;
 		const int kMaxSubsteps;
 		
-		irr::u32 substepNum;
-		irr::u32 lastTime;
+		unsigned int substepNum;
+		unsigned int lastTime;
 
 		btDynamicsWorld *physWorld;
 		btDefaultCollisionConfiguration* collisionConfig;

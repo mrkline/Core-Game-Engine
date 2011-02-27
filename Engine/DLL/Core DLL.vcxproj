@@ -86,10 +86,8 @@
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
     <ClInclude Include="..\..\Common\include\Core.h" />
     <ClInclude Include="..\..\common\include\CoreBase.h" />
-    <ClInclude Include="..\..\Common\include\CoreConstants.h" />
+    <ClInclude Include="..\..\Common\include\CoreMath.h" />
     <ClInclude Include="..\..\Common\include\CoreTransform.h" />
-    <ClInclude Include="..\..\Common\include\CoreTypes.h" />
-    <ClInclude Include="..\..\Common\include\DeviceContext.h" />
     <ClInclude Include="..\..\Common\include\ErrorHandling.h" />
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
@@ -97,28 +95,20 @@
     <ClInclude Include="..\..\common\include\IrrlichtHeaders.h" />
     <ClInclude Include="..\..\common\include\ILevel.h" />
     <ClInclude Include="..\..\Common\include\Scene.h" />
-    <ClInclude Include="..\..\Common\include\GlobalContext.h" />
-    <ClInclude Include="..\..\Common\include\CoreConversions.h" />
     <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\LogicComponent.h" />
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\NamedClass.h" />
-    <ClInclude Include="..\..\Common\include\Paths.h" />
     <ClInclude Include="..\..\Common\include\PhysicsComponent.h" />
     <ClInclude Include="..\..\Common\include\PhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\PointerKey.h" />
-    <ClInclude Include="..\..\Common\include\RefCountedTreeNode.h" />
-    <ClInclude Include="..\..\Common\include\ResourceManager.h" />
-    <ClInclude Include="..\..\Common\include\ScreenQuad.h" />
-    <ClInclude Include="..\..\Common\include\ThrusterData.h" />
     <ClInclude Include="..\..\Common\include\TreeNode.h" />
+    <ClInclude Include="..\..\Common\include\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp" />
-    <ClCompile Include="..\..\Common\src\Context.cpp" />
     <ClCompile Include="..\..\common\src\Core.cpp" />
     <ClCompile Include="..\..\common\src\CoreBase.cpp" />
-    <ClCompile Include="..\..\Common\src\CoreConstants.cpp" />
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp" />
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp" />
     <ClCompile Include="..\..\Common\src\GameComponent.cpp" />
@@ -127,10 +117,9 @@
     <ClCompile Include="..\..\Common\src\MapPhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
-    <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp" />
-    <ClCompile Include="..\..\Common\src\ResourceManager.cpp" />
     <ClCompile Include="..\..\Common\src\Scene.cpp" />
     <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
+    <ClCompile Include="..\..\Common\src\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

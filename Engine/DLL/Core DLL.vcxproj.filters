@@ -32,9 +32,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\include\ThrusterData.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h">
       <Filter>Header Files\Common\Physics</Filter>
     </ClInclude>
@@ -59,25 +56,10 @@
     <ClInclude Include="..\..\Common\include\TreeNode.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\CoreConstants.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\CoreConversions.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\CoreTypes.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\DeviceContext.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\ErrorHandling.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\GameComponent.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\GlobalContext.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\LogicComponent.h">
@@ -86,16 +68,7 @@
     <ClInclude Include="..\..\Common\include\NamedClass.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\Paths.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\PointerKey.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\RefCountedTreeNode.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\include\ResourceManager.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\include\CoreBase.h">
@@ -113,14 +86,17 @@
     <ClInclude Include="..\..\common\include\IrrlichtHeaders.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\ScreenQuad.h">
-      <Filter>Header Files\Common\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\include\ILevel.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\IGraphicsThread.h">
       <Filter>Header Files\Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\CoreMath.h">
+      <Filter>Header Files\Common\Core Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\include\Vector3.h">
+      <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,9 +104,6 @@
       <Filter>Source Files\Common\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\src\Context.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp">
@@ -151,12 +124,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp">
       <Filter>Source Files\Common\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\RefCountedTreeNode.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\src\ResourceManager.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\src\TreeNode.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
@@ -169,10 +136,10 @@
     <ClCompile Include="..\..\common\src\Core.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\CoreConstants.cpp">
+    <ClCompile Include="..\..\common\src\CoreBase.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\src\CoreBase.cpp">
+    <ClCompile Include="..\..\Common\src\Vector3.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
   </ItemGroup>

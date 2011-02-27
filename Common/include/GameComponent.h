@@ -10,7 +10,7 @@ namespace Core
 	//structure of their owner GameObjects
 	//Tree node functions should be managed through the Onwer... functions.
 	//Because of this, we're making the tree node base class protected
-	class GameComponent : protected TreeNode, virtual public ReferenceCounted
+	class GameComponent : protected TreeNode
 	{
 	public:
 		//The types of Game components to be returned by GetComponentType()
@@ -34,7 +34,6 @@ namespace Core
 
 		virtual void OwnerAddedChild(GameObject* child);
 		virtual void OwnerRemovedChild(GameObject* removed);
-		virtual void OwnerRemovedAllChildren();
 		virtual void OwnerSetParent(GameObject* parent);
 		virtual void OwnerRemovedFromParent(bool updateHierarchy);
 

@@ -2,7 +2,6 @@
 #include <btBulletDynamicsCommon.h>
 #include <CollisionDetector.h>
 #include <ErrorHandling.h>
-using namespace irr;
 
 namespace Core
 {
@@ -42,9 +41,9 @@ namespace Core
 		delete broadphase;
 	}
 	
-	void PhysicsManager::Update(u32 gameTime)
+	void PhysicsManager::Update(unsigned int gameTime)
 	{
-		f32 dt = static_cast<f32>(gameTime - lastTime) / static_cast<f32>(1000);
+		float dt = static_cast<float>(gameTime - lastTime) / 1000.0f;
 		lastTime = gameTime;
 		physWorld->stepSimulation(dt, kMaxSubsteps, kFixedTimeStep);
 	}

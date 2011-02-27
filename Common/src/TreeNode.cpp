@@ -17,7 +17,7 @@ namespace Core
 
 	TreeNode::~TreeNode()
 	{
-		RemoveAllChildren();
+		DeleteAllChildren();
 	}
 
 	ECode TreeNode::SetParent(TreeNode* newParent)
@@ -108,14 +108,12 @@ namespace Core
 		return lastError;
 	}
 
-	void TreeNode::RemoveAllChildren()
+	void TreeNode::DeleteAllChildren()
 	{
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
-			TreeNode* curr = *it;
-			curr->parent = nullptr;
-			curr->OnHierarchyChange(false);
+			delete *it;
 		}
 
 		children.clear();

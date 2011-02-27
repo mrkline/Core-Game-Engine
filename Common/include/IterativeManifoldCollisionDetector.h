@@ -13,7 +13,7 @@ namespace Core
 		IterativeManifoldCollisionDetector();
 		~IterativeManifoldCollisionDetector();
 
-		void GetCollisionPairs(u32 substep);
+		void GetCollisionPairs(unsigned int substep);
 
 	private:
 		//Used as temporary holders for collision shapes we iterate through.

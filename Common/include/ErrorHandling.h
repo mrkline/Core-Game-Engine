@@ -1,5 +1,4 @@
 #pragma once
-#include <CoreTypes.h>
 
 
 namespace Core
@@ -87,7 +86,7 @@ namespace Core
 		//Most exception types are lovingly borrowed from the .NET framework.
 		//Exceptions will only be used in constructors, since they will be handled by factory functions.
 		//Otherwise, exceptions are not used since we need to be able to pass errors through dll linkage.
-		class Exception : public ReferenceCounted
+		class Exception
 		{
 		public:
 			Exception(const char* const exceptionMessage,
@@ -102,7 +101,7 @@ namespace Core
 			virtual ~Exception()
 			{
 				if(ie != nullptr)
-					ie->drop();
+					delete ie;
 			}
 
 			const char* const GetExceptionMessage() const

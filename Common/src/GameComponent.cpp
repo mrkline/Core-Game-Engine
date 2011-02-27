@@ -14,8 +14,8 @@ namespace Core
 			throw new Error::ArgumentException("A game component cannot have a null owner", __FUNCTION__);
 		}
 		//Automatically link us into this component's hierarchy
-		const list<GameComponent*>& add = owner->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::const_iterator it = add.begin();
+		GameObject::ComponentList add = owner->FindNearestDescendantComponents(GetComponentType());
+		for(GameObject::ComponentList::const_iterator it = add.begin();
 			it != add.end(); ++it)
 		{
 			AddChild(*it);
@@ -39,8 +39,8 @@ namespace Core
 
 	void GameComponent::OwnerAddedChild(GameObject* added)
 	{
-		const list<GameComponent*>& add = added->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::const_iterator it = add.begin();
+		GameObject::ComponentList add = added->FindNearestDescendantComponents(GetComponentType(), true);
+		for(GameObject::ComponentList::const_iterator it = add.begin();
 			it != add.end(); ++it)
 		{
 			AddChild(*it);
@@ -49,17 +49,12 @@ namespace Core
 
 	void GameComponent::OwnerRemovedChild(GameObject* removed)
 	{
-		const list<GameComponent*>& remove = removed->FindNearestDescendantComponents(GetComponentType());
-		for(list<GameComponent*>::const_iterator it = remove.begin();
+		GameObject::ComponentList remove = removed->FindNearestDescendantComponents(GetComponentType(), true);
+		for(GameObject::ComponentList::const_iterator it = remove.begin();
 			it != remove.end(); ++it)
 		{
 			RemoveChild(*it);
 		}
-	}
-
-	void GameComponent::OwnerRemovedAllChildren()
-	{
-		RemoveAllChildren();
 	}
 
 	void GameComponent::OwnerSetParent(GameObject* parent)

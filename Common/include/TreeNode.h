@@ -18,7 +18,7 @@ namespace Core
 
 		virtual Error::ECode AddChild(TreeNode* child);
 		virtual Error::ECode RemoveChild(TreeNode* child);
-		virtual void RemoveAllChildren();
+		virtual void DeleteAllChildren();
 	
 		virtual std::list<TreeNode*>& GetChildren() { return children; }
 		virtual const std::list<TreeNode*>& GetChildren() const { return children; }

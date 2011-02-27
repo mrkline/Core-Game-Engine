@@ -6,7 +6,7 @@ using namespace Core;
 int main()
 {
 	CoreBase* testBase = CreateCoreBase();
-	testBase->drop();
+	delete testBase;
 	printf("Automatic dll linkage success is successful.\n");
 	system("Pause");
 }
