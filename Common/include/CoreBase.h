@@ -6,7 +6,7 @@ namespace Core
 	class ILevel;
 	class IGraphicsThread;
 
-	//!The base for the entire engine.  Instantiates all other objects in the engine.
+	//! The base for the entire engine.  Instantiates all other objects in the engine.
 	class CoreBase : public Error::CanErr
 	{
 	public:

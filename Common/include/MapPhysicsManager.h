@@ -5,25 +5,24 @@
 
 namespace Core
 {
-	//A physics manager that dispatches collisions via a map.
-	//The key in the map is a combination of two pointers.
+	//! A physics manager that dispatches collisions via a map. The key in the map is a combination of two pointers.
 	class MapPhysicsManager : public PhysicsManager
 	{
 	public:
 		virtual ~MapPhysicsManager() {}
 
-		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
-		//to caring logic components of the colliding GameObjects
+		//!Dispatches OnCollisionStart, OnCollisionStay, and OnCollisionEnd 
+		//!to caring logic components of the colliding GameObjects
 		void DispatchCollisions(unsigned int substepNum, float dt);
 
 	protected:
 		struct SCollisionPairInfo
 		{
-			//Used to determine if collision is new or not
+			//! Used to determine if collision is new or not
 			unsigned int startingSubstep;
-			//Elapsed collision time
+			//! Elapsed collision time
 			float totalCollisionTime;
-			//Tracks if collision pair has been matched to a manifold yet.
+			//! Tracks if collision pair has been matched to a manifold yet.
 			bool matchedToManifold;
 
 			SCollisionPairInfo(unsigned int startingSS)

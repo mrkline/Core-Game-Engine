@@ -1,17 +1,12 @@
 #pragma once
 
-namespace irr
-{
-	struct SIrrlichtCreationParameters;
-}
-
 namespace Core
 {
-	//Graphics thread is not reference counted since only the CoreBase should handle it
+	//! An interface for the OGRE graphics thread. This allows for multiple threading implementations,
+	//! making it easier to port to different OSes.
 	class IGraphicsThread
 	{
 	public:
-		IGraphicsThread(/*params*/);
-		virtual ~IGraphicsThread();
+		virtual ~IGraphicsThread() {};
 	};
 };

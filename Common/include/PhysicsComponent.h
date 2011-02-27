@@ -32,7 +32,7 @@ namespace Core
 
 		PhysicsManager* GetPhysicsManager() { return physMan; }
 
-		// Updates hierarchical data based on children.
+		//! Updates hierarchical data based on children.
 		void OnHierarchyChange(bool goingUp);
 
 	protected:
@@ -48,13 +48,13 @@ namespace Core
 		//TODO: Add motion controller
 		//TODO: Add thruster list
 		float mass;
-		//Mass of object plus any child entities
+		//! Mass of object plus any child entities
 		float absoluteMass;
-		//Center of gravity in local coordinates
+		//! Center of gravity in local coordinates
 		btVector3 cog;
-		//Center of gravity of entity with all children
+		//! Center of gravity of entity with all children
 		btVector3 absoluteCOG;
-		//Forces which would affect the velocity of the entity
+		//! Forces which would affect the velocity of the entity
 		std::list<btVector3> externalForces;
 
 		PhysicsManager* physMan;
