@@ -1,7 +1,4 @@
 #include <Core.h>
-//TODO: Why are these not needed?
-//#include <BulletPragmas.h>
-//#include <IrrlichtPragma.h>
 
 namespace Core
 {

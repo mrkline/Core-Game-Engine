@@ -119,7 +119,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\Scene.cpp" />
     <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
-    <ClCompile Include="..\..\Common\src\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

@@ -139,9 +139,6 @@
     <ClCompile Include="..\..\common\src\CoreBase.cpp">
       <Filter>Source Files\Common\Core Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\Vector3.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

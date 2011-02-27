@@ -12,14 +12,22 @@ namespace Core
 {
 	class GameObjectManager;
 
-	//The GameObject is the core object of the engine.  A tree of GameObjects is managed by the
-	//GameObjectManager.  Each object can have a collection of GameComponenents, which do various things
-	//such as manage physics, sound, scripts, logic, etc.
+	/*! 
+	\brief Represents an ntity in the game world.
+
+	The GameObject is the core object of the engine.  A tree of GameObjects is managed by the
+	scene.  Each object can have a collection of GameComponenents, which do various things
+	such as manage physics, sound, scripts, logic, etc.
+	*/
 	class GameObject : public TreeNode, public NamedClass
 	{
 	public:
 		typedef std::list<GameComponent*> ComponentList;
 
+		/*!
+		\brief Constructor.
+		\param parent The parent of the object, or null if it has none
+		*/
 		GameObject(GameObject* parent, GameObjectManager* objMan,
 			int id = -1, const std::string& name = std::string());
 		virtual ~GameObject();

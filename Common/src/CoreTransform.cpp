@@ -364,6 +364,13 @@ namespace Core
 		SetRotationRadians(rotation.Scale(Math::kDegToRad));
 	}
 
+	void Transform::SetTranslation(const Vector3& translation)
+	{
+		matrix[12] = translation.X;
+		matrix[13] = translation.Y;
+		matrix[14] = translation.Z;
+	}
+
 	void Transform::SetScale(const Vector3& scale)
 	{
 		matrix[0] = scale.X;
@@ -411,6 +418,19 @@ namespace Core
 		Vector3 scale;
 		GetScale(scale);
 		point.Scale(scale);
+	}
+
+	void Transform::TransformPoint(Vector3& point) const
+	{
+		float vector[3];
+
+		vector[0] = point.X * matrix[0] + point.Y * matrix[4] + point.Z * matrix[8] + matrix[12];
+		vector[1] = point.X * matrix[1] + point.Y * matrix[5] + point.Z * matrix[9] + matrix[13];
+		vector[2] = point.X * matrix[2] + point.Y * matrix[6] + point.Z * matrix[10] + matrix[14];
+
+		point.X = vector[0];
+		point.Y = vector[1];
+		point.Z = vector[2];
 	}
 
 	Transform Transform::operator*(const Transform& m2) const

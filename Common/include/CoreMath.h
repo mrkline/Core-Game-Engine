@@ -1,0 +1,117 @@
+#pragma once
+
+#include <algorithm>
+#include <limits>
+#include <cmath>
+
+namespace Core
+{
+	/*!
+	\brief Contains constants and functions for common math operations.
+
+	Operations already contained in the C++ STL are not re-implemented here.
+	The STL should be used  directly for such operations.
+	*/
+	namespace Math
+	{
+		const float kPi		= 3.14159265359f;
+		const float kPiRecip	= 1.0f / kPi;
+		const float kHalfPi	= kPi / 2.0f;
+		const double kPiDouble		= 3.1415926535897932384626433832795028841971693993751;
+		const double kPiDoubleRecip = 1.0 / kPiDouble;
+		//!Conversion ratio to convert angle measurements in degrees to radian angle mesurements
+		const float kDegToRad = kPi / 180.0f;
+		//! Conversion ratio to convert angle measurements in radians to degree angle mesurements
+		const float kRadToDeg   = 180.0f / kPi;
+		//! Conversion ratio to convert angle measurements in degrees to radian angle mesurements
+		const double kDegToRadDouble = kPiDouble / 180.0;
+		//! Conversion ratio to convert angle measurements in radians to degree angle mesurements
+		const double kRadToDegDouble = 180.0 / kPiDouble;
+		//! Rounding error of a float, as reported by std::numeric_limits
+		const float kFloatRoundError = std::numeric_limits<float>().round_error();
+		//! Rounding error of a double, as reported by std::numeric_limits
+		const double kDoubleRoundError = std::numeric_limits<double>().round_error(); 
+
+		/*!
+		\brief Clamps a value between a low and high value
+		\param value The value to clamp
+		\param low The minimum return value
+		\param high The maximum return value
+		\return low <= return value <= high
+
+		Clamps a value between a low and high value using std::min and std::max
+		*/
+		template <class T>
+		inline const T Clamp (const T& value, const T& low, const T& high)
+		{
+			return std::min(std::max(value, low), high);
+		}
+
+		/*!
+		\brief Swaps two values
+		\param a The first value to swap
+		\param b The second value to swap
+		*/
+		template <class T1, class T2>
+		inline void Swap(T1& a, T2& b)
+		{
+			T1 c(a);
+			a = b;
+			b = c;
+		}
+
+		/*!
+		\brief Tests two floats for equality within a given tolerance
+		\param a The first value to test for equality
+		\param b The second value to test for equality
+		\param tolerance The tolerance allowed between a and b for them to still be considered equal
+		\return a == b, within tolerance
+
+		This allows for safer floating comparisons, since direct ones may work poorly due to rounding error.
+		*/
+		inline bool Equals(float a, float b, float tolerance = kFloatRoundError)
+		{
+			return (a + tolerance >= b) && (a - tolerance <= b);
+		}
+		/*!
+		\brief Tests two doubles for equality within a given tolerance
+		\param a The first value to test for equality
+		\param b The second value to test for equality
+		\param tolerance The tolerance allowed between a and b for them to still be considered equal
+		\return a == b, within tolerance
+
+		This allows for safer floating comparisons, since direct ones may work poorly due to rounding error.
+		*/
+		inline bool Equals(double a, double b, double tolerance = kDoubleRoundError)
+		{
+			return (a + tolerance >= b) && (a - tolerance <= b);
+		}
+		/*!
+		\brief Tests a float for equality to zero
+		\param a The first value to test for equality to zero
+		\param tolerance The tolerance allowed between 0 and a for a to still be considered 0
+		\return a == 0.0f, within tolerance
+		\see Equals(float, float, float)
+
+		This allows for safer floating comparisons, since direct ones may work poorly due to rounding error.
+		*/
+		inline bool IsZero(float a, float tolerance = kFloatRoundError)
+		{
+			return (a + tolerance >= 0.0f) && (a - tolerance <= 0.0f);
+		}
+		/*!
+		\brief Tests a double for equality to zero
+		\param a The first value to test for equality to zero
+		\param tolerance The tolerance allowed between 0 and a for a to still be considered 0
+		\return a == 0.0, within tolerance
+		\see Equals(double, double, double)
+
+		This allows for safer floating comparisons, since direct ones may work poorly due to rounding error.
+		*/
+		inline bool IsZero(double a, double tolerance = kDoubleRoundError)
+		{
+			return (a + tolerance >= 0.0) && (a - tolerance <= 0.0);
+		}
+
+	} //end namespace Math
+} //end namespace Core
