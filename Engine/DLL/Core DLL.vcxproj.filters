@@ -83,9 +83,6 @@
     <ClInclude Include="..\..\Common\include\Core.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\include\IrrlichtHeaders.h">
-      <Filter>Header Files\Common\Core Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\include\ILevel.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>

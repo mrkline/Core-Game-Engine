@@ -153,7 +153,7 @@ namespace Core
 		protected:
 			const char* const message; //!< Exception message
 			const char* const cf; //!< Name of calling function
-			const Exception* const ie //!< Internal exception
+			const Exception* const ie; //!< Internal exception
 		};
 
 		//! Thrown if an argument to a method was invalid

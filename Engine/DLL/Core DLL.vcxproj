@@ -92,7 +92,6 @@
     <ClInclude Include="..\..\Common\include\GameComponent.h" />
     <ClInclude Include="..\..\Common\include\GameMotionState.h" />
     <ClInclude Include="..\..\Common\include\IGraphicsThread.h" />
-    <ClInclude Include="..\..\common\include\IrrlichtHeaders.h" />
     <ClInclude Include="..\..\common\include\ILevel.h" />
     <ClInclude Include="..\..\Common\include\Scene.h" />
     <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h" />

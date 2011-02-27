@@ -12,7 +12,7 @@ namespace Core
 	class GameObject;
 	class CollisionDetector;
 
-	//Manager of all PhysicsComponents.  Uses Bullet to manage them
+	//!Manager of all PhysicsComponents.  Uses Bullet to manage them
 	class PhysicsManager : public ComponentManager
 	{
 	public:
@@ -26,18 +26,17 @@ namespace Core
 		btBroadphaseInterface* GetBroadphase() { return broadphase; }
 		btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
 
-		//Called by the GameObjectManager each cycle of the game loop, passing in the elapsed
-		//game time.
+		//! Called by the GameObjectManager each cycle of the game loop
 		virtual void Update(unsigned int gameTime);
 
-		//CollisionDetector will call this to add collision pairs each Update call.
-		//Collision pairs must be re-added each Update so that pairs that are no longer
-		//colliding can be notified.
+		//! CollisionDetector will call this to add collision pairs each Update call.
+		//! Collision pairs must be re-added each Update so that pairs that are no longer
+		//! colliding can be notified.
 		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2,
 			unsigned int subsetNum) = 0;
 
-		//Dispatch OnCollisionStart, OnCollisionStay, and OnCollisionEnd
-		//to caring logic components of the colliding GameObjects
+		//! Dispatches OnCollisionStart, OnCollisionStay, and OnCollisionEnd
+		//! to caring logic components of the colliding GameObjects
 		//The argument is the ms passed since the last call, not total time
 		virtual void DispatchCollisions(unsigned int currentTime, float dt) = 0;
 
