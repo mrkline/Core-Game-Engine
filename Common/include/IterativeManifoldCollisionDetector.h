@@ -5,6 +5,8 @@
 namespace Core
 {
 	/*!
+	\brief Detects collisions between GameObjects by iterating through each collision pair in the manifold.
+
 	This collision detector works by examining each collision pair in the manifold.
 	It then checks if the objects have compound shapes, and if so, iterates through the subshapes
 	in order to determine which one is colliding with the other.
@@ -15,6 +17,7 @@ namespace Core
 		IterativeManifoldCollisionDetector();
 		~IterativeManifoldCollisionDetector();
 
+		//! \see CollisionDetector::GetCollisionPairs
 		void GetCollisionPairs(unsigned int substep);
 
 	private:
@@ -32,6 +35,7 @@ namespace Core
 			int 	index1;
 		} lastResult;
 
+		//! Used as a callback for collision tests
 		float addSingleResult(	btManifoldPoint & 	cp,
 								const btCollisionObject * 	colObj0,
 								int 	partId0,

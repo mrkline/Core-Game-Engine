@@ -27,6 +27,7 @@
 
 #define CORE_DLL_CALLCONV __cdecl
 
+//! This namespace contains all parts of the Core Engine
 namespace Core
 {
 	extern "C" DLL_LINKAGE CoreBase* CORE_DLL_CALLCONV CreateCoreBase();

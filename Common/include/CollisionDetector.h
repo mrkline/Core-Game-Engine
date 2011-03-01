@@ -20,12 +20,20 @@ namespace Core
 	public:
 		virtual ~CollisionDetector() {}
 
-		//! Will be called by the physics manager itself
+		/*!
+		\brief Will be called by the physics manager itself
+		\param manager The physics manager
+
+		This allows the detector to be initialized without a reference
+		to the physics manager. When the physics manager is constructed,
+		it takes a pointer to a collision detector, and calls this function,
+		passing itself as the argument.
+		*/
 		void SetPhysicsManager(PhysicsManager* manager);
 		
 		/*!
 		\brief Gets pairs of colliding GameObjects
-		\param substep The current Physics substep
+		\param substep The current physics substep
 
 		Will be called by the physics manager every Bullet substep.
 		Looks at the collision world and calls AddCollisionPair

@@ -5,17 +5,22 @@
 
 namespace Core
 {
-	//! A physics manager that dispatches collisions via a map. The key in the map is a combination of two pointers.
+	/*! 
+	\brief A physics manager that dispatches collisions via an std::map.
+	
+	The key in the map is a class that holds pointers to the two colliding objects.
+	The value in the map contains information about the collision between the two objects.
+	*/
 	class MapPhysicsManager : public PhysicsManager
 	{
 	public:
 		virtual ~MapPhysicsManager() {}
 
-		//!Dispatches OnCollisionStart, OnCollisionStay, and OnCollisionEnd 
-		//!to caring logic components of the colliding GameObjects
+		//! \see PhysicsManager::DispatchCollisions
 		void DispatchCollisions(unsigned int substepNum, float dt);
 
 	protected:
+		//! The value class in the collision map
 		struct SCollisionPairInfo
 		{
 			//! Used to determine if collision is new or not
@@ -33,8 +38,10 @@ namespace Core
 
 		typedef std::map<PointerKey<GameObject>, SCollisionPairInfo*> CollisionPairMap;
 
-		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2, unsigned int subsetNum);
+		//! \see PhysicsManager::AddCollisionPair
+		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2, unsigned int substepNum);
 
+		//! A map that keeps track of collision pairs
 		CollisionPairMap pairMap;
 	};
 } //end namespace Core

@@ -9,7 +9,7 @@ namespace Core
 	public:
 		virtual ~LogicComponent() {}
 
-		//! Gets the component type
+		//! \see GameComponent::GetComponentType
 		EType GetComponentType() { return GameComponent::E_GCT_LOGIC; }
 
 		//The following functions are used by the collision dispatching system
