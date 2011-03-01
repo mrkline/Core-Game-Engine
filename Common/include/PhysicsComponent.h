@@ -31,6 +31,8 @@ namespace Core
 		*/
 		PhysicsComponent(GameObject* owner, PhysicsManager* physMan, btCollisionShape* collisionShape,
 			const btVector3& COG = btVector3(), float objMass = 1.0f);
+		//! \todo Implement
+		virtual ~PhysicsComponent() {}
 
 		//! \see GameComponent::GetComponentType
 		EType GetComponentType() { return GameComponent::E_GCT_PHYSICS; }
@@ -49,10 +51,7 @@ namespace Core
 		\todo Return Core::Vector3?
 		*/
 		const btVector3& GetAbsoluteCOG() const { return absoluteCOG; }
-		/*!
-		\brief Get the Bullet transform of this object
-		\todo Needed? Is this local or a copy of the object's transform?
-		*/
+		//! \todo: How is the best way to link tranforms between components and owning object?
 		const btTransform& getTransform() const { return transform; }
 		/*!
 		\brief Get the Bullet transform of this object

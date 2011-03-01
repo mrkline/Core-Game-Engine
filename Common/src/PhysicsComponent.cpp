@@ -21,7 +21,7 @@ namespace Core
 			throw new Error::ArgumentNullException("Each physics component must be given a collision shape");
 		}
 		//Allow this collision shape to be traced back to us
-		collisionShape->setUserPointer(this);
+		collisionShape->setUserPointer(owner);
 	}
 
 	void PhysicsComponent::OnHierarchyChange(bool goingUp)
@@ -46,8 +46,8 @@ namespace Core
 			}
 			else
 			{
-				absoluteCShape = new btCompoundShape();
-				btCompoundShape* compAbsShape = static_cast<btCompoundShape*>(absoluteCShape);
+				btCompoundShape* compAbsShape = new btCompoundShape();
+				absoluteCShape = compAbsShape;
 				compAbsShape->addChildShape(btTransform(), cShape);
 
 				list<TreeNode*>::iterator it = children.begin();
@@ -58,9 +58,10 @@ namespace Core
 					absoluteMass += curr->absoluteMass;
 				}
 
-				it = children.begin();
 				absoluteCOG.setValue(0.0f, 0.0f, 0.0f);
 				absoluteCOG += cog * (mass / absoluteMass);
+
+				it = children.begin();
 				for(; it != children.end(); ++it)
 				{
 					PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
@@ -69,7 +70,7 @@ namespace Core
 				}
 			}
 			//Allow collision shape to be traced back to us
-			absoluteCShape->setUserPointer(this);
+			absoluteCShape->setUserPointer(owner);
 
 			//Only entities with no parents should have rigid bodies.
 			if(parent == nullptr)
@@ -107,6 +108,7 @@ namespace Core
 				delete body;
 				body = nullptr;
 			}
+			//There is no else. Child objects do not get their own rigid body
 		}
 	}
 } //end namespace Core
