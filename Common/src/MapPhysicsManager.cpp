@@ -1,7 +1,9 @@
-#include <MapPhysicsManager.h>
+#include "MapPhysicsManager.h"
+
 #include <btBulletDynamicsCommon.h>
-#include <LogicComponent.h>
-#include <GameObject.h>
+
+#include "GameObject.h"
+#include "LogicComponent.h"
 
 namespace Core
 {

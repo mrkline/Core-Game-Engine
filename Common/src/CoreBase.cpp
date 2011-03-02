@@ -1,6 +1,7 @@
-#include <CoreBase.h>
-#include <ILevel.h>
-#include <IGraphicsThread.h>
+#include "CoreBase.h"
+
+#include "IGraphicsThread.h"
+#include "ILevel.h"
 
 namespace Core
 {

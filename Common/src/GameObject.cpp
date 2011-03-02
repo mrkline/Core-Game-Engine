@@ -1,5 +1,6 @@
-#include <GameObject.h>
-#include <ErrorHandling.h>
+#include "GameObject.h"
+
+#include "ErrorHandling.h"
 
 using namespace std;
 

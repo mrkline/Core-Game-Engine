@@ -1,6 +1,7 @@
-#include <GameComponent.h>
-#include <ErrorHandling.h>
-#include <GameObject.h>
+#include "GameComponent.h"
+
+#include "ErrorHandling.h"
+#include "GameObject.h"
 
 using namespace std;
 

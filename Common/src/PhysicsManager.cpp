@@ -1,7 +1,9 @@
-#include <PhysicsManager.h>
+#include "PhysicsManager.h"
+
 #include <btBulletDynamicsCommon.h>
-#include <CollisionDetector.h>
-#include <ErrorHandling.h>
+
+#include "CollisionDetector.h"
+#include "ErrorHandling.h"
 
 namespace Core
 {

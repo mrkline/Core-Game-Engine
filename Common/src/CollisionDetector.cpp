@@ -1,6 +1,8 @@
-#include <CollisionDetector.h>
+#include "CollisionDetector.h"
+
 #include <btBulletDynamicsCommon.h>
-#include <PhysicsManager.h>
+
+#include "PhysicsManager.h"
 
 namespace Core
 {
