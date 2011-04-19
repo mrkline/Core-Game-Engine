@@ -18,7 +18,6 @@ namespace Core
 	public:
 		virtual ~MapPhysicsManager() {}
 
-		//! \see PhysicsManager::DispatchCollisions
 		void DispatchCollisions(unsigned int substepNum, float dt);
 
 	protected:
@@ -38,12 +37,13 @@ namespace Core
 			{}
 		};
 
+		//! Typedef of a collision pair map using pointer keys
+		//! \see PointerKey
 		typedef std::map<PointerKey<GameObject>, SCollisionPairInfo*> CollisionPairMap;
 
-		//! \see PhysicsManager::AddCollisionPair
 		virtual void AddCollisionPair(GameObject* obj1, GameObject* obj2, unsigned int substepNum);
 
 		//! A map that keeps track of collision pairs
 		CollisionPairMap pairMap;
 	};
-} //end namespace Core
+} // end namespace Core

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 namespace Core
@@ -34,4 +35,4 @@ namespace Core
 		int id; //!< ID number of the object
 		std::string name; //!< Name of the object
 	};
-} //end namespace Core
+} // end namespace Core

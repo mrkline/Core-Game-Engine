@@ -1,11 +1,11 @@
 #include "TreeNode.h"
 
+#include "ErrorHandling.h"
 
 using namespace std;
 
 namespace Core
 {
-	using namespace Error;
 
 	TreeNode::TreeNode(TreeNode* nodeParent, bool updateOnChildrenChange)
 		: parent(nodeParent), caresAboutChildren(updateOnChildrenChange)
@@ -21,75 +21,58 @@ namespace Core
 		DeleteAllChildren();
 	}
 
-	ECode TreeNode::SetParent(TreeNode* newParent)
+	void TreeNode::SetParent(TreeNode* newParent)
 	{
 		if(newParent == this)
 		{
-			lastError = Error::E_CEK_BAD_ARG;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "A tree node cannot set itself as its parent.";
-			return lastError;
+			throw new Error::ArgumentException("A tree node cannot set itself as its parent.",
+				__FUNCTION__);
 		}
 		RemoveFromParent(false);
 		if(newParent != nullptr)
 		{
-			if(Failed(newParent->AddChild(this)))
-			{
-				lastErrorFunction = __FUNCTION__;
-				customLastErrorMessage = "A tree node could not add itself as a child of its parent.";
-				return newParent->lastError;
-			}
+			newParent->AddChild(this);
 		}
 		else
 		{
 			OnHierarchyChange(true);
 		}
-		return Error::E_CEK_SUCCESS;
 	}
 
-	ECode TreeNode::AddChild(TreeNode* newChild)
+	void TreeNode::AddChild(TreeNode* newChild)
 	{
 		if(newChild == nullptr)
 		{
-			lastError = Error::E_CEK_NULL_ARG;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "A tree node cannot add a null child.";
-			return lastError;
+			throw new Error::ArgumentNullException("A tree node cannot add a null child.",
+				__FUNCTION__);
 		}
 		if(newChild == this)
 		{
-			lastError = Error::E_CEK_BAD_ARG;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "A tree node cannot add itself as a child.";
-			return lastError;
+			throw new Error::ArgumentException("A tree node cannot add itself as a child.",
+				__FUNCTION__);
 		}
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
-			//We're trying to add a duplicate child
+			// We're trying to add a duplicate child
 			if(*it == newChild)
 			{
-				lastError = Error::E_CEK_BAD_ARG;
-				lastErrorFunction =  __FUNCTION__;
-				customLastErrorMessage = "A tree node cannot have duplicate children.";
-				return lastError;
+				throw new Error::ArgumentException("A tree node cannot have duplicate children.",
+					__FUNCTION__);
 			}
 		}
 		newChild->RemoveFromParent(false);
 		children.push_back(newChild);
 		newChild->parent = this;
 		OnHierarchyChange(true);
-		return Error::E_CEK_SUCCESS;
 	}
 
-	ECode TreeNode::RemoveChild(TreeNode* toRemove)
+	void TreeNode::RemoveChild(TreeNode* toRemove)
 	{
 		if(toRemove == nullptr)
 		{
-			lastError = Error::E_CEK_NULL_ARG;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "A tree node cannot remove a null child.";
-			return lastError;
+			throw new Error::ArgumentNullException("A tree node cannot remove a null child.",
+				__FUNCTION__);
 		}
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
@@ -100,13 +83,11 @@ namespace Core
 				toRemove->OnHierarchyChange(false);
 				children.erase(it);
 				OnHierarchyChange(true);
-				return Error::E_CEK_SUCCESS;
+				return;
 			}
 		}
-		lastError = Error::E_CEK_BAD_ARG;
-		lastErrorFunction = __FUNCTION__;
-		customLastErrorMessage = "A tree node could not find the child that was to be removed.";
-		return lastError;
+		throw new Error::ArgumentException("A tree node could not find the child that was to be removed.",
+			__FUNCTION__);
 	}
 
 	void TreeNode::DeleteAllChildren()
@@ -131,17 +112,17 @@ namespace Core
 
 	void TreeNode::OnHierarchyChange(bool goingUp)
 	{
-		//Keep walking up the tree until it's time to stop and go back down
+		// Keep walking up the tree until it's time to stop and go back down
 		if(goingUp && parent != nullptr && parent->caresAboutChildren)
 		{
 			parent->OnHierarchyChange(true);
 		}
-		//Don't forget to hit ourselves on the way back down
+		// Don't forget to hit ourselves on the way back down
 		else if(goingUp)
 		{
 				OnHierarchyChange(false);
 		}
-		//Walk down the tree, updating all children
+		// Walk down the tree, updating all children
 		else
 		{
 			for(list<TreeNode*>::iterator it = children.begin();

@@ -2,12 +2,10 @@
 
 #include <list>
 
-#include "ErrorHandling.h"
-
 namespace Core
 {
 	//! A class that provides tree functionality (with a parent and children)
-	class TreeNode : public Error::CanErr
+	class TreeNode
 	{
 	public:
 		/*!
@@ -21,9 +19,8 @@ namespace Core
 		/*!
 		\brief Sets a parent for this tree node.
 		\param newParent The new parent, or null if the tree node should have no parent
-		\return An ECode that indicates the outcome of setting the parent
 		*/
-		virtual Error::ECode SetParent(TreeNode* newParent);
+		virtual void SetParent(TreeNode* newParent);
 		//! Gets the tree node's parent, or null if it has none
 		virtual TreeNode* GetParent() { return parent; }
 		/*!
@@ -34,15 +31,13 @@ namespace Core
 		/*!
 		\brief Adds a child to this node
 		\param child Child to add
-		\return An ECode that indicates the outcome of the additon
 		*/
-		virtual Error::ECode AddChild(TreeNode* child);
+		virtual void AddChild(TreeNode* child);
 		/*!
 		\brief Remove a child from this node
 		\param child Child to remove
-		\return An ECode that indicates the outcome of the removal
 		*/
-		virtual Error::ECode RemoveChild(TreeNode* child);
+		virtual void RemoveChild(TreeNode* child);
 		//! Deletes all children
 		virtual void DeleteAllChildren();
 	
@@ -70,9 +65,11 @@ namespace Core
 		virtual void OnHierarchyChange(bool goingUp);
 
 	protected:
-		TreeNode* parent; //!< Node's parent, or null if it has none
-		std::list<TreeNode*> children; //!< Linked list of children of this node
+		//! Node's parent, or null if it has none
+		TreeNode* parent; 
+		//! Linked list of children of this node
+		std::list<TreeNode*> children; 
 		//! If this is true, changes to children will not cause OnHierarchyChange to be called
 		bool caresAboutChildren;
 	};
-} //end namespace Core
+} // end namespace Core

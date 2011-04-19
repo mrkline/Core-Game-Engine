@@ -21,18 +21,18 @@ namespace Core
 		{
 			throw new Error::ArgumentNullException("Each physics component must be given a collision shape");
 		}
-		//Allow this collision shape to be traced back to us
+		// Allow this collision shape to be traced back to us
 		collisionShape->setUserPointer(owner);
 	}
 
 	void PhysicsComponent::OnHierarchyChange(bool goingUp)
 	{
-		//Call this on our children
+		// Call this on our children
 		TreeNode::OnHierarchyChange(goingUp);
 
 		if(!goingUp)
 		{
-			//Clear out old data
+			// Clear out old data
 			if(absoluteCShape != nullptr)
 			{
 				delete absoluteCShape;
@@ -70,10 +70,10 @@ namespace Core
 						* (curr->absoluteMass / absoluteMass);
 				}
 			}
-			//Allow collision shape to be traced back to us
+			// Allow collision shape to be traced back to us
 			absoluteCShape->setUserPointer(owner);
 
-			//Only entities with no parents should have rigid bodies.
+			// Only entities with no parents should have rigid bodies.
 			if(parent == nullptr)
 			{
 				//TODO: Update body mass and possibly motionstate
@@ -87,8 +87,8 @@ namespace Core
 					body->setCollisionShape(absoluteCShape);
 					body->setMassProps(absoluteMass, btVector3());
 				}
-				//Otherwise we need to instantiate a new rigid body and register
-				//it with the physics world.
+				// Otherwise we need to instantiate a new rigid body and register
+				// it with the physics world.
 				else
 				{
 					btRigidBody::btRigidBodyConstructionInfo ci(absoluteMass, nullptr,
@@ -97,19 +97,19 @@ namespace Core
 
 				}
 
-				//Set new center of gravity
+				// Set new center of gravity
 				btTransform comTrans;
 				comTrans.setOrigin(absoluteCOG);
 				body->setCenterOfMassTransform(comTrans);
 			}
-			//If the entitiy is no longer a parent, remove it from the world
+			// If the entitiy is no longer a parent, remove it from the world
 			else if(body != nullptr)
 			{
 				physMan->GetWorld()->removeRigidBody(body);
 				delete body;
 				body = nullptr;
 			}
-			//There is no else. Child objects do not get their own rigid body
+			// There is no else. Child objects do not get their own rigid body
 		}
 	}
-} //end namespace Core
+} // end namespace Core

@@ -13,8 +13,8 @@ namespace Core
 		//! \see GameComponent::GetComponentType
 		EType GetComponentType() { return GameComponent::E_GCT_LOGIC; }
 
-		//The following functions are used by the collision dispatching system
-		//to notify GameObjects that they're hitting each other
+		// The following functions are used by the collision dispatching system
+		// to notify GameObjects that they're hitting each other
 
 		//! Called when a collision is first detected
 		virtual void OnCollisionStart(GameObject* otherObj) {}
@@ -24,4 +24,4 @@ namespace Core
 		virtual void OnCollisionEnd(float duration, GameObject* otherObj) {}
 	};
 
-} //end namespace Core
+} // end namespace Core

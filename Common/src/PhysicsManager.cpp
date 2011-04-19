@@ -11,9 +11,10 @@ namespace Core
 		: kFixedTimeStep(1.0f / 60.0f), kMaxSubsteps(3),
 		substepNum(0), lastTime(0), collDetector(detector)
 	{
-		//TODO:
-		//Does this call the destructor?  This will cause problems if it doesn't (since all
-		//the things being deleted haven't been allocated yet)
+		/*!
+		\todo Does this call the destructor?  This will cause problems if it doesn't (since all
+				the things being deleted haven't been allocated yet)
+		*/
 		if(detector == nullptr)
 		{
 			throw new Error::ArgumentNullException("Physics manager cannot receive a null CollisionDetector",
@@ -23,9 +24,9 @@ namespace Core
 
 		broadphase = new btDbvtBroadphase();
 		collisionConfig = new btDefaultCollisionConfiguration();
-		//Do we need multiple contact points per iteration?
-		//If so, uncomment the below line:
-		//collisionConfig->setConvexConvexMultipointIterations();
+		// Do we need multiple contact points per iteration?
+		// If so, uncomment the below line:
+		// collisionConfig->setConvexConvexMultipointIterations();
 		dispatcher = new btCollisionDispatcher(collisionConfig);
 		constraintSolver = new btSequentialImpulseConstraintSolver();
 		physWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase,
@@ -57,4 +58,4 @@ namespace Core
 		physMan->DispatchCollisions(physMan->substepNum, timeStep);
 		++(physMan->substepNum);
 	}
-} //end namespace Core
+} // end namespace Core

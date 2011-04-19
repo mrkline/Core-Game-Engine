@@ -44,4 +44,4 @@ namespace Core
 								int 	partId1,
 								int 	index1);
 	};
-}
+} // end namespace Core

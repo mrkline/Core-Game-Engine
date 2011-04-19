@@ -1,10 +1,11 @@
 #include "CoreTransform.h"
 
+#include "ErrorHandling.h"
+
 namespace Core
 {
-	using namespace Error;
 
-	//Used for very quickly setting the identity matrices
+	//! Used for very quickly setting the identity matrices
 	static const float kIdentityMatrix[16] = { 1, 0, 0, 0,
 											 0, 1, 0, 0,
 											 0, 0, 1, 0,
@@ -32,10 +33,7 @@ namespace Core
 		*this = other;
 	}
 
-	/// Calculates the inverse of this Matrix
-	/// The inverse is calculated using Cramers rule.
-	/// If no inverse exists then return an error.
-	ECode Transform::GetInverse(Transform& out) const
+	bool Transform::GetInverse(Transform& out) const
 	{
 		const Transform &m = *this;
 
@@ -48,10 +46,7 @@ namespace Core
 
 		if(Math::Equals(d, 0.0f))
 		{
-			lastError = Error::E_CEK_INVALID_STATE;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "The current transform does not have an inverse";
-			return lastError;
+			return false;
 		}
 
 		d = 1.0f / d;
@@ -105,7 +100,7 @@ namespace Core
 				m(0, 1) * (m(1, 2) * m(2, 0) - m(1, 0) * m(2, 2)) +
 				m(0, 2) * (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0)));
 
-		return Error::E_CEK_SUCCESS;
+		return true;
 	}
 
 	void Transform::GetTransposed(Transform& out) const
@@ -186,15 +181,15 @@ namespace Core
 
 	void Transform::GetRotationRadians(Vector3& vecOut) const
 	{
-		//Original code used 64-bit floats.
+		// Original (Irrlicht) code used 64-bit floats.
 
 		Vector3 scale;
 		GetScale(scale);
 		const Vector3 invScale(1.0f / scale.X, 1.0f / scale.Y, 1.0f / scale.Z);
 
-		//was 64-bit
+		// was 64-bit
 		float Y = -asin(matrix[2]*invScale.X);
-		//was 64-bit
+		// was 64-bit
 		const float C = cos(Y);
 
 		float rotx, roty, X, Z;
@@ -220,9 +215,18 @@ namespace Core
 		// fix values that get below zero
 		// before it would set (!) values to 360
 		// that were above 360:
-		if (X < 0.0) X += 2 * Math::kPi;
-		if (Y < 0.0) Y += 2 * Math::kPi;
-		if (Z < 0.0) Z += 2 * Math::kPi;
+		if(X < 0.0)
+		{
+			X += 2 * Math::kPi;
+		}
+		if(Y < 0.0)
+		{
+			Y += 2 * Math::kPi;
+		}
+		if (Z < 0.0)
+		{
+			Z += 2 * Math::kPi;
+		}
 
 	}
 
@@ -258,16 +262,16 @@ namespace Core
 		memcpy(matrix, kIdentityMatrix, sizeof(float) * 16);
 	}
 
-	ECode Transform::SetToInverse()
+	bool Transform::SetToInverse()
 	{
-		Transform temp = *this;
-		ECode ret = temp.GetInverse(*this);
-		if(Failed(ret))
+		Transform temp;
+		bool ret = GetInverse(temp);
+		
+		if(ret)
 		{
-			lastError = temp.lastError;
-			lastErrorFunction = temp.lastErrorFunction;
-			customLastErrorMessage = temp.customLastErrorMessage;
+			*this = temp;
 		}
+
 		return ret;
 	}
 
@@ -458,6 +462,7 @@ namespace Core
 		m3[13] = m1[1]*m2[12] + m1[5]*m2[13] + m1[9]*m2[14] + m1[13]*m2[15];
 		m3[14] = m1[2]*m2[12] + m1[6]*m2[13] + m1[10]*m2[14] + m1[14]*m2[15];
 		m3[15] = m1[3]*m2[12] + m1[7]*m2[13] + m1[11]*m2[14] + m1[15]*m2[15];
+
 		return m3;
 	}
 
@@ -547,4 +552,4 @@ namespace Core
 		memcpy(matrix, other.matrix, sizeof(float) * 16);
 		return *this;
 	}
-} //end namespace Core
+} // end namespace Core

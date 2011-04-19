@@ -1,12 +1,11 @@
 #pragma once
 
-#include "ErrorHandling.h"
 #include "Vector3.h"
 
 namespace Core
 {
-	//!An basic transform class, inspired by and borrowed heavily from Irrlicht's transform matrix. Uses floats.
-	class Transform : public Error::CanErr
+	//! A basic transform class, inspired by and borrowed heavily from Irrlicht's transform matrix. Uses floats.
+	class Transform
 	{
 	public:
 		/*!
@@ -24,11 +23,13 @@ namespace Core
 		\param other Transform to copy
 		*/
 		Transform(const Transform& other);
+
 		/*!
 		\brief Constructs a transform from the first 16 floats in an array
 		\param matrixArray Array to construct the transform from.
 		*/
 		explicit Transform(const float* matrixArray);
+
 		/*!
 		\brief Default constructor
 		\param type The type of transform to construct.
@@ -39,17 +40,19 @@ namespace Core
 		/*!
 		\brief Sets a transform the inverse of this one, if possible
 		\param out The transform to set to the inverse
-		\return an error code indicating the success of the operation
+		\return true on success, false if there is no inverse
 		
 		The inverse is calculated using Cramers rule.
-		If no inverse exists then return an error.
+		If no inverse exists then false is returned
 		*/
-		Error::ECode GetInverse(Transform& out) const;
+		bool GetInverse(Transform& out) const;
+
 		/*!
 		\brief Sets a transform ot the transpose of this one, if possible
 		\param out The transform to set to the transpose
 		*/
 		void GetTransposed(Transform& out) const;
+
 		/*!
 		\brief Interpolate between this transform and another
 		\param other Interpolation will be between this transform and other
@@ -69,6 +72,7 @@ namespace Core
 			GetTransposed(ret);
 			return ret;
 		}
+
 		/*!
 		\brief Get a transform equal to this transform interpolated with another
 		\param other Interpolation will be between this transform and other
@@ -88,20 +92,25 @@ namespace Core
 		\see Math::kFloatRoundError
 		*/
 		bool Equals(const Transform& other, float roundingTolerance = Math::kFloatRoundError) const;
+
 		//! Returns true if this transform is an identity matrix
 		bool IsIdentity() const;
+
 		//! Returns true if this transform is orthagonal
 		bool IsOrthogonal() const;
+
 		/*!
 		\brief Sets a vector to the rotation of this transform in degrees
 		\param vecOut Upon completion, vecOut contains the rotation in degrees
 		*/
 		void GetRotationDegrees(Vector3& vecOut) const; 
+
 		/*!
 		\brief Sets a vector to the rotation of this transform in radians
 		\param vecOut Upon completion, vecOut contains the rotation in radians
 		*/
 		void GetRotationRadians(Vector3& vecOut) const;
+
 		/*!
 		\brief Sets a vector to the scaling from this transform
 		\param vecOut Upon completion, vecOut contains the scale of this transform
@@ -110,16 +119,19 @@ namespace Core
 		Negative scales cannot be recovered.
 		*/
 		void GetScale(Vector3& vecOut) const;
+		
 		/*!
 		\brief Sets a vector to the translation from this transform
 		\param vecOut Upon completion, vecOut contains the translation of this transform
 		*/
 		void GetTranslation(Vector3& vecOut) const;
+		
 		/*!
 		\brief Gets the 16-element (4 x 4) array that makes up this transfor matrix
 		\return A pointer to the array
 		*/
 		float* GetArray() { return matrix; }
+		
 		/*!
 		\brief Gets the 16-element (4 x 4) array that makes up this transfor matrix
 		\return A pointer to the array
@@ -136,6 +148,7 @@ namespace Core
 			GetRotationDegrees(ret);
 			return ret;
 		}
+
 		/*!
 		\brief Gets the rotation of this transform in radians
 		\return The rotation of this transform in radians
@@ -146,6 +159,7 @@ namespace Core
 			GetRotationRadians(ret);
 			return ret;
 		}
+
 		/*!
 		\brief Gets the scale of this transform
 		\return The absolute scale of the transform
@@ -159,6 +173,7 @@ namespace Core
 			GetScale(ret);
 			return ret;
 		}
+
 		/*!
 		\brief Gets the translation of this transform
 		\return The translation of this transform
@@ -172,20 +187,23 @@ namespace Core
 
 		//! Sets the transform to the identity transform
 		void SetToIdentity();
+
 		/*!
 		\brief Sets the transform to its inverse, if possible
-		\return an error code indicating the success of the operation
+		\return true on success, false if there is no inverse
 		
 		The inverse is calculated using Cramers rule.
-		If no inverse exists then return an error.
+		If no inverse exists then false is returned.
 		*/
-		Error::ECode SetToInverse();
+		bool SetToInverse();
+
 		/*!
 		\brief Sets the transform to a product of two other transforms
 		\param t1 The first transform to multiply
 		\param t2 The second transform to multiply
 		*/
 		void SetAsProductOf(const Transform& t1, const Transform& t2);
+
 		//! Sets the rotation to the inverse of the provided rotation in degrees
 		void SetInverseRotationDegrees(const Vector3& rotation);
 		//! Sets the rotation to the inverse of the provided rotation in radians
@@ -250,4 +268,4 @@ namespace Core
 		float matrix[16];
 	};
 
-} //end namespace Core
+} // end namespace Core

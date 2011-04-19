@@ -10,5 +10,5 @@ namespace Core
 		{
 			MessageBoxA(nullptr, message, title, MB_ICONERROR | MB_OK);
 		}
-	} //end namespace Error
-} //end namespace Core
+	} // end namespace Error
+} // end namespace Core

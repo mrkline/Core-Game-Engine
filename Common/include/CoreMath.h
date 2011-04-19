@@ -14,12 +14,19 @@ namespace Core
 	*/
 	namespace Math
 	{
+		//! Float representation of Pi
 		const float kPi		= 3.14159265359f;
+		//! Float representation of 1 / Pi
 		const float kPiRecip	= 1.0f / kPi;
+		//! Float representation of Pi / 2
 		const float kHalfPi	= kPi / 2.0f;
+		//! Double representation of Pi
 		const double kPiDouble		= 3.1415926535897932384626433832795028841971693993751;
+		//! Double representation of 1 / Pi
 		const double kPiDoubleRecip = 1.0 / kPiDouble;
-		//!Conversion ratio to convert angle measurements in degrees to radian angle mesurements
+		//! Double represntation of Pi / 2
+		const double kHalfPiDouble = kPiDouble / 2.0;
+		//! Conversion ratio to convert angle measurements in degrees to radian angle mesurements
 		const float kDegToRad = kPi / 180.0f;
 		//! Conversion ratio to convert angle measurements in radians to degree angle mesurements
 		const float kRadToDeg   = 180.0f / kPi;
@@ -113,5 +120,5 @@ namespace Core
 			return (a + tolerance >= 0.0) && (a - tolerance <= 0.0);
 		}
 
-	} //end namespace Math
-} //end namespace Core
+	} // end namespace Math
+} // end namespace Core

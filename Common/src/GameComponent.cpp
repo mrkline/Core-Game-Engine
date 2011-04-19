@@ -14,7 +14,7 @@ namespace Core
 		{
 			throw new Error::ArgumentException("A game component cannot have a null owner", __FUNCTION__);
 		}
-		//Automatically link us into this component's hierarchy
+		// Automatically link us into this component's hierarchy
 		GameObject::ComponentList add = owner->FindNearestDescendantComponents(GetComponentType());
 		for(GameObject::ComponentList::const_iterator it = add.begin();
 			it != add.end(); ++it)
@@ -26,8 +26,8 @@ namespace Core
 
 	GameComponent::~GameComponent()
 	{
-		//Strip ourselves out of the hierarchy by having the parent add our children.
-		//The parent will automatically have the children remove us
+		// Strip ourselves out of the hierarchy by having the parent add our children.
+		// The parent will automatically have the children remove us
 		if(parent != nullptr)
 		{
 			for(list<TreeNode*>::iterator it = children.begin();
@@ -67,4 +67,4 @@ namespace Core
 	{
 		RemoveFromParent(updateHierarchy);
 	}
-} //end namespace Core
+} // end namespace Core

@@ -66,4 +66,4 @@ namespace Core
 		T* higher; //!< Pointer in the key with a higher value
 		T* lower;  //!< Pointer in the key with a lower value
 	};
-} //end namespace Core
+} // end namespace Core

@@ -23,6 +23,7 @@ namespace Core
 		/*!
 		\brief Constructs the physics component
 		\param owner The GameObject that owns this physics component
+		\param physMan The physics manager
 		\param collisionShape The Bullet collision shape to use
 		\todo Encapsulate or at least typedef the btCollisionShape?
 		\param COG The center of gravity of the object (in local coordinates)
@@ -93,7 +94,7 @@ namespace Core
 		btVector3 cog;
 		//! Center of gravity of entity with all children
 		btVector3 absoluteCOG;
-
+		//! Local reference to the physics manager
 		PhysicsManager* physMan;
 	};
-} //end namespace Core
+} // end namespace Core

@@ -34,6 +34,7 @@ namespace Core
 		*/
 		GameObject(GameObject* parent, GameObjectManager* objMan,
 			int id = -1, const std::string& name = std::string());
+
 		//! Deconstructor. Deletes all components owned by this object
 		virtual ~GameObject();
 
@@ -66,21 +67,20 @@ namespace Core
 		/*!
 		\brief Add a component to the object.
 		\param newComponent Component to add to this object
-		\return An ECode that indicates the outcome of the addition
 
 		A game object can only hold one of each type of component.
 		Adding the component transfers ownership of the component to the game object.
 		After this is called, this game object is responsible for the deletion of the component.
 		*/
-		Error::ECode AddComponent(GameComponent* newComponent);
+		void AddComponent(GameComponent* newComponent);
+
 		/*!
 		\brief Remove a component from the object
 		\param toRemove The component to remove
-		\return An ECode that indicates the outcome of the removal
 
 		Once a component is removed, the client code is responsible for its deletion again.
 		*/
-		Error::ECode RemoveComponent(GameComponent* toRemove);
+		void RemoveComponent(GameComponent* toRemove);
 		//! Deletes all components
 		void DeleteComponents();
 		
@@ -92,15 +92,14 @@ namespace Core
 		//! Gets a list of the components owned by this object
 		ComponentList& GetComponents() { return components; }
 
-		//Functions to manipulate the object tree
+		// Functions to manipulate the object tree
 
 		/*!
 		\brief Sets the object's parent
 		\param newParent A pointer to the new parent, or null if no parent is desired
 		\todo Automatically tie to some sort of root?
-		\return An ECode that indicates the outcome of setting the parent
 		*/
-		virtual Error::ECode SetParent(GameObject* newParent);
+		virtual void SetParent(GameObject* newParent);
 		//! Gets the object's parent
 		virtual GameObject* GetParent() { return static_cast<GameObject*>(parent); }
 		/*!
@@ -114,13 +113,13 @@ namespace Core
 		\return An ECode that indicates the outcome of the additon
 		\warning If this object is deleted, all of its children are deleted as well.
 		*/
-		virtual Error::ECode AddChild(GameObject* child);
+		virtual void AddChild(GameObject* child);
 		/*!
 		\brief Remove a child object
 		\param child Child object to remove
 		\return An ECode that indicates the outcome of the removal
 		*/
-		virtual Error::ECode RemoveChild(GameObject* child);
+		virtual void RemoveChild(GameObject* child);
 		//! Delete all children
 		virtual void DeleteAllChildren();
 
@@ -129,7 +128,7 @@ namespace Core
 		virtual void OnHierarchyChange(bool goingUp)
 		{
 			TreeNode::OnHierarchyChange(goingUp);
-			//TEST:
+			// TEST:
 			/*
 			if(!goingUp)
 			{
@@ -157,7 +156,7 @@ namespace Core
 	protected:
 		/*
 		\brief The game object manager
-		\todo Replace with scene
+		\todo Replace with Scene
 		*/
 		GameObjectManager* man;
 		std::list<GameComponent*> components; //!< A linked list of this object's components
@@ -171,4 +170,4 @@ namespace Core
 		static void  DescendantSearchRecursor(std::list<GameComponent*>* compList,
 			GameObject* obj, GameComponent::EType compType);
 	};
-} //end namespace Core
+} // end namespace Core

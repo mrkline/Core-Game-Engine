@@ -89,12 +89,17 @@ namespace Core
 		//! Used to keep track of the last game time that Update was called
 		unsigned int lastTime;
 
-		btDynamicsWorld *physWorld; //! The Bullet dynamics world
-		btDefaultCollisionConfiguration* collisionConfig; //! The Bullet default collision config.
-		btDispatcher* dispatcher; //! The Bullet dispatcher
-		btBroadphaseInterface* broadphase; //! The Bullet broadphase collision detector
-		btConstraintSolver*	constraintSolver; //! The Bullet constraint solver
-
-		CollisionDetector* collDetector; //! The Core collision detector used by this physics manager
+		//! The Bullet dynamics world
+		btDynamicsWorld *physWorld;
+		//! The Bullet default collision config.
+		btDefaultCollisionConfiguration* collisionConfig; 
+		//! The Bullet dispatcher
+		btDispatcher* dispatcher;
+		//! The Bullet broadphase collision detector
+		btBroadphaseInterface* broadphase; 
+		//! The Bullet constraint solver
+		btConstraintSolver*	constraintSolver; 
+		//! The Core collision detector used by this physics manager
+		CollisionDetector* collDetector; 
 	};
-} //end namespace Core
+} // end namespace Core

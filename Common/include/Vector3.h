@@ -6,6 +6,7 @@
 
 namespace Core
 {
+	//! A three-dimensional vector using floats for each dimension
 	class Vector3
 	{
 	public:
@@ -23,7 +24,7 @@ namespace Core
 		Vector3(const Vector3& o) : X(o.X), Y(o.Y), Z(o.Z) {}
 		//! Initializes vector with the first three values in the provided array
 		explicit Vector3(float* arr) : X(arr[0]), Y(arr[1]), Z(arr[2]) {}
-
+		
 		Vector3 operator-() const { return Vector3(-X, -Y, -Z); }
 		
 		Vector3& operator=(const Vector3& o) { X = o.X; Y = o.Y; Z = o.Z; return *this; }
@@ -71,12 +72,12 @@ namespace Core
 		\brief Checks equality using Math::kFloatRoundError as tolerance
 		\see Math::kFloatRoundError
 		*/
-		bool operator==(const Vector3& o) { return IsWithinTolerance(o); }
+		bool operator==(const Vector3& o) const { return IsWithinTolerance(o); }
 		/*!
 		\brief Checks inequality using Math::kFloatRoundError as tolerance
 		\see Math::kFloatRoundError
 		*/
-		bool operator!=(const Vector3& o) { return !IsWithinTolerance(o); }
+		bool operator!=(const Vector3& o) const { return !IsWithinTolerance(o); }
 
 		/*
 		\brief Checks if another vector is equal to this one within a provided tolerance
@@ -86,7 +87,7 @@ namespace Core
 		\return True if this vector and o are equal within tolerance
 		\see Math::kFloatRoundError
 		*/
-		bool IsWithinTolerance(const Vector3& o, float tolerance = Math::kFloatRoundError)
+		bool IsWithinTolerance(const Vector3& o, float tolerance = Math::kFloatRoundError) const
 		{
 			return Math::Equals(X, o.X, tolerance)
 				&& Math::Equals(Y, o.Y, tolerance)
@@ -145,8 +146,8 @@ namespace Core
 		{
 			float len = std::sqrt(X*X + Y*Y + Z*Z);
 			
-			//Normalized already if our length is zero.
-			//Also stops NaN errors
+			// Normalized already if our length is zero.
+			// Also stops NaN errors
 			if(Math::Equals(len, 0.0f))
 			{
 				return;
@@ -188,7 +189,7 @@ namespace Core
 			return Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 		}
 
-		//!< Gets the left world vector (-1, 0, 0)
+		//! Gets the left world vector (-1, 0, 0)
 		static const Vector3& GetLeft()
 		{
 			static Vector3 left(-1.0f, 0.0f, 0.0f);
@@ -237,4 +238,4 @@ namespace Core
 			return one;
 		}
 	};
-}
+} // end namespace Core

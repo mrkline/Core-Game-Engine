@@ -1,12 +1,11 @@
 #include "CoreBase.h"
 
+#include "ErrorHandling.h"
 #include "IGraphicsThread.h"
 #include "ILevel.h"
 
 namespace Core
 {
-	using namespace Error;
-
 	CoreBase::CoreBase()
 		: currentLevel(nullptr), nextLevel(nullptr), gThread(nullptr)
 	{
@@ -37,56 +36,38 @@ namespace Core
 		nextLevel = nLevel;
 	}
 
-	ECode CoreBase::InitGraphicsThread(/*need params here*/)
+	void CoreBase::InitGraphicsThread(/*need params here*/)
 	{
 		if(gThread != nullptr)
 		{
 			delete gThread;
 		}
-		try
-		{
-			//TODO: Implement platform-specific thread
-			gThread = new IGraphicsThread();
-		}
-		//This will get thrown if creation fails
-		catch(Error::Exception*)
-		{
-			lastError = Error::E_CEK_FAILURE;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "The new graphics thread could not be initialized.";
-			return lastError;
-		}
-		//Notify the current level that we've changed graphics threads, if it exists
+
+		//! \todo Implement platform-specific thread
+		gThread = new IGraphicsThread();
+
+		// Notify the current level that we've changed graphics threads, if it exists
 		if(currentLevel != nullptr)
 		{
 			currentLevel->OnGraphicsReset(gThread);
 		}
-
-		return Error::E_CEK_SUCCESS;
 	}
 
-	Error::ECode CoreBase::Run()
+	void CoreBase::Run()
 	{
 		if(gThread == nullptr)
 		{
-			lastError = Error::E_CEK_INVALID_STATE;
-			lastErrorFunction = __FUNCTION__;
-			customLastErrorMessage = "The graphics thread must be initialized before calling CoreBase::Run.";
-			return lastError;
+			throw new Error::InvalidOperationException("The graphics thread must be initialized before calling CoreBase::Run.",
+				__FUNCTION__);
 		}
 
 		currentLevel = nextLevel;
 		
 		while(currentLevel != nullptr)
 		{
-			if(Succeeded(currentLevel->Load(gThread)))
-			{
-				currentLevel->Run();
-			}
+			currentLevel->Run();
 			delete currentLevel;
 			currentLevel = nextLevel;
 		}
-
-		return Error::E_CEK_SUCCESS;
 	}
-} //end namespace Core
+} // end namespace Core

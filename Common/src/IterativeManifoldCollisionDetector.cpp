@@ -1,4 +1,4 @@
-#include <IterativeManifoldCollisionDetector.h>
+#include "IterativeManifoldCollisionDetector.h"
 
 #include "PhysicsManager.h"
 
@@ -27,15 +27,15 @@ namespace Core
 			btCollisionShape* curr0 = static_cast<btCollisionObject*>(man->getBody0())->getCollisionShape();
 			btCollisionShape* curr1 = static_cast<btCollisionObject*>(man->getBody1())->getCollisionShape();
 
-			//If neither is compound, we're all done here
+			// If neither is compound, we're all done here
 			if(!curr0->isCompound() && !curr1->isCompound())
 			{
 				physMan->AddCollisionPair(static_cast<GameObject*>(curr0->getUserPointer()), 
 						static_cast<GameObject*>(curr1->getUserPointer()), substep);
 			}
 			
-			//TODO: Carry on here
-			//Iterate through each object to get the specific collision shape colliding
+			//! \todo Carry on here
+			// Iterate through each object to get the specific collision shape colliding
 
 			while(curr0->isCompound())
 			{
@@ -65,4 +65,4 @@ namespace Core
 		lastResult.index1 = index1;
 		return 0.0f;
 	}
-} //end namespace Core
+} // end namespace Core

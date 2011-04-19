@@ -2,7 +2,7 @@
 
 namespace Core
 {
-	//!Provides the basis for component managers from which they can be derived
+	//! Provides the basis for component managers from which they can be derived
 	class ComponentManager
 	{
 	public:
@@ -16,4 +16,4 @@ namespace Core
 	protected:
 
 	};
-} //end namespace Core
+} // end namespace Core

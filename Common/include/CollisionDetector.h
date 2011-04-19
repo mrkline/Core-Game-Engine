@@ -12,8 +12,7 @@ namespace Core
 	Since Bullet by default only specifies collisions between objects
 	and we need to determine collisions on a per-shape level
 	(since each PhysicsComponent is tied to a shape).
-	This interface gives us an easy way to swap out different
-	methods of doing so.
+	This interface gives us an easy way to swap out different methods of doing so.
 	*/
 	class CollisionDetector
 	{
@@ -47,4 +46,4 @@ namespace Core
 		PhysicsManager* physMan; //!< The owning physics manager
 		btCollisionWorld* collWorld; //!< The Bullet collision world
 	};
-};
+}; // end namepsace Core

@@ -31,4 +31,4 @@ namespace Core
 		GameObject* rootObject; //!< Root GameObject. All game objects in the scene link back to this.
 		PhysicsManager* physMan; //!< Physics manager, or null if physics are not used in this scene
 	};
-} //end namespace Core
+} // end namespace Core
