@@ -54,7 +54,7 @@ namespace Core
 		\brief Gets whether or not the node cares about hierarchy changes that occur to its children
 		\see OnHierarchyChange
 		*/
-		bool GetUpdateOnChildren(bool update) { return caresAboutChildren; }
+		bool GetUpdateOnChildren() { return caresAboutChildren; }
 
 		/*!
 		\brief Used to update any necessary info by a derived class when the tree changes.
