@@ -179,10 +179,10 @@ namespace Core
 		return nullptr;
 	}
 
-	GameObject::ComponentList GameObject::FindNearestDescendantComponents(GameComponent::EType compType,
+	auto_ptr<GameObject::ComponentList> GameObject::FindNearestDescendantComponents(GameComponent::EType compType,
 		bool includingThisObject)
 	{
-		ComponentList ret;
+		ComponentList* ret = new ComponentList();
 		stack<GameObject*> s;
 		
 		if(includingThisObject)
@@ -206,7 +206,7 @@ namespace Core
 			GameComponent* comp = curr->GetComponentByType(compType);
 			if(comp != nullptr)
 			{
-				ret.push_back(comp);
+				ret->push_back(comp);
 			}
 			else
 			{
@@ -219,6 +219,6 @@ namespace Core
 			}
 		}
 
-		return ret;
+		return auto_ptr<ComponentList>(ret);
 	}
 } // end namespace Core

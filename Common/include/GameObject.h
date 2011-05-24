@@ -2,6 +2,7 @@
 
 #include <list>
 #include <string>
+#include <memory>
 
 #include "GameComponent.h"
 #include "TreeNode.h"
@@ -135,9 +136,10 @@ namespace Core
 		\brief Used by components to find their nearest descendants while assembling their own trees
 		\param compType THe component type to search for
 		\param includingThisObject If true, start the search with this object, otherwise start with this object's children.
-		\return A list of nearest descendant componentes of compType.
+		\return An auto_ptr to a list of nearest descendant componentes of compType.
+				This ensures that the list will be deleted when it goes out of scope.
 		*/
-		ComponentList FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
+		std::auto_ptr<ComponentList> FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
 
 	protected:
 		/*
