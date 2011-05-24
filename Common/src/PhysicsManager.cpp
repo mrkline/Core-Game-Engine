@@ -9,7 +9,14 @@ namespace Core
 {
 	PhysicsManager::PhysicsManager(CollisionDetector* detector)
 		: kFixedTimeStep(1.0f / 60.0f), kMaxSubsteps(3),
-		substepNum(0), lastTime(0), collDetector(detector)
+		substepNum(0), lastTime(0), collDetector(detector),
+		broadphase(new btDbvtBroadphase()),
+		collisionConfig(new btDefaultCollisionConfiguration()),
+		dispatcher(new btCollisionDispatcher(collisionConfig.get())),
+		constraintSolver(new btSequentialImpulseConstraintSolver()),
+		physWorld(new btDiscreteDynamicsWorld(dispatcher.get(), broadphase.get(),
+			constraintSolver.get(), collisionConfig.get()))
+
 	{
 		/*!
 		\todo Does this call the destructor?  This will cause problems if it doesn't (since all
@@ -22,26 +29,8 @@ namespace Core
 		}
 		detector->SetPhysicsManager(this);
 
-		broadphase = new btDbvtBroadphase();
-		collisionConfig = new btDefaultCollisionConfiguration();
-		// Do we need multiple contact points per iteration?
-		// If so, uncomment the below line:
-		// collisionConfig->setConvexConvexMultipointIterations();
-		dispatcher = new btCollisionDispatcher(collisionConfig);
-		constraintSolver = new btSequentialImpulseConstraintSolver();
-		physWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase,
-			constraintSolver, collisionConfig);
 		//Set a callback up for ticks
 		physWorld->setInternalTickCallback(TickCallback, this);
-	}
-
-	PhysicsManager::~PhysicsManager()
-	{
-		delete physWorld;
-		delete constraintSolver;
-		delete dispatcher;
-		delete collisionConfig;
-		delete broadphase;
 	}
 	
 	void PhysicsManager::Update(unsigned int gameTime)

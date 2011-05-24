@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "ComponentManager.h"
+#include "CollisionDetector.h"
 
 class btDynamicsWorld;
 class btDefaultCollisionConfiguration;
@@ -11,7 +14,6 @@ class btConstraintSolver;
 namespace Core
 {
 	class GameObject;
-	class CollisionDetector;
 
 	/*!
 	\brief Manager of all PhysicsComponents.
@@ -25,24 +27,25 @@ namespace Core
 	public:
 		/*!
 		\brief Constructor.
-		\param detector The collision detector to use with this manager
+		\param detector The collision detector to use with this manager.
+					The manager will now own the detector and delete it when it deconstructs
 
 		The PhysicsManager uses a CollisionDetector
 		to detect and dispatch collisions to logic components of colliding GameObjects
 		*/
 		PhysicsManager(CollisionDetector* detector);
-		virtual ~PhysicsManager();
+		virtual ~PhysicsManager() {}
 
-		//! Gets the bullet world
-		btDynamicsWorld* GetWorld() { return physWorld; }
-		//! Gets the bullet default collision configuration
-		btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig; }
-		//! Gets the bullet dispatcher
-		btDispatcher* GetDispatcher() { return dispatcher; }
-		//! Gets the bullet broadphase collision detector
-		btBroadphaseInterface* GetBroadphase() { return broadphase; }
-		//! Gets teh bullet constraint solver
-		btConstraintSolver* GetConstraintSolver() { return constraintSolver; }
+		//! Gets the Bullet world
+		btDynamicsWorld* GetWorld() { return physWorld.get(); }
+		//! Gets the Bullet default collision configuration
+		btDefaultCollisionConfiguration* GetCollisionConfig() { return collisionConfig.get(); }
+		//! Gets the Bullet dispatcher
+		btDispatcher* GetDispatcher() { return dispatcher.get(); }
+		//! Gets the Bullet broadphase collision detector
+		btBroadphaseInterface* GetBroadphase() { return broadphase.get(); }
+		//! Gets the Bullet constraint solver
+		btConstraintSolver* GetConstraintSolver() { return constraintSolver.get(); }
 
 		/*!
 		\brief Called by the GameObjectManager each cycle of the game loop
@@ -89,17 +92,19 @@ namespace Core
 		//! Used to keep track of the last game time that Update was called
 		unsigned int lastTime;
 
-		//! The Bullet dynamics world
-		btDynamicsWorld *physWorld;
-		//! The Bullet default collision config.
-		btDefaultCollisionConfiguration* collisionConfig; 
-		//! The Bullet dispatcher
-		btDispatcher* dispatcher;
-		//! The Bullet broadphase collision detector
-		btBroadphaseInterface* broadphase; 
-		//! The Bullet constraint solver
-		btConstraintSolver*	constraintSolver; 
+		
 		//! The Core collision detector used by this physics manager
-		CollisionDetector* collDetector; 
+		std::auto_ptr<CollisionDetector> collDetector; 
+
+		//! The Bullet dynamics world
+		std::auto_ptr<btDynamicsWorld> physWorld;
+		//! The Bullet default collision config.
+		std::auto_ptr<btDefaultCollisionConfiguration> collisionConfig; 
+		//! The Bullet dispatcher
+		std::auto_ptr<btDispatcher> dispatcher;
+		//! The Bullet broadphase collision detector
+		std::auto_ptr<btBroadphaseInterface> broadphase; 
+		//! The Bullet constraint solver
+		std::auto_ptr<btConstraintSolver> constraintSolver; 
 	};
 } // end namespace Core
