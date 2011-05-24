@@ -13,7 +13,7 @@ namespace Core
 	class GameObjectManager;
 
 	/*! 
-	\brief Represents an ntity in the game world.
+	\brief Represents an entity in the game world.
 
 	The GameObject is the core object of the engine.  A tree of GameObjects is managed by the
 	scene.  Each object can have a collection of GameComponenents, which do various things
@@ -120,24 +120,9 @@ namespace Core
 		\return An ECode that indicates the outcome of the removal
 		*/
 		virtual void RemoveChild(GameObject* child);
+
 		//! Delete all children
 		virtual void DeleteAllChildren();
-
-		//! Notifies the tree of hierarchy changes. Moves recursively to the top of the tree
-		//! then works its way back down
-		virtual void OnHierarchyChange(bool goingUp)
-		{
-			TreeNode::OnHierarchyChange(goingUp);
-			// TEST:
-			/*
-			if(!goingUp)
-			{
-				printf("OnHierarchyChange (going down) called for ");
-				printf(name.c_str());
-				printf("\n");
-			}
-			*/
-		}
 
 		/*!
 		\brief Used by components to find their nearest ancestor while assembling their own trees
@@ -145,6 +130,7 @@ namespace Core
 		\return The nearest ancestor component of compType. The search starts with this object's parent.
 		*/
 		GameComponent* FindNearestAncestorComponent(GameComponent::EType compType);
+
 		/*!
 		\brief Used by components to find their nearest descendants while assembling their own trees
 		\param compType THe component type to search for
@@ -162,12 +148,5 @@ namespace Core
 		std::list<GameComponent*> components; //!< A linked list of this object's components
 		Transform trans; //!< The transform for the game object
 		Transform absTrans; //!< The cumulative absolute transform for the game object
-
-		/*!
-		\brief A recursive function used to find descendants with a given component
-		\see FindNearestDescendantComponents
-		*/
-		static void  DescendantSearchRecursor(std::list<GameComponent*>* compList,
-			GameObject* obj, GameComponent::EType compType);
 	};
 } // end namespace Core

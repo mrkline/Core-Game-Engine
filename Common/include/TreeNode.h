@@ -56,13 +56,14 @@ namespace Core
 		*/
 		bool GetUpdateOnChildren() { return caresAboutChildren; }
 
+		void UpdateHierarchy();
+
 		/*!
 		\brief Used to update any necessary info by a derived class when the tree changes.
 
 		If caresAboutChildren is false, changes to children will not cause this to be called.
-		Otherwise, this will be called recursively up, then down the tree.
 		*/
-		virtual void OnHierarchyChange(bool goingUp);
+		virtual void OnHierarchyChange() {}
 
 	protected:
 		//! Node's parent, or null if it has none

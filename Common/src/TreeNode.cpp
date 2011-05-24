@@ -1,5 +1,7 @@
 #include "TreeNode.h"
 
+#include <queue>
+
 #include "ErrorHandling.h"
 
 using namespace std;
@@ -35,7 +37,7 @@ namespace Core
 		}
 		else
 		{
-			OnHierarchyChange(true);
+			UpdateHierarchy();
 		}
 	}
 
@@ -64,7 +66,7 @@ namespace Core
 		newChild->RemoveFromParent(false);
 		children.push_back(newChild);
 		newChild->parent = this;
-		OnHierarchyChange(true);
+		UpdateHierarchy();
 	}
 
 	void TreeNode::RemoveChild(TreeNode* toRemove)
@@ -80,9 +82,9 @@ namespace Core
 			if(*it == toRemove)
 			{
 				toRemove->parent = nullptr;
-				toRemove->OnHierarchyChange(false);
+				toRemove->UpdateHierarchy();
 				children.erase(it);
-				OnHierarchyChange(true);
+				UpdateHierarchy();
 				return;
 			}
 		}
@@ -99,7 +101,7 @@ namespace Core
 		}
 
 		children.clear();
-		OnHierarchyChange(true);
+		UpdateHierarchy();
 	}
 
 	void TreeNode::RemoveFromParent(bool updateHD)
@@ -107,28 +109,33 @@ namespace Core
 		if (parent != nullptr)
 				parent->RemoveChild(this);
 		if(updateHD)
-			OnHierarchyChange(false);
+			UpdateHierarchy();
 	}
 
-	void TreeNode::OnHierarchyChange(bool goingUp)
+	void TreeNode::UpdateHierarchy()
 	{
+		TreeNode* top = this;
+
 		// Keep walking up the tree until it's time to stop and go back down
-		if(goingUp && parent != nullptr && parent->caresAboutChildren)
+		while(top->parent != nullptr && top->parent->caresAboutChildren)
 		{
-			parent->OnHierarchyChange(true);
+			top = top->parent;
 		}
-		// Don't forget to hit ourselves on the way back down
-		else if(goingUp)
+		
+		// Walk down the tree (level order), updating all children
+		queue<TreeNode*> q;
+		q.push(top);
+		while(!q.empty())
 		{
-				OnHierarchyChange(false);
-		}
-		// Walk down the tree, updating all children
-		else
-		{
-			for(list<TreeNode*>::iterator it = children.begin();
-			it != children.end(); ++it)
+			TreeNode* curr = q.front();
+			q.pop();
+
+			curr->OnHierarchyChange();
+
+			for(list<TreeNode*>::iterator it = curr->children.begin();
+			it != curr->children.end(); ++it)
 			{
-				(*it)->OnHierarchyChange(false);
+				q.push(*it);
 			}
 		}
 	}

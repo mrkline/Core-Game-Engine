@@ -72,8 +72,7 @@ namespace Core
 		//! Gets the physics manager
 		PhysicsManager* GetPhysicsManager() { return physMan; }
 
-		//! Updates hierarchical data based on children.
-		void OnHierarchyChange(bool goingUp);
+		void OnHierarchyChange();
 
 	protected:
 		//! Rigid body representing this physics object, if it's at the top of a hierarchy

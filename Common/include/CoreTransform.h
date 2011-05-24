@@ -35,7 +35,7 @@ namespace Core
 		\param type The type of transform to construct.
 		\see ConstructType
 		*/
-		Transform(ConstructType type = E_MT_IDENTITY);
+		explicit Transform(ConstructType type = E_MT_IDENTITY);
 		
 		/*!
 		\brief Sets a transform the inverse of this one, if possible

@@ -25,91 +25,85 @@ namespace Core
 		collisionShape->setUserPointer(owner);
 	}
 
-	void PhysicsComponent::OnHierarchyChange(bool goingUp)
+	void PhysicsComponent::OnHierarchyChange()
 	{
-		// Call this on our children
-		TreeNode::OnHierarchyChange(goingUp);
-
-		if(!goingUp)
+		// Clear out old data
+		if(absoluteCShape != nullptr)
 		{
-			// Clear out old data
-			if(absoluteCShape != nullptr)
-			{
-				delete absoluteCShape;
-			} 
+			delete absoluteCShape;
+		} 
 
-			absoluteMass = mass;
+		absoluteMass = mass;
 
-			if(children.size() == 0)
+		if(children.size() == 0)
+		{
+			absoluteCOG = cog;
+			absoluteCShape = cShape;
+		}
+		else
+		{
+			btCompoundShape* compAbsShape = new btCompoundShape();
+			absoluteCShape = compAbsShape;
+			compAbsShape->addChildShape(btTransform(), cShape);
+
+			list<TreeNode*>::iterator it = children.begin();
+			for(; it != children.end(); ++it)
 			{
-				absoluteCOG = cog;
-				absoluteCShape = cShape;
+				PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
+				compAbsShape->addChildShape(curr->getTransform(), curr->absoluteCShape);
+				absoluteMass += curr->absoluteMass;
 			}
-			else
+
+			absoluteCOG.setValue(0.0f, 0.0f, 0.0f);
+			absoluteCOG += cog * (mass / absoluteMass);
+
+			it = children.begin();
+			for(; it != children.end(); ++it)
 			{
-				btCompoundShape* compAbsShape = new btCompoundShape();
-				absoluteCShape = compAbsShape;
-				compAbsShape->addChildShape(btTransform(), cShape);
-
-				list<TreeNode*>::iterator it = children.begin();
-				for(; it != children.end(); ++it)
-				{
-					PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
-					compAbsShape->addChildShape(curr->getTransform(), curr->absoluteCShape);
-					absoluteMass += curr->absoluteMass;
-				}
-
-				absoluteCOG.setValue(0.0f, 0.0f, 0.0f);
-				absoluteCOG += cog * (mass / absoluteMass);
-
-				it = children.begin();
-				for(; it != children.end(); ++it)
-				{
-					PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
-					absoluteCOG += curr->cog
-						* (curr->absoluteMass / absoluteMass);
-				}
+				PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
+				absoluteCOG += curr->cog
+					* (curr->absoluteMass / absoluteMass);
 			}
-			// Allow collision shape to be traced back to us
-			absoluteCShape->setUserPointer(owner);
+		}
+		// Allow collision shape to be traced back to us
+		absoluteCShape->setUserPointer(owner);
 
-			// Only entities with no parents should have rigid bodies.
-			if(parent == nullptr)
-			{
-				//TODO: Update body mass and possibly motionstate
+		// Only entities with no parents should have rigid bodies.
+		if(parent == nullptr)
+		{
+			//TODO: Update body mass and possibly motionstate
 
 			
-				// If the body already exists, this entity was already a parent
-				// beforehand.  We just need to update it's collision shape
-				// with the new absolute shape.
-				if(body != nullptr)
-				{
-					body->setCollisionShape(absoluteCShape);
-					body->setMassProps(absoluteMass, btVector3());
-				}
-				// Otherwise we need to instantiate a new rigid body and register
-				// it with the physics world.
-				else
-				{
-					btRigidBody::btRigidBodyConstructionInfo ci(absoluteMass, nullptr,
-						absoluteCShape);
-					body = new btRigidBody(ci);
-
-				}
-
-				// Set new center of gravity
-				btTransform comTrans;
-				comTrans.setOrigin(absoluteCOG);
-				body->setCenterOfMassTransform(comTrans);
-			}
-			// If the entitiy is no longer a parent, remove it from the world
-			else if(body != nullptr)
+			// If the body already exists, this entity was already a parent
+			// beforehand.  We just need to update it's collision shape
+			// with the new absolute shape.
+			if(body != nullptr)
 			{
-				physMan->GetWorld()->removeRigidBody(body);
-				delete body;
-				body = nullptr;
+				body->setCollisionShape(absoluteCShape);
+				body->setMassProps(absoluteMass, btVector3());
 			}
-			// There is no else. Child objects do not get their own rigid body
+			// Otherwise we need to instantiate a new rigid body and register
+			// it with the physics world.
+			else
+			{
+				btRigidBody::btRigidBodyConstructionInfo ci(absoluteMass, nullptr,
+					absoluteCShape);
+				body = new btRigidBody(ci);
+
+			}
+
+			// Set new center of gravity
+			btTransform comTrans;
+			comTrans.setOrigin(absoluteCOG);
+			body->setCenterOfMassTransform(comTrans);
 		}
+		// If the entitiy is no longer a parent, remove it from the world
+		else if(body != nullptr)
+		{
+			physMan->GetWorld()->removeRigidBody(body);
+			delete body;
+			body = nullptr;
+		}
+		// There is no else. Child objects do not get their own rigid body
 	}
 } // end namespace Core

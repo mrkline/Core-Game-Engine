@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+#include <stack>
+
 #include "ErrorHandling.h"
 
 using namespace std;
@@ -181,38 +183,42 @@ namespace Core
 		bool includingThisObject)
 	{
 		ComponentList ret;
+		stack<GameObject*> s;
+		
 		if(includingThisObject)
 		{
-			DescendantSearchRecursor(&ret, this, compType);
+			s.push(this);
 		}
 		else
 		{
 			for(list<TreeNode*>::iterator it = children.begin();
 				it != children.end(); ++it)
 			{
-				DescendantSearchRecursor(&ret, static_cast<GameObject*>(*it), compType);
+				s.push(static_cast<GameObject*>(*it));
 			}
 		}
-		return ret;
-	}
 
-	void  GameObject::DescendantSearchRecursor(list<GameComponent*>* compList,
-			GameObject* obj, GameComponent::EType compType)
-	{
-		GameComponent* comp = obj->GetComponentByType(compType);
-		if(comp != nullptr)
+		while(!s.empty())
 		{
-			compList->push_back(comp);
-			return;
-		}
-		else
-		{
-			list<TreeNode*>& children = obj->GetChildren();
-			for(list<TreeNode*>::iterator it = children.begin();
-				it != children.end(); ++it)
+			GameObject* curr = s.top();
+			s.pop();
+
+			GameComponent* comp = curr->GetComponentByType(compType);
+			if(comp != nullptr)
 			{
-				DescendantSearchRecursor(compList, static_cast<GameObject*>(*it), compType);
+				ret.push_back(comp);
+			}
+			else
+			{
+				list<TreeNode*>& children = curr->GetChildren();
+				for(list<TreeNode*>::iterator it = children.begin();
+					it != children.end(); ++it)
+				{
+					s.push(static_cast<GameObject*>(*it));
+				}
 			}
 		}
+
+		return ret;
 	}
 } // end namespace Core
