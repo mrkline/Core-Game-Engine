@@ -38,18 +38,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.2\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>..\..\irrlicht\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <TargetName>Core</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\Common\include;..\..\Irrlicht 1.7.2\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\Common\include;..\..\bullet-2.77\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>..\..\Irrlicht 1.7.2\lib;..\..\bullet-2.77\msvc\2010 - no demos\lib\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <TargetName>Core</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h" />
     <ClInclude Include="..\..\Common\include\ComponentManager.h" />
+    <ClInclude Include="..\..\Common\include\Core.h" />
     <ClInclude Include="..\..\common\include\CoreBase.h" />
     <ClInclude Include="..\..\Common\include\CoreMath.h" />
     <ClInclude Include="..\..\Common\include\CoreTransform.h" />

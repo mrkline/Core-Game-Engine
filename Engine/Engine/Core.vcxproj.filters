@@ -92,6 +92,9 @@
     <ClInclude Include="..\..\Common\include\Vector3.h">
       <Filter>Header Files\Common\Core Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">

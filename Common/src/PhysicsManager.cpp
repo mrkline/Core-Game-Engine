@@ -1,7 +1,5 @@
 #include "PhysicsManager.h"
 
-#include <btBulletDynamicsCommon.h>
-
 #include "CollisionDetector.h"
 #include "ErrorHandling.h"
 

@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include <btBulletDynamicsCommon.h>
+
 #include "ComponentManager.h"
 #include "CollisionDetector.h"
 
