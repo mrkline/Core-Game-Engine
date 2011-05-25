@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <limits>
 #include <cmath>
 
 namespace Core
@@ -34,10 +33,12 @@ namespace Core
 		const double kDegToRadDouble = kPiDouble / 180.0;
 		//! Conversion ratio to convert angle measurements in radians to degree angle mesurements
 		const double kRadToDegDouble = 180.0 / kPiDouble;
-		//! Rounding error of a float, as reported by std::numeric_limits
-		const float kFloatRoundError = std::numeric_limits<float>().round_error();
-		//! Rounding error of a double, as reported by std::numeric_limits
-		const double kDoubleRoundError = std::numeric_limits<double>().round_error(); 
+		//! Rounding error of a float
+		//! \todo Get a more "real" value? Such as from std library?
+		const float kFloatRoundError = 0.1f;
+		//! Rounding error of a double
+		//! \todo Get a more "real" value? Such as from std library?
+		const double kDoubleRoundError = 0.01;
 
 		/*!
 		\brief Clamps a value between a low and high value
@@ -80,6 +81,7 @@ namespace Core
 		{
 			return (a + tolerance >= b) && (a - tolerance <= b);
 		}
+
 		/*!
 		\brief Tests two doubles for equality within a given tolerance
 		\param a The first value to test for equality
@@ -93,6 +95,7 @@ namespace Core
 		{
 			return (a + tolerance >= b) && (a - tolerance <= b);
 		}
+
 		/*!
 		\brief Tests a float for equality to zero
 		\param a The first value to test for equality to zero
@@ -106,6 +109,7 @@ namespace Core
 		{
 			return (a + tolerance >= 0.0f) && (a - tolerance <= 0.0f);
 		}
+
 		/*!
 		\brief Tests a double for equality to zero
 		\param a The first value to test for equality to zero

@@ -3,6 +3,7 @@
 #include <CollisionDetector.h>
 #include <ComponentManager.h>
 #include <CoreBase.h>
+#include <CoreMath.h>
 #include <CoreTransform.h>
 #include <ErrorHandling.h>
 #include <GameComponent.h>
