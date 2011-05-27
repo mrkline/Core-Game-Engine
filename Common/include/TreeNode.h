@@ -4,7 +4,11 @@
 
 namespace Core
 {
-	//! A class that provides tree functionality (with a parent and children)
+	/*!
+	\brief A class that provides tree functionality (with a parent and children)
+	\todo What should be done to restrict subclasses from adding any old TreeNode as a child, etc.?
+			Restrict their type, Possibly via making TreeNode a template.
+	*/
 	class TreeNode
 	{
 	public:
@@ -20,43 +24,49 @@ namespace Core
 		\brief Sets a parent for this tree node.
 		\param newParent The new parent, or null if the tree node should have no parent
 		*/
-		virtual void SetParent(TreeNode* newParent);
+		void SetParent(TreeNode* newParent);
+
 		//! Gets the tree node's parent, or null if it has none
-		virtual TreeNode* GetParent() { return parent; }
+		TreeNode* GetParent() { return parent; }
+
 		/*!
 		\brief Removes the tree node from its parent
 		\param updateHierarchy Set to true to notify the surrounding tree of the change.
 		*/
-		virtual void RemoveFromParent(bool updateHierarchy = true);
+		void RemoveFromParent(bool updateHierarchy = true);
+
 		/*!
 		\brief Adds a child to this node
 		\param child Child to add
 		*/
-		virtual void AddChild(TreeNode* child);
+		void AddChild(TreeNode* child);
+
 		/*!
 		\brief Remove a child from this node
 		\param child Child to remove
 		*/
-		virtual void RemoveChild(TreeNode* child);
+		void RemoveChild(TreeNode* child);
+
 		//! Deletes all children
-		virtual void DeleteAllChildren();
+		void DeleteAllChildren();
 	
 		//! Gets a list of the node's children
-		virtual std::list<TreeNode*>& GetChildren() { return children; }
+		std::list<TreeNode*>& GetChildren() { return children; }
+
 		//! Gets a list of the node's children
-		virtual const std::list<TreeNode*>& GetChildren() const { return children; }
+		const std::list<TreeNode*>& GetChildren() const { return children; }
+
 		/*!
 		\brief Sets whether or not the node cares about hierarchy changes that occur to its children
 		\see OnHierarchyChange
 		*/
 		void SetUpdateOnChildren(bool update) { caresAboutChildren = update; }
+
 		/*!
 		\brief Gets whether or not the node cares about hierarchy changes that occur to its children
 		\see OnHierarchyChange
 		*/
 		bool GetUpdateOnChildren() { return caresAboutChildren; }
-
-		void UpdateHierarchy();
 
 		/*!
 		\brief Used to update any necessary info by a derived class when the tree changes.
@@ -72,5 +82,9 @@ namespace Core
 		std::list<TreeNode*> children; 
 		//! If this is true, changes to children will not cause OnHierarchyChange to be called
 		bool caresAboutChildren;
+
+	private:
+		//! Called internally to call OnHierarchyChange on all those in the hierarchy who care
+		void UpdateHierarchy();
 	};
 } // end namespace Core

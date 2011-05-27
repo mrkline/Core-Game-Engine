@@ -9,88 +9,88 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\Common">
-      <UniqueIdentifier>{f5ad1a2f-c7eb-461a-8808-4a18fb0c04f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Common">
+    <Filter Include="Source Files\Core">
       <UniqueIdentifier>{d03ea375-200e-41ae-bb39-090c97dab7d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Common\Physics">
-      <UniqueIdentifier>{22465a70-8147-48a6-ab74-deede929a01d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Common\Core Components">
-      <UniqueIdentifier>{4f49a500-9238-4d85-b226-2db18e94f4af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Common\Core Components">
+    <Filter Include="Source Files\Core\Core Components">
       <UniqueIdentifier>{7f81cfd3-8563-40b3-89f3-947d1056cde7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Common\Physics">
+    <Filter Include="Source Files\Core\Physics">
       <UniqueIdentifier>{5e9e68a2-76a8-48ff-be1e-f4541e10ab77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Common\Graphics">
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{f5ad1a2f-c7eb-461a-8808-4a18fb0c04f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Physics">
+      <UniqueIdentifier>{22465a70-8147-48a6-ab74-deede929a01d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Core Components">
+      <UniqueIdentifier>{4f49a500-9238-4d85-b226-2db18e94f4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Graphics">
       <UniqueIdentifier>{5fedf3ea-2118-457d-9e36-754dbde5f0e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\GameMotionState.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\include\IterativeManifoldCollisionDetector.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\MapPhysicsManager.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\PhysicsComponent.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\PhysicsManager.h">
-      <Filter>Header Files\Common\Physics</Filter>
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\ComponentManager.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\TreeNode.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\ErrorHandling.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\GameComponent.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\LogicComponent.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\NamedClass.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\PointerKey.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\include\CoreBase.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\Scene.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\CoreTransform.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\include\ILevel.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\IGraphicsThread.h">
-      <Filter>Header Files\Common\Graphics</Filter>
+      <Filter>Header Files\Core\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\CoreMath.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\Vector3.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\include\Core.h">
       <Filter>Header Files</Filter>
@@ -98,45 +98,45 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">
-      <Filter>Source Files\Common\Physics</Filter>
+      <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\CoreTransform.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\ErrorHandling.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\GameComponent.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\src\IterativeManifoldCollisionDetector.cpp">
-      <Filter>Source Files\Common\Physics</Filter>
+      <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\MapPhysicsManager.cpp">
-      <Filter>Source Files\Common\Physics</Filter>
+      <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp">
-      <Filter>Source Files\Common\Physics</Filter>
+      <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp">
-      <Filter>Source Files\Common\Physics</Filter>
+      <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\TreeNode.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\GameObject.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\src\Scene.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\src\CoreBase.cpp">
-      <Filter>Source Files\Common\Core Components</Filter>
+      <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">
-      <Filter>Header Files\Common\Core Components</Filter>
+      <Filter>Header Files\Core\Core Components</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

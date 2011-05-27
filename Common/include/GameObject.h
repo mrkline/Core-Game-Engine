@@ -46,7 +46,7 @@ namespace Core
 		GameObjectManager* getObectManager() const { return man; }
 
 		//! Updates the absolute transform of the object
-		virtual void Update();
+		void Update();
 	
 		//! Sets the object's transform to a new one
 		void SetTransform(const Transform& newTransform) { trans = newTransform; }
@@ -54,12 +54,13 @@ namespace Core
 		Transform& GetTransform() { return trans; }
 		//! Gets the object's transform
 		const Transform& GetTransform() const { return trans; }
+		
 		/*!
 		\brief Called by Update to update the absolute transform
 		\see Update
 
 		Only updates based on parent, does not recursively travel up the hierarchy.
-		//Because of this update should be calld on object tree from root down
+		Because of this update should be calld on object tree from root down
 		*/
 		void UpdateAbsoluteTransform();
 		//! Gets the absolute transform
@@ -100,30 +101,34 @@ namespace Core
 		\param newParent A pointer to the new parent, or null if no parent is desired
 		\todo Automatically tie to some sort of root?
 		*/
-		virtual void SetParent(GameObject* newParent);
+		void SetParent(GameObject* newParent);
+
 		//! Gets the object's parent
-		virtual GameObject* GetParent() { return static_cast<GameObject*>(parent); }
+		GameObject* GetParent() { return static_cast<GameObject*>(parent); }
+
 		/*!
 		\brief Removes this object from its parent
 		\param updateHierarchy Set to true to notify the surrounding tree of the change
 		*/
-		virtual void RemoveFromParent(bool updateHierarchy = true);
+		void RemoveFromParent(bool updateHierarchy = true);
+
 		/*!
 		\brief Add a child object
 		\param child Child object to add
 		\return An ECode that indicates the outcome of the additon
 		\warning If this object is deleted, all of its children are deleted as well.
 		*/
-		virtual void AddChild(GameObject* child);
+		void AddChild(GameObject* child);
+
 		/*!
 		\brief Remove a child object
 		\param child Child object to remove
 		\return An ECode that indicates the outcome of the removal
 		*/
-		virtual void RemoveChild(GameObject* child);
+		void RemoveChild(GameObject* child);
 
 		//! Delete all children
-		virtual void DeleteAllChildren();
+		void DeleteAllChildren();
 
 		/*!
 		\brief Used by components to find their nearest ancestor while assembling their own trees
@@ -142,10 +147,8 @@ namespace Core
 		std::auto_ptr<ComponentList> FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
 
 	protected:
-		/*
-		\brief The game object manager
-		\todo Replace with Scene
-		*/
+		//! brief The game object manager
+		//! \todo Replace with Scene
 		GameObjectManager* man;
 		std::list<GameComponent*> components; //!< A linked list of this object's components
 		Transform trans; //!< The transform for the game object

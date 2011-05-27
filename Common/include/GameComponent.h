@@ -20,13 +20,12 @@ namespace Core
 	{
 	public:
 		//! The types of Game components to be returned by GetComponentType()
-		enum EType
+		enum EType : unsigned int
 		{
+			E_GCT_BASE, //!< A default value that generally shouldn't be used
 			E_GCT_GRAPHICS, //!< A graphics component
 			E_GCT_PHYSICS, //!< A physics component
-			E_GCT_LOGIC,	//!< A logic component
-			E_GCT_UNKNOWN, //!< A default value that generally shouldn't be used
-			E_GCT_COUNT //!< Not a type, but a count of the types. Should not be used
+			E_GCT_LOGIC	//!< A logic component
 		};
 
 		//! Constructor. A component <i>must</i> be tied to a GameObject
@@ -43,19 +42,22 @@ namespace Core
 		RTTI in C++ is expensive, so in order to allow casting operations from
 		the base GameComponent class, this type field is used
 		*/
-		virtual EType GetComponentType() { return E_GCT_UNKNOWN; }
+		virtual EType GetComponentType() { return E_GCT_BASE; }
 
 		//These functions are called when hierarchy changes involving the GameObject owner
 		//occur, so that the components can update their own trees.
 
 		//! Called when the owning GameObject added a child. Updates the component's tree
-		virtual void OwnerAddedChild(GameObject* child);
+		void OwnerAddedChild(GameObject* child);
+
 		//! Called when the owning GameObject removed a child. Updates the component's tree
-		virtual void OwnerRemovedChild(GameObject* removed);
+		void OwnerRemovedChild(GameObject* removed);
+
 		//! Called when the owning GameObject has a new parent. Updates the component's tree
-		virtual void OwnerSetParent(GameObject* parent);
+		void OwnerSetParent(GameObject* parent);
+
 		//! Called when the owning GameObject is removed from its parent. Updates the component's tree
-		virtual void OwnerRemovedFromParent(bool updateHierarchy);
+		void OwnerRemovedFromParent(bool updateHierarchy);
 
 		//! Gets the GameObject that owns this component
 		GameObject* GetOwner() const { return owner; }
