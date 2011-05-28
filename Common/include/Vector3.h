@@ -16,12 +16,16 @@ namespace Core
 
 		//! Initializes vector to zero
 		Vector3() : X(0.0f), Y(0.0f), Z(0.0f) {} 
+
 		//! Initializes vector to provided x, y, and z values
 		Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+
 		//! Initializes x, y, and z values to v
 		explicit Vector3(float v) : X(v), Y(v), Z(v) {}
+
 		//! Initializes vector with a provided vector's values
 		Vector3(const Vector3& o) : X(o.X), Y(o.Y), Z(o.Z) {}
+
 		//! Initializes vector with the first three values in the provided array
 		explicit Vector3(float* arr) : X(arr[0]), Y(arr[1]), Z(arr[2]) {}
 		
@@ -46,6 +50,7 @@ namespace Core
 					(Math::Equals(X, o.X) && (Y < o.Y || Math::Equals(Y, o.Y))) ||
 					(Math::Equals(X, o.X) && Math::Equals(Y, o.Y) && (Z < o.Z || Math::Equals(Z, o.Z)));
 		}
+
 		//! Comparison operators can be used to sort vectors with respect to X, then Y, then Z
 		bool operator>=(const Vector3& o) const
 		{
@@ -53,6 +58,7 @@ namespace Core
 					(Math::Equals(X, o.X) && (Y > o.Y || Math::Equals(Y, o.Y))) ||
 					(Math::Equals(X, o.X) && Math::Equals(Y, o.Y) && (Z > o.Z || Math::Equals(Z, o.Z)));
 		}
+
 		//! Comparison operators can be used to sort vectors with respect to X, then Y, then Z
 		bool operator<(const Vector3& o) const
 		{
@@ -60,6 +66,7 @@ namespace Core
 					(Math::Equals(X, o.X) && Y < o.Y && !Math::Equals(Y, o.Y)) ||
 					(Math::Equals(X, o.X) && Math::Equals(Y, o.Y) && Z < o.Z && !Math::Equals(Z, o.Z));
 		}
+
 		//! Comparison operators can be used to sort vectors with respect to X, then Y, then Z
 		bool operator>(const Vector3& o) const
 		{
@@ -96,8 +103,10 @@ namespace Core
 
 		//! Gets the length of this vector
 		float GetLength() const { return std::sqrt(X*X + Y*Y + Z*Z); }
+
 		//! Gets the length squared of this vector, which is faster to calculate than the length
 		float GetLengthSq() const { return X*X + Y*Y + Z*Z; }
+
 		//! Gets the distance from this vector to another one, interpreting both vectors as points
 		float GetDistanceFrom(const Vector3& o) const
 		{
@@ -107,6 +116,7 @@ namespace Core
 			dz = Z - o.Z;
 			return std::sqrt(dx*dx + dy*dy + dz*dz);
 		}
+
 		//! Gets the distance squared from this vector to another one, interpreting both vectors as points.
 		//! This is faster to calculate than the distance itself.
 		float GetDistanceSqFrom(const Vector3& o) const
@@ -117,8 +127,10 @@ namespace Core
 			dz = Z - o.Z;
 			return dx*dx + dy*dy + dz*dz;
 		}
+
 		//! Returns true if this vector is a unit vector (with a length of 1)
 		bool IsNormalized() const { return Math::Equals(std::sqrt(X*X + Y*Y + Z*Z), 1.0f); }
+
 		//! Copies this vector into the first three values of the provided array
 		void GetAsArray(float* arr) const
 		{
@@ -129,18 +141,28 @@ namespace Core
 
 		//! Sets this vector to the provided values
 		void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
-		//! Sets this vector's values to those of the provided vector
-		void Set(const Vector3& o) { X = o.X; Y = o.Y; Z = o.Z; }
+
 		//! Sets this vector's values from the first three values of the provided array
-		void Set(float* asArray) { X = asArray[0]; Y = asArray[1]; Z = asArray[2]; }
+		void SetFromArray(float* asArray) { X = asArray[0]; Y = asArray[1]; Z = asArray[2]; }
+
+		//! Set's vector's components to their mulitplicative inverses
+		void SetToInverse() { X = 1.0f / X; Y = 1.0f / Y; Z = 1.0f / Z; }
+
+		//! Gets an array with components (1/x, 1/y, 1/z) of this vector
+		Vector3 GetInverse() const { Vector3 ret(*this); ret.SetToInverse(); return ret; }
+
 		//! Scales this vector by the components of the provided vector
 		void Scale(const Vector3& o) { X *= o.X; Y *= o.Y; Z *= o.Z; }
+
 		//! Returns a copy of this vector, scaled by the provided vector
-		Vector3 Scale(const Vector3& o) const { Vector3 ret(*this); ret.Scale(o); return ret; }
+		Vector3 GetScaledBy(const Vector3& o) const { Vector3 ret(*this); ret.Scale(o); return ret; }
+
 		//! Scales this vector by a provided scalar
 		void Scale(float v) { X *= v; Y *= v; Z *= v; }
+
 		//! Returns a copy of this vector, scaled by the provided scalar
-		Vector3 Scale(float v) const { Vector3 ret(*this); ret.Scale(v); return ret; }
+		Vector3 GetScaledBy(float v) const { Vector3 ret(*this); ret.Scale(v); return ret; }
+
 		//! Sets the length of this vector to 1
 		void Normalize()
 		{
@@ -148,7 +170,7 @@ namespace Core
 			
 			// Normalized already if our length is zero.
 			// Also stops NaN errors
-			if(Math::Equals(len, 0.0f))
+			if(Math::IsZero(len))
 			{
 				return;
 			}
@@ -157,14 +179,17 @@ namespace Core
 			Y /= len;
 			Z /= len;
 		}
+
 		//! Returns a copy of this vector with a length of 1
-		Vector3 Normalize() const { Vector3 ret(*this); ret.Normalize(); return ret; }
+		Vector3 GetNormalized() const { Vector3 ret(*this); ret.Normalize(); return ret; }
+
 		//! Sets the length of this vector to a provided scalar
 		void SetLength(float len)
 		{
 			Normalize();
 			Scale(len);
 		}
+
 		//! Returns a copy of this vector with a length of the provided scalar
 		Vector3 SetLength(float len) const { Vector3 ret(*this); ret.SetLength(len); return ret; }
 

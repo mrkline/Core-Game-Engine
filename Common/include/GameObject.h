@@ -150,7 +150,7 @@ namespace Core
 		//! brief The game object manager
 		//! \todo Replace with Scene
 		GameObjectManager* man;
-		std::list<GameComponent*> components; //!< A linked list of this object's components
+		ComponentList components; //!< A linked list of this object's components
 		Transform trans; //!< The transform for the game object
 		Transform absTrans; //!< The cumulative absolute transform for the game object
 	};

@@ -35,6 +35,8 @@ namespace Core
 				{
 					if(log1 != nullptr) log1->OnCollisionStay(pairInfo->totalCollisionTime, key.GetLower());
 					if(log2 != nullptr) log2->OnCollisionStay(pairInfo->totalCollisionTime, key.GetHigher());
+					// Reset matchedToManifold
+					pairInfo->matchedToManifold = false;
 				}
 				// If the collision pair no longer exists, this collision no longer exists.
 				// Kill it with fire.
@@ -46,8 +48,6 @@ namespace Core
 					delete pairInfo;
 				}
 			}
-			// Reset matchedToManifold
-			pairInfo->matchedToManifold = false;
 		}
 	}
 

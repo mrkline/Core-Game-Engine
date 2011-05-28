@@ -121,9 +121,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp">
       <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\src\TreeNode.cpp">
-      <Filter>Source Files\Core\Core Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\src\GameObject.cpp">
       <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
@@ -131,6 +128,9 @@
       <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\src\CoreBase.cpp">
+      <Filter>Source Files\Core\Core Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\src\TreeNode.cpp">
       <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -36,6 +36,7 @@ namespace Core
 			
 			//! \todo Carry on here
 			// Iterate through each object to get the specific collision shape colliding
+			// Be sure to stop if the user pointer stops pointing to a GameObject
 
 			while(curr0->isCompound())
 			{

@@ -21,8 +21,10 @@ namespace Core
 		void GetCollisionPairs(unsigned int substep);
 
 	private:
-		//! Used as temporary holders for collision shapes we iterate through.
-		btCollisionObject *co0, *co1;
+		//! Used as temporary holder for collision shapes we iterate through.
+		btCollisionObject *co0;
+		//! Used as temporary holder for collision shapes we iterate through.
+		btCollisionObject *co1;
 
 		//! Used as a temporary store for info returned by addSingleResult
 		struct

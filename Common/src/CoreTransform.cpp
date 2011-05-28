@@ -33,7 +33,7 @@ namespace Core
 		*this = other;
 	}
 
-	bool Transform::GetInverse(Transform& out) const
+	void Transform::GetInverse(Transform& out) const
 	{
 		const Transform &m = *this;
 
@@ -44,9 +44,9 @@ namespace Core
 			(m(0, 1) * m(1, 3) - m(0, 3) * m(1, 1)) * (m(2, 0) * m(3, 2) - m(2, 2) * m(3, 0)) +
 			(m(0, 2) * m(1, 3) - m(0, 3) * m(1, 2)) * (m(2, 0) * m(3, 1) - m(2, 1) * m(3, 0));
 
-		if(Math::Equals(d, 0.0f))
+		if(Math::IsZero(d, 0.0f))
 		{
-			return false;
+			throw new MathException("The provided transform has no inverse.", __FUNCTION__);
 		}
 
 		d = 1.0f / d;
@@ -99,8 +99,6 @@ namespace Core
 		out(3, 3) = d * (m(0, 0) * (m(1, 1) * m(2, 2) - m(1, 2) * m(2, 1)) +
 				m(0, 1) * (m(1, 2) * m(2, 0) - m(1, 0) * m(2, 2)) +
 				m(0, 2) * (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0)));
-
-		return true;
 	}
 
 	void Transform::GetTransposed(Transform& out) const
@@ -244,12 +242,16 @@ namespace Core
 		if(Math::IsZero(matrix[1]) && Math::IsZero(matrix[2]) &&
 			Math::IsZero(matrix[4]) && Math::IsZero(matrix[6]) &&
 			Math::IsZero(matrix[8]) && Math::IsZero(matrix[9]))
+		{
 			vecOut.Set(matrix[0], matrix[5], matrix[10]);
-
+		}
+		else
+		{
 		// We have to do the full calculation.
 		vecOut.Set(sqrtf(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]),
 							sqrtf(matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6]),
 							sqrtf(matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10]));
+		}
 	}
 
 	void Transform::GetTranslation(Vector3& vecOut) const
@@ -260,19 +262,6 @@ namespace Core
 	void Transform::SetToIdentity()
 	{
 		memcpy(matrix, kIdentityMatrix, sizeof(float) * 16);
-	}
-
-	bool Transform::SetToInverse()
-	{
-		Transform temp;
-		bool ret = GetInverse(temp);
-		
-		if(ret)
-		{
-			*this = temp;
-		}
-
-		return ret;
 	}
 
 	void Transform::SetAsProductOf(const Transform& t1, const Transform& t2)
@@ -328,7 +317,7 @@ namespace Core
 
 	void Transform::SetInverseRotationDegrees(const Vector3& rotation)
 	{
-		SetInverseRotationRadians(rotation.Scale(Math::kDegToRad));
+		SetInverseRotationRadians(rotation.GetScaledBy(Math::kDegToRad));
 	}
 
 	void Transform::SetInverseTranslation(const Vector3& translation)
@@ -365,7 +354,7 @@ namespace Core
 
 	void Transform::SetRotationDegrees(const Vector3& rotation)
 	{
-		SetRotationRadians(rotation.Scale(Math::kDegToRad));
+		SetRotationRadians(rotation.GetScaledBy(Math::kDegToRad));
 	}
 
 	void Transform::SetTranslation(const Vector3& translation)
@@ -404,7 +393,7 @@ namespace Core
 
 	void Transform::RotatePoint(Vector3& point) const
 	{
-		Vector3& tmp = point;
+		Vector3 tmp(point);
 		point.X = tmp.X * matrix[0] + tmp.Y * matrix[4] + tmp.Z * matrix[8];
 		point.Y = tmp.X * matrix[1] + tmp.Y * matrix[5] + tmp.Z * matrix[9];
 		point.Z = tmp.X * matrix[2] + tmp.Y * matrix[6] + tmp.Z * matrix[10];
@@ -440,29 +429,7 @@ namespace Core
 	Transform Transform::operator*(const Transform& m2) const
 	{
 		Transform m3(E_MT_EMPTY);
-
-		const float *m1 = matrix;
-
-		m3[0] = m1[0]*m2[0] + m1[4]*m2[1] + m1[8]*m2[2] + m1[12]*m2[3];
-		m3[1] = m1[1]*m2[0] + m1[5]*m2[1] + m1[9]*m2[2] + m1[13]*m2[3];
-		m3[2] = m1[2]*m2[0] + m1[6]*m2[1] + m1[10]*m2[2] + m1[14]*m2[3];
-		m3[3] = m1[3]*m2[0] + m1[7]*m2[1] + m1[11]*m2[2] + m1[15]*m2[3];
-
-		m3[4] = m1[0]*m2[4] + m1[4]*m2[5] + m1[8]*m2[6] + m1[12]*m2[7];
-		m3[5] = m1[1]*m2[4] + m1[5]*m2[5] + m1[9]*m2[6] + m1[13]*m2[7];
-		m3[6] = m1[2]*m2[4] + m1[6]*m2[5] + m1[10]*m2[6] + m1[14]*m2[7];
-		m3[7] = m1[3]*m2[4] + m1[7]*m2[5] + m1[11]*m2[6] + m1[15]*m2[7];
-
-		m3[8] = m1[0]*m2[8] + m1[4]*m2[9] + m1[8]*m2[10] + m1[12]*m2[11];
-		m3[9] = m1[1]*m2[8] + m1[5]*m2[9] + m1[9]*m2[10] + m1[13]*m2[11];
-		m3[10] = m1[2]*m2[8] + m1[6]*m2[9] + m1[10]*m2[10] + m1[14]*m2[11];
-		m3[11] = m1[3]*m2[8] + m1[7]*m2[9] + m1[11]*m2[10] + m1[15]*m2[11];
-
-		m3[12] = m1[0]*m2[12] + m1[4]*m2[13] + m1[8]*m2[14] + m1[12]*m2[15];
-		m3[13] = m1[1]*m2[12] + m1[5]*m2[13] + m1[9]*m2[14] + m1[13]*m2[15];
-		m3[14] = m1[2]*m2[12] + m1[6]*m2[13] + m1[10]*m2[14] + m1[14]*m2[15];
-		m3[15] = m1[3]*m2[12] + m1[7]*m2[13] + m1[11]*m2[14] + m1[15]*m2[15];
-
+		m3.SetAsProductOf(*this, m2);
 		return m3;
 	}
 

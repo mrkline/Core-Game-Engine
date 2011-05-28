@@ -11,7 +11,7 @@ namespace Core
 	{
 		if(manager == nullptr)
 		{
-			throw new Error::ArgumentNullException("The provided physics manager cannot be null.",
+			throw new ArgumentNullException("The provided physics manager cannot be null.",
 				__FUNCTION__);
 		}
 

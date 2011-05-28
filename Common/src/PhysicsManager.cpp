@@ -22,7 +22,7 @@ namespace Core
 		*/
 		if(detector == nullptr)
 		{
-			throw new Error::ArgumentNullException("Physics manager cannot receive a null CollisionDetector",
+			throw new ArgumentNullException("Physics manager cannot receive a null CollisionDetector",
 				__FUNCTION__);
 		}
 		detector->SetPhysicsManager(this);

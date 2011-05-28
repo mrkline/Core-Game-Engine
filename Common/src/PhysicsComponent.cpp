@@ -15,11 +15,11 @@ namespace Core
 	{
 		if(physManager == nullptr)
 		{
-			throw new Error::ArgumentNullException("The physics manager cannot be null.", __FUNCTION__);
+			throw new ArgumentNullException("The physics manager cannot be null.", __FUNCTION__);
 		}
 		if(collisionShape == nullptr)
 		{
-			throw new Error::ArgumentNullException("Each physics component must be given a collision shape");
+			throw new ArgumentNullException("Each physics component must be given a collision shape");
 		}
 		// Allow this collision shape to be traced back to us
 		collisionShape->setUserPointer(owner);

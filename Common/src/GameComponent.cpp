@@ -12,7 +12,7 @@ namespace Core
 	{
 		if(objOwner == nullptr)
 		{
-			throw new Error::ArgumentException("A game component cannot have a null owner", __FUNCTION__);
+			throw new ArgumentException("A game component cannot have a null owner", __FUNCTION__);
 		}
 		// Automatically link us into this component's hierarchy
 		auto_ptr<GameObject::ComponentList> add = owner->FindNearestDescendantComponents(GetComponentType());

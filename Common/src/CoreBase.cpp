@@ -57,7 +57,7 @@ namespace Core
 	{
 		if(gThread == nullptr)
 		{
-			throw new Error::InvalidOperationException("The graphics thread must be initialized before calling CoreBase::Run.",
+			throw new InvalidOperationException("The graphics thread must be initialized before calling CoreBase::Run.",
 				__FUNCTION__);
 		}
 

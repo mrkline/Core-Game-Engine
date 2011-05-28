@@ -8,14 +8,12 @@ using namespace std;
 
 namespace Core
 {
-	using namespace Error;
-
 	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, int id, const std::string& name)
 		: NamedClass(id, name)
 	{
 		if(objMan == nullptr)
 		{
-			throw new Error::ArgumentNullException("A GameObject needs a non-null pointer to its manager",
+			throw new ArgumentNullException("A GameObject needs a non-null pointer to its manager",
 				__FUNCTION__);
 		}
 		if(parent != nullptr)
@@ -61,7 +59,7 @@ namespace Core
 		// Make sure it's not null
 		if(newComponent == nullptr)
 		{
-			throw new Error::ArgumentNullException("A game object cannot add a null component.",
+			throw new ArgumentNullException("A game object cannot add a null component.",
 				__FUNCTION__);
 		}
 		// Make sure we don't already have a component of this type
@@ -71,7 +69,7 @@ namespace Core
 		{
 			if((*it)->GetComponentType() == ncType)
 			{
-				throw new Error::ArgumentException("A game object can only have one of each type of component",
+				throw new ArgumentException("A game object can only have one of each type of component",
 					__FUNCTION__);
 			}
 		}
@@ -82,7 +80,7 @@ namespace Core
 	{
 		if(toRemove == nullptr)
 		{
-			throw new Error::ArgumentNullException("A game object has no null components to remove.",
+			throw new ArgumentNullException("A game object has no null components to remove.",
 				__FUNCTION__);
 		}
 		for(list<GameComponent*>::iterator it = components.begin();
@@ -94,7 +92,7 @@ namespace Core
 				return;
 			}
 		}
-		throw new Error::ArgumentNullException("The game object did not contain the given component.",
+		throw new ArgumentNullException("The game object did not contain the given component.",
 			__FUNCTION__);
 	}
 
