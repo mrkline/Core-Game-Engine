@@ -12,12 +12,11 @@ namespace Core
 	{
 		if(objOwner == nullptr)
 		{
-			throw new ArgumentException("A game component cannot have a null owner", __FUNCTION__);
+			throw ArgumentException("A game component cannot have a null owner", __FUNCTION__);
 		}
 		// Automatically link us into this component's hierarchy
 		auto_ptr<GameObject::ComponentList> add = owner->FindNearestDescendantComponents(GetComponentType());
-		for(GameObject::ComponentList::const_iterator it = add->begin();
-			it != add->end(); ++it)
+		for(auto it = add->begin(); it != add->end(); ++it)
 		{
 			AddChild(*it);
 		}
@@ -30,8 +29,7 @@ namespace Core
 		// The parent will automatically have the children remove us
 		if(parent != nullptr)
 		{
-			for(list<TreeNode*>::iterator it = children.begin();
-				it != children.end(); ++it)
+			for(auto it = children.begin(); it != children.end(); ++it)
 			{
 				parent->AddChild(*it);
 			}
@@ -41,8 +39,7 @@ namespace Core
 	void GameComponent::OwnerAddedChild(GameObject* added)
 	{
 		auto_ptr<GameObject::ComponentList> add = added->FindNearestDescendantComponents(GetComponentType(), true);
-		for(GameObject::ComponentList::const_iterator it = add->begin();
-			it != add->end(); ++it)
+		for(auto it = add->begin(); it != add->end(); ++it)
 		{
 			AddChild(*it);
 		}
@@ -51,8 +48,7 @@ namespace Core
 	void GameComponent::OwnerRemovedChild(GameObject* removed)
 	{
 		auto_ptr<GameObject::ComponentList> remove = removed->FindNearestDescendantComponents(GetComponentType(), true);
-		for(GameObject::ComponentList::const_iterator it = remove->begin();
-			it != remove->end(); ++it)
+		for(auto it = remove->begin(); it != remove->end(); ++it)
 		{
 			RemoveChild(*it);
 		}

@@ -27,7 +27,7 @@ namespace Core
 	{
 		if(newParent == this)
 		{
-			throw new ArgumentException("A tree node cannot set itself as its parent.",
+			throw ArgumentException("A tree node cannot set itself as its parent.",
 				__FUNCTION__);
 		}
 		RemoveFromParent(false);
@@ -45,12 +45,12 @@ namespace Core
 	{
 		if(newChild == nullptr)
 		{
-			throw new ArgumentNullException("A tree node cannot add a null child.",
+			throw ArgumentNullException("A tree node cannot add a null child.",
 				__FUNCTION__);
 		}
 		if(newChild == this)
 		{
-			throw new ArgumentException("A tree node cannot add itself as a child.",
+			throw ArgumentException("A tree node cannot add itself as a child.",
 				__FUNCTION__);
 		}
 		for(list<TreeNode*>::iterator it = children.begin();
@@ -59,7 +59,7 @@ namespace Core
 			// We're trying to add a duplicate child
 			if(*it == newChild)
 			{
-				throw new ArgumentException("A tree node cannot have duplicate children.",
+				throw ArgumentException("A tree node cannot have duplicate children.",
 					__FUNCTION__);
 			}
 		}
@@ -73,7 +73,7 @@ namespace Core
 	{
 		if(toRemove == nullptr)
 		{
-			throw new ArgumentNullException("A tree node cannot remove a null child.",
+			throw ArgumentNullException("A tree node cannot remove a null child.",
 				__FUNCTION__);
 		}
 		for(list<TreeNode*>::iterator it = children.begin();
@@ -88,7 +88,7 @@ namespace Core
 				return;
 			}
 		}
-		throw new ArgumentException("A tree node could not find the child that was to be removed.",
+		throw ArgumentException("A tree node could not find the child that was to be removed.",
 			__FUNCTION__);
 	}
 

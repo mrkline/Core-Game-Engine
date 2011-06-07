@@ -13,7 +13,7 @@ namespace Core
 	{
 		if(objMan == nullptr)
 		{
-			throw new ArgumentNullException("A GameObject needs a non-null pointer to its manager",
+			throw ArgumentNullException("A GameObject needs a non-null pointer to its manager",
 				__FUNCTION__);
 		}
 		if(parent != nullptr)
@@ -25,8 +25,7 @@ namespace Core
 	GameObject::~GameObject()
 	{
 		// Kill the components
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			delete *it;
 		}
@@ -35,8 +34,7 @@ namespace Core
 	void GameObject::Update()
 	{
 		UpdateAbsoluteTransform();
-		for(list<TreeNode*>::iterator it = children.begin();
-			it != children.end(); ++it)
+		for(auto it = children.begin(); it != children.end(); ++it)
 		{
 			static_cast<GameObject*>(*it)->Update();
 		}
@@ -59,17 +57,16 @@ namespace Core
 		// Make sure it's not null
 		if(newComponent == nullptr)
 		{
-			throw new ArgumentNullException("A game object cannot add a null component.",
+			throw ArgumentNullException("A game object cannot add a null component.",
 				__FUNCTION__);
 		}
 		// Make sure we don't already have a component of this type
 		GameComponent::EType ncType = newComponent->GetComponentType();
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			if((*it)->GetComponentType() == ncType)
 			{
-				throw new ArgumentException("A game object can only have one of each type of component",
+				throw ArgumentException("A game object can only have one of each type of component",
 					__FUNCTION__);
 			}
 		}
@@ -80,11 +77,10 @@ namespace Core
 	{
 		if(toRemove == nullptr)
 		{
-			throw new ArgumentNullException("A game object has no null components to remove.",
+			throw ArgumentNullException("A game object has no null components to remove.",
 				__FUNCTION__);
 		}
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			if((*it) == toRemove)
 			{
@@ -92,7 +88,7 @@ namespace Core
 				return;
 			}
 		}
-		throw new ArgumentNullException("The game object did not contain the given component.",
+		throw ArgumentNullException("The game object did not contain the given component.",
 			__FUNCTION__);
 	}
 
@@ -108,8 +104,7 @@ namespace Core
 
 	GameComponent* GameObject::GetComponentByType(GameComponent::EType type)
 	{
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			GameComponent* curr = (*it);
 			if(curr->GetComponentType() == type)
@@ -123,8 +118,7 @@ namespace Core
 	void GameObject::SetParent(GameObject* newParent)
 	{
 		TreeNode::SetParent(parent);
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			(*it)->OwnerSetParent(newParent);
 		}
@@ -133,8 +127,7 @@ namespace Core
 	void GameObject::RemoveFromParent(bool updateHierarchy)
 	{
 		TreeNode::RemoveFromParent(updateHierarchy);
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			(*it)->OwnerRemovedFromParent(updateHierarchy);
 		}
@@ -143,8 +136,7 @@ namespace Core
 	void GameObject::AddChild(GameObject* child)
 	{
 		TreeNode::AddChild(child);
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			(*it)->OwnerAddedChild(child);
 		}
@@ -153,8 +145,7 @@ namespace Core
 	void GameObject::RemoveChild(GameObject* child)
 	{
 		TreeNode::RemoveChild(child);
-		for(list<GameComponent*>::iterator it = components.begin();
-			it != components.end(); ++it)
+		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			(*it)->OwnerRemovedChild(child);
 		}
@@ -189,8 +180,7 @@ namespace Core
 		}
 		else
 		{
-			for(list<TreeNode*>::iterator it = children.begin();
-				it != children.end(); ++it)
+			for(auto it = children.begin(); it != children.end(); ++it)
 			{
 				s.push(static_cast<GameObject*>(*it));
 			}
@@ -209,8 +199,7 @@ namespace Core
 			else
 			{
 				list<TreeNode*>& children = curr->GetChildren();
-				for(list<TreeNode*>::iterator it = children.begin();
-					it != children.end(); ++it)
+				for(auto it = children.begin(); it != children.end(); ++it)
 				{
 					s.push(static_cast<GameObject*>(*it));
 				}

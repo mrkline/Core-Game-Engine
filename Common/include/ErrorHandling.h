@@ -34,17 +34,9 @@ namespace Core
 		All strings must not point to dynamic memory, as no free or delete is called on them.
 		It is assumed that they will point to static strings that were created at compile time.
 		*/
-		Exception(const char* exceptionMessage,	const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: message(exceptionMessage), cf(callingFunctionName),
-			ie(internalException) { }
-
-		//! Deconstructor. Deletes the internal exception, if necessary
-		virtual ~Exception()
-		{
-			if(ie != nullptr)
-				delete ie;
-		}
+		Exception(const char* exceptionMessage,	const char* callingFunctionName = nullptr)
+			: message(exceptionMessage), cf(callingFunctionName)
+		{ }
 
 		//! Returns the exception message
 		const char* GetExceptionMessage() const { return message; }
@@ -52,13 +44,9 @@ namespace Core
 		//! Returns the name of the calling function, or null if it is not set
 		const char* GetCallingFunction() const { return cf;	}
 
-		//! Returns the inner exception, or null if there isn't one
-		const Exception* GetInnerException() const { return ie;	}
-
 	private:
 		const char* message; //!< Exception message
 		const char* cf; //!< Name of calling function
-		const Exception* ie; //!< Internal exception
 	};
 
 	//! Thrown due to math-related errors
@@ -66,9 +54,8 @@ namespace Core
 	{
 	public:
 		MathException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: Exception(exceptionMessage, callingFunctionName)
 		{ }
 	};
 
@@ -77,9 +64,8 @@ namespace Core
 	{
 	public:
 		ArgumentException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: Exception(exceptionMessage, callingFunctionName)
 		{ }
 	};
 
@@ -88,9 +74,8 @@ namespace Core
 	{
 	public:
 		ArgumentNullException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: ArgumentException(exceptionMessage, callingFunctionName)
 		{ }
 	};
 
@@ -99,9 +84,8 @@ namespace Core
 	{
 	public:
 			ArgumentOutOfRangeException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: ArgumentException(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: ArgumentException(exceptionMessage, callingFunctionName)
 		{ }
 	};
 
@@ -110,9 +94,8 @@ namespace Core
 	{
 	public:
 		IndexOutOfRangeException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: Exception(exceptionMessage, callingFunctionName)
 		{ }
 	};
 
@@ -121,9 +104,8 @@ namespace Core
 	{
 	public:
 		InvalidOperationException(const char* exceptionMessage,
-			const char* callingFunctionName = nullptr,
-			const Exception* internalException = nullptr)
-			: Exception(exceptionMessage, callingFunctionName, internalException)
+			const char* callingFunctionName = nullptr)
+			: Exception(exceptionMessage, callingFunctionName)
 		{ }
 	};
 } // end namespace Core

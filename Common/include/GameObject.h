@@ -20,7 +20,7 @@ namespace Core
 	scene.  Each object can have a collection of GameComponenents, which do various things
 	such as manage physics, sound, scripts, logic, etc.
 	*/
-	class GameObject : public TreeNode, public NamedClass
+	class GameObject : public NamedClass, private TreeNode
 	{
 	public:
 		typedef std::list<GameComponent*> ComponentList;
@@ -83,6 +83,7 @@ namespace Core
 		Once a component is removed, the client code is responsible for its deletion again.
 		*/
 		void RemoveComponent(GameComponent* toRemove);
+
 		//! Deletes all components
 		void DeleteComponents();
 		
@@ -91,6 +92,7 @@ namespace Core
 		
 		//! Gets a list of the components owned by this object
 		const ComponentList& GetComponents() const { return components; }
+
 		//! Gets a list of the components owned by this object
 		ComponentList& GetComponents() { return components; }
 

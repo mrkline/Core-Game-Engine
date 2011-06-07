@@ -46,7 +46,7 @@ namespace Core
 
 		if(Math::IsZero(d, 0.0f))
 		{
-			throw new MathException("The provided transform has no inverse.", __FUNCTION__);
+			throw MathException("The provided transform has no inverse.", __FUNCTION__);
 		}
 
 		d = 1.0f / d;
