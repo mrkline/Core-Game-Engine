@@ -2,9 +2,7 @@
 
 #include <list>
 
-#include <Core.h>
-
-#include "TestUnit.h"
+#include "ObjectHierarchyUnit.h"
 
 using namespace UnitTesting;
 
@@ -12,6 +10,7 @@ std::list<TestUnit*> testUnits;
 
 int main()
 {
+	testUnits.push_back(new ObjectHierarchyUnit());
 	//! \todo Load units into testUnits here
 
 	for(auto iter = testUnits.begin(); iter != testUnits.end(); ++iter)
@@ -19,8 +18,7 @@ int main()
 		TestUnit* curr = *iter;
 		try
 		{
-			printf("Starting new test unit: %s\n", curr->GetUnitName());
-
+			curr->RunUnit();
 		}
 		catch(...)
 		{

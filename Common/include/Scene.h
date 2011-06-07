@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace Core
 {
 	class GameObject;
@@ -20,15 +22,12 @@ namespace Core
 		\todo Allow addition of more managers as they are added
 		*/
 		Scene(PhysicsManager* physicsMan);
-		virtual ~Scene();
 
-		//! Get the root GameObject for the scene
-		GameObject* GetRootObject() { return rootObject; }
 		//! Get the physics manager, or null if physics are not being used
 		PhysicsManager* GetPhysics() { return physMan; }
 
 	protected:
-		GameObject* rootObject; //!< Root GameObject. All game objects in the scene link back to this.
+		std::auto_ptr<GameObject> rootObject; //!< Root GameObject. All game objects in the scene link back to this.
 		PhysicsManager* physMan; //!< Physics manager, or null if physics are not used in this scene
 	};
 } // end namespace Core

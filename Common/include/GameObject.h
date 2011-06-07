@@ -23,6 +23,9 @@ namespace Core
 	class GameObject : public NamedClass, private TreeNode
 	{
 	public:
+		//! \todo Hack to let the Scene fix the bad pointer it gives for the root object (see Scene constructor)
+		friend class Scene;
+
 		typedef std::list<GameComponent*> ComponentList;
 
 		/*!
@@ -33,17 +36,14 @@ namespace Core
 		\param id An ID that can be used to identify the object
 		\param name A name that can be used to identify the object
 		*/
-		GameObject(GameObject* parent, GameObjectManager* objMan,
+		GameObject(GameObject* parent, Scene* owningScene,
 			int id = -1, const std::string& name = std::string());
 
 		//! Deconstructor. Deletes all components owned by this object
 		virtual ~GameObject();
 
-		/*!
-		\brief Gets the object manager
-		\todo Replace with scene
-		*/
-		GameObjectManager* getObectManager() const { return man; }
+		//! Gets the scene within which this object resides
+		Scene* GetScene() const { return scn; }
 
 		//! Updates the absolute transform of the object
 		void Update();
@@ -149,9 +149,7 @@ namespace Core
 		std::auto_ptr<ComponentList> FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
 
 	protected:
-		//! brief The game object manager
-		//! \todo Replace with Scene
-		GameObjectManager* man;
+		Scene* scn; //!< The scene that this object resides in
 		ComponentList components; //!< A linked list of this object's components
 		Transform trans; //!< The transform for the game object
 		Transform absTrans; //!< The cumulative absolute transform for the game object

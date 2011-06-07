@@ -8,10 +8,10 @@ using namespace std;
 
 namespace Core
 {
-	GameObject::GameObject(GameObject* parent, GameObjectManager* objMan, int id, const std::string& name)
-		: NamedClass(id, name)
+	GameObject::GameObject(GameObject* parent, Scene* owningScene, int id, const std::string& name)
+		: NamedClass(id, name), scn(owningScene)
 	{
-		if(objMan == nullptr)
+		if(owningScene == nullptr)
 		{
 			throw ArgumentNullException("A GameObject needs a non-null pointer to its manager",
 				__FUNCTION__);

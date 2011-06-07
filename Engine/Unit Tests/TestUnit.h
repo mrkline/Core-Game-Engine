@@ -92,9 +92,10 @@ namespace UnitTesting
 	protected:
 		//! Loads tests into unrunTests. Tests will automatically be deleted on this unit's destruction
 		virtual void LoadTests() = 0;
+		
+		std::list<Test*> unrunTests;
 
 	private:
-		std::list<Test*> unrunTests;
 		std::list<Test*> succeededTests;
 		std::list<Test*> failedTests;
 		//! Tests which throw an exception besides TestFailedException

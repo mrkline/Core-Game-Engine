@@ -12,6 +12,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Test Base</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectHierarchyTests.cpp">
+      <Filter>ObjectHierarchyTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestUnit.h">
@@ -21,6 +24,9 @@
       <Filter>Test Base</Filter>
     </ClInclude>
     <ClInclude Include="ObjectHierarchyUnit.h">
+      <Filter>ObjectHierarchyTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectHierarchyTests.h">
       <Filter>ObjectHierarchyTest</Filter>
     </ClInclude>
   </ItemGroup>

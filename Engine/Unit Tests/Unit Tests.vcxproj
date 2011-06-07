@@ -69,8 +69,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectHierarchyTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectHierarchyTests.h" />
     <ClInclude Include="ObjectHierarchyUnit.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestUnit.h" />

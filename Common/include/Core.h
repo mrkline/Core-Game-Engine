@@ -18,6 +18,8 @@
 #include <PointerKey.h>
 #include <Scene.h>
 
+// Be sure to define this while building the engine
+#ifndef ENGINE_BUILD
 #pragma comment(lib, "BulletCollision.lib")
 #pragma comment(lib, "BulletDynamics.lib")
 #pragma comment(lib, "BulletFileLoader.lib")
@@ -29,3 +31,4 @@
 #pragma comment(lib, "GLUI.lib")
 #pragma comment(lib, "LinearMath.lib")
 #pragma comment(lib, "MiniCL.lib")
+#endif
