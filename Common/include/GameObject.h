@@ -12,6 +12,7 @@
 namespace Core
 {
 	class GameObjectManager;
+	class Scene;
 
 	/*! 
 	\brief Represents an entity in the game world.
@@ -23,8 +24,6 @@ namespace Core
 	class GameObject : public NamedClass, private TreeNode
 	{
 	public:
-		//! \todo Hack to let the Scene fix the bad pointer it gives for the root object (see Scene constructor)
-		friend class Scene;
 
 		typedef std::list<GameComponent*> ComponentList;
 

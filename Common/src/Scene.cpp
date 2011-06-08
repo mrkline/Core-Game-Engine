@@ -5,8 +5,8 @@
 namespace Core
 {
 	Scene::Scene(PhysicsManager* physicsMan)
-		: rootObject(new GameObject(nullptr, (Scene*)1)), physMan(physicsMan)
+		: physMan(physicsMan)
 	{
-		rootObject->scn = this;
+		rootObject = std::auto_ptr<GameObject>(new GameObject(nullptr, this));
 	}
 } // end namespace Core
