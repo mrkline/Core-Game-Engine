@@ -31,25 +31,19 @@ namespace Core
 		bool operator>(const PointerKey& other) const
 		{
 			if(higher > other.higher)
-			{
 				return true;
-			}
 			else if(higher == other.higher && lower > other.lower)
-			{
 				return true;
-			}
+
 			return false;
 		}
 		bool operator<(const PointerKey& other) const
 		{
 			if(higher < other.higher)
-			{
 				return true;
-			}
 			else if(higher == other.higher && lower < other.lower)
-			{
 				return true;
-			}
+
 			return false;
 		}
 		bool operator==(const PointerKey& other) const

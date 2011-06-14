@@ -171,9 +171,7 @@ namespace Core
 			// Normalized already if our length is zero.
 			// Also stops NaN errors
 			if(Math::IsZero(len))
-			{
 				return;
-			}
 
 			X /= len;
 			Y /= len;

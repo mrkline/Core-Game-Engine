@@ -21,10 +21,9 @@ namespace Core
 				the things being deleted haven't been allocated yet)
 		*/
 		if(detector == nullptr)
-		{
 			throw ArgumentNullException("Physics manager cannot receive a null CollisionDetector",
 				__FUNCTION__);
-		}
+
 		detector->SetPhysicsManager(this);
 
 		//Set a callback up for ticks

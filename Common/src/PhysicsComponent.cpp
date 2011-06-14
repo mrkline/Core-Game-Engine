@@ -14,13 +14,11 @@ namespace Core
 				cog(COG), absoluteCOG(COG), physMan(physManager)
 	{
 		if(physManager == nullptr)
-		{
 			throw ArgumentNullException("The physics manager cannot be null.", __FUNCTION__);
-		}
+
 		if(collisionShape == nullptr)
-		{
 			throw ArgumentNullException("Each physics component must be given a collision shape");
-		}
+
 		// Allow this collision shape to be traced back to us
 		collisionShape->setUserPointer(owner);
 	}
@@ -29,9 +27,7 @@ namespace Core
 	{
 		// Clear out old data
 		if(absoluteCShape != nullptr)
-		{
 			delete absoluteCShape;
-		} 
 
 		absoluteMass = mass;
 
@@ -72,7 +68,6 @@ namespace Core
 		if(parent == nullptr)
 		{
 			//TODO: Update body mass and possibly motionstate
-
 			
 			// If the body already exists, this entity was already a parent
 			// beforehand.  We just need to update it's collision shape

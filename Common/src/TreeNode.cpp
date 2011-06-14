@@ -13,9 +13,7 @@ namespace Core
 		: parent(nodeParent), caresAboutChildren(updateOnChildrenChange)
 	{
 		if(parent != nullptr)
-		{
 			parent->AddChild(this);
-		}
 	}
 
 	TreeNode::~TreeNode()
@@ -26,43 +24,35 @@ namespace Core
 	void TreeNode::SetParent(TreeNode* newParent)
 	{
 		if(newParent == this)
-		{
 			throw ArgumentException("A tree node cannot set itself as its parent.",
 				__FUNCTION__);
-		}
+
 		RemoveFromParent(false);
 		if(newParent != nullptr)
-		{
 			newParent->AddChild(this);
-		}
 		else
-		{
 			UpdateHierarchy();
-		}
 	}
 
 	void TreeNode::AddChild(TreeNode* newChild)
 	{
 		if(newChild == nullptr)
-		{
 			throw ArgumentNullException("A tree node cannot add a null child.",
 				__FUNCTION__);
-		}
+
 		if(newChild == this)
-		{
 			throw ArgumentException("A tree node cannot add itself as a child.",
 				__FUNCTION__);
-		}
+
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
 			// We're trying to add a duplicate child
 			if(*it == newChild)
-			{
 				throw ArgumentException("A tree node cannot have duplicate children.",
 					__FUNCTION__);
-			}
 		}
+
 		newChild->RemoveFromParent(false);
 		children.push_back(newChild);
 		newChild->parent = this;
@@ -72,10 +62,9 @@ namespace Core
 	void TreeNode::RemoveChild(TreeNode* toRemove)
 	{
 		if(toRemove == nullptr)
-		{
 			throw ArgumentNullException("A tree node cannot remove a null child.",
 				__FUNCTION__);
-		}
+
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
 		{
@@ -96,9 +85,7 @@ namespace Core
 	{
 		for(list<TreeNode*>::iterator it = children.begin();
 			it != children.end(); ++it)
-		{
 			delete *it;
-		}
 
 		children.clear();
 		UpdateHierarchy();
@@ -118,9 +105,7 @@ namespace Core
 
 		// Keep walking up the tree until it's time to stop and go back down
 		while(top->parent != nullptr && top->parent->caresAboutChildren)
-		{
 			top = top->parent;
-		}
 		
 		// Walk down the tree (level order), updating all children
 		queue<TreeNode*> q;
@@ -132,11 +117,8 @@ namespace Core
 
 			curr->OnHierarchyChange();
 
-			for(list<TreeNode*>::iterator it = curr->children.begin();
-			it != curr->children.end(); ++it)
-			{
+			for(auto it = curr->children.begin(); it != curr->children.end(); ++it)
 				q.push(*it);
-			}
 		}
 	}
 } //end namespace Core

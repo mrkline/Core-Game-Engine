@@ -14,13 +14,9 @@ namespace Core
 	Transform::Transform(ConstructType type)
 	{
 		if(type == E_MT_IDENTITY)
-		{
 			SetToIdentity();
-		}
 		else
-		{
 			memset(matrix, 0, sizeof(float) * 16);
-		}
 	}
 
 	Transform::Transform(const float* matrixArray)
@@ -45,9 +41,7 @@ namespace Core
 			(m(0, 2) * m(1, 3) - m(0, 3) * m(1, 2)) * (m(2, 0) * m(3, 1) - m(2, 1) * m(3, 0));
 
 		if(Math::IsZero(d))
-		{
 			throw MathException("The provided transform has no inverse.", __FUNCTION__);
-		}
 
 		d = 1.0f / d;
 
@@ -127,9 +121,7 @@ namespace Core
 	void Transform::Interpolate(const Transform& other, float t, Transform& out) const
 	{
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			out[c] = matrix[c] + (other[c] - matrix[c]) * t;
-		}
 	}
 
 	bool Transform::Equals(const Transform& other, float roundingTolerance) const
@@ -137,10 +129,9 @@ namespace Core
 		for(unsigned int c = 0; c < 16; ++c)
 		{
 			if(!Math::Equals(matrix[c], other[c], roundingTolerance))
-			{
 				return false;
-			}
 		}
+
 		return true;
 	}
 
@@ -149,9 +140,7 @@ namespace Core
 		for(unsigned int c = 0; c < 16; ++c)
 		{
 			if(!Math::Equals(matrix[c], kIdentityMatrix[c]))
-			{
 				return false;
-			}
 		}
 		return true;
 	}
@@ -214,17 +203,11 @@ namespace Core
 		// before it would set (!) values to 360
 		// that were above 360:
 		if(X < 0.0)
-		{
 			X += 2 * Math::kPi;
-		}
 		if(Y < 0.0)
-		{
 			Y += 2 * Math::kPi;
-		}
 		if (Z < 0.0)
-		{
 			Z += 2 * Math::kPi;
-		}
 
 	}
 
@@ -439,9 +422,7 @@ namespace Core
 		float* arr = ret.matrix;
 
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			arr[c] *= scalar;
-		}
 
 		return ret;
 	}
@@ -456,9 +437,8 @@ namespace Core
 	Transform& Transform::operator*=(const float scalar)
 	{
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			matrix[c] *= scalar;
-		}
+
 		return *this;
 	}
 
@@ -469,9 +449,7 @@ namespace Core
 		Transform ret(matrix);
 
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			ret.matrix[c] += otherMat[c];
-		}
 
 		return ret;
 	}
@@ -481,9 +459,7 @@ namespace Core
 		const float* otherMat = other.matrix;
 
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			matrix[c] += otherMat[c];
-		}
 
 		return *this;
 	}
@@ -495,9 +471,7 @@ namespace Core
 		Transform ret(matrix);
 
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			ret.matrix[c] -= otherMat[c];
-		}
 
 		return ret;
 	}
@@ -507,9 +481,7 @@ namespace Core
 		const float* otherMat = other.matrix;
 
 		for(unsigned int c = 0; c < 16; ++c)
-		{
 			matrix[c] -= otherMat[c];
-		}
 
 		return *this;
 	}

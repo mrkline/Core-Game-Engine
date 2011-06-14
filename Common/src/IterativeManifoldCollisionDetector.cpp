@@ -29,10 +29,8 @@ namespace Core
 
 			// If neither is compound, we're all done here
 			if(!curr0->isCompound() && !curr1->isCompound())
-			{
 				physMan->AddCollisionPair(static_cast<GameObject*>(curr0->getUserPointer()), 
 						static_cast<GameObject*>(curr1->getUserPointer()), substep);
-			}
 			
 			//! \todo Carry on here
 			// Iterate through each object to get the specific collision shape colliding

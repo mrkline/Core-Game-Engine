@@ -10,10 +10,8 @@ namespace Core
 	void CollisionDetector::SetPhysicsManager(PhysicsManager* manager)
 	{
 		if(manager == nullptr)
-		{
 			throw ArgumentNullException("The provided physics manager cannot be null.",
 				__FUNCTION__);
-		}
 
 		physMan = manager;
 		collWorld = manager->GetWorld();

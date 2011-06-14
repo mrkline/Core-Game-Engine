@@ -23,8 +23,10 @@ namespace Core
 			// Notify new collisions that they're colliding
 			if(pairInfo->startingSubstep == substepNum)
 			{
-				if(log1 != nullptr) log1->OnCollisionStart(key.GetLower());
-				if(log2 != nullptr) log2->OnCollisionStart(key.GetHigher());
+				if(log1 != nullptr)
+					log1->OnCollisionStart(key.GetLower());
+				if(log2 != nullptr)
+					log2->OnCollisionStart(key.GetHigher());
 			}
 			else
 			{
@@ -56,14 +58,11 @@ namespace Core
 		// See if this pair already exists.  If so, just mark matchedToManifold to true again
 		PointerKey<GameObject> key(obj1, obj2);
 		CollisionPairMap::iterator existingNode =  pairMap.find(key);
+
 		if(existingNode != pairMap.end())
-		{
 			existingNode->second->matchedToManifold = true;
-		}
 		// Otherwise, create a new node and insert it
 		else
-		{
 			pairMap.insert(CollisionPairMap::value_type(key, new SCollisionPairInfo(substepNum)));
-		}
 	}
 } // end namespace Core
