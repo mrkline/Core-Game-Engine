@@ -26,8 +26,18 @@ namespace Core
 		//! Get the physics manager, or null if physics are not being used
 		PhysicsManager* GetPhysics() { return physMan; }
 
+		/*!
+		\brief Gets the GameObject. All game objects in the scene should link back to this to be updated
+		\return The root GameObject
+
+		The root GameObject has the id 0 and the name "root"
+		*/
+		GameObject* GetRootObject() { return rootObject.get(); }
+
 	protected:
-		std::auto_ptr<GameObject> rootObject; //!< Root GameObject. All game objects in the scene link back to this.
-		PhysicsManager* physMan; //!< Physics manager, or null if physics are not used in this scene
+		//! Root GameObject; should be the ancestor of every active object in the scene
+		std::auto_ptr<GameObject> rootObject;
+		//! Physics manager, or null if physics are not used in this scene
+		PhysicsManager* physMan;
 	};
 } // end namespace Core

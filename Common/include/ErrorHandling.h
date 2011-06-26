@@ -29,7 +29,6 @@ namespace Core
 		\brief Initializes an exception with a message and other optional data
 		\param exceptionMessage The message to contain within the exception.
 		\param callingFunctionName The name of the exception the function comes from.
-		\param internalException An internal exception, if one exists
 
 		All strings must not point to dynamic memory, as no free or delete is called on them.
 		It is assumed that they will point to static strings that were created at compile time.

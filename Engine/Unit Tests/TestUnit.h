@@ -40,53 +40,60 @@ namespace UnitTesting
 		{
 			char* name = GetUnitName();
 
-			printf("Loading Tests for the %s unit\n", name);
 			LoadTests();
 
-			printf("Running Tests for the %s unit\n", name);
 			for(auto iter = unrunTests.begin(); iter != unrunTests.end(); ++iter)
 			{
 				Test* curr = *iter;
 				char* currName = curr->GetName();
-
-				printf("Running %s test\n");
 				try
 				{
 					curr->Run();
-					printf("%s test succeeded\n");
+					printf("SUCCESS: %s test succeeded\n", currName);
 					succeededTests.push_back(curr);
 				}
-				catch(TestFailedException&)
+				catch(const TestFailedException& ex)
 				{
-					printf("%s test failed\n");
+					printf("FAILURE: %s test failed with the message:\n\t%s", currName, ex.GetMessage());
 					failedTests.push_back(curr);
 				}
 				catch(...)
 				{
-					printf("%s test failed and thew an exception besides TestFailedException\n");
+					printf("FAILURE: %s test failed and thew an exception besides TestFailedException\n", currName);
 					bombedTests.push_back(curr);
 				}
 			}
 
-			printf("Results for %s\n", name);
-			printf("\tSucceeded Tests:\n");
-			for(auto iter = succeededTests.begin(); iter != succeededTests.end(); ++iter)
+			printf("\nResults for %s\n", name);
+
+			if(!succeededTests.empty())
 			{
-				printf("\t\t%s\n", (*iter)->GetName());
+				printf("\tSucceeded Tests:\n");
+				for(auto iter = succeededTests.begin(); iter != succeededTests.end(); ++iter)
+				{
+					printf("\t\t%s\n", (*iter)->GetName());
+				}
 			}
 
-			printf("\tFailed Tests:\n");
-			for(auto iter = failedTests.begin(); iter != failedTests.end(); ++iter)
+			if(!failedTests.empty())
 			{
-				printf("\t\t%s\n", (*iter)->GetName());
+				printf("\tFailed Tests:\n");
+				for(auto iter = failedTests.begin(); iter != failedTests.end(); ++iter)
+				{
+					printf("\t\t%s\n", (*iter)->GetName());
+				}
 			}
 
-			printf("\tEpically failed tests (threw an exception besides TestFailure):\n");
-			for(auto iter = bombedTests.begin(); iter != bombedTests.end(); ++iter)
+
+			if(!bombedTests.empty())
 			{
-				printf("\t\t%s\n", (*iter)->GetName());
+				printf("\tEpically failed tests (threw an exception besides TestFailure):\n");
+				for(auto iter = bombedTests.begin(); iter != bombedTests.end(); ++iter)
+				{
+					printf("\t\t%s\n", (*iter)->GetName());
+				}
+				printf("\n\n");
 			}
-			printf("\n\n");
 		}
 
 	protected:

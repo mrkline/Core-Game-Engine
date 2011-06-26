@@ -3,18 +3,16 @@
 #include <stack>
 
 #include "ErrorHandling.h"
+#include "Scene.h"
 
 using namespace std;
 
 namespace Core
 {
-	GameObject::GameObject(GameObject* parent, Scene* owningScene, int id, const std::string& name)
-		: NamedClass(id, name), scn(owningScene)
+	GameObject::GameObject(GameObject* parent, const Transform& startingTransform,
+		int id, const std::string& name)
+		: NamedClass(id, name), trans(startingTransform)
 	{
-		if(owningScene == nullptr)
-			throw ArgumentNullException("A GameObject needs a non-null pointer to its manager",
-				__FUNCTION__);
-
 		if(parent != nullptr)
 			parent->AddChild(this);
 	}
@@ -41,6 +39,147 @@ namespace Core
 			absTrans = trans * static_cast<GameObject*>(parent)->absTrans;
 	}
 
+	bool GameObject::HasChild(GameObject* child)
+	{
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			if(static_cast<GameObject*>(*it) == child)
+				return true;
+		}
+		return false;
+	}
+
+	bool GameObject::HasChild(const std::string& childName)
+	{
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			if(static_cast<GameObject*>(*it)->GetName() == childName)
+				return true;
+		}
+		return false;
+	}
+
+	bool GameObject::HasChild(int childId)
+	{
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			if(static_cast<GameObject*>(*it)->GetID() == childId)
+				return true;
+		}
+		return false;
+	}
+
+	bool GameObject::HasAncestor(GameObject* ancestor)
+	{
+		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		{
+			if(curr == ancestor)
+				return true;
+		}
+		return false;
+	}
+
+	bool GameObject::HasAncestor(const std::string& ancestorName)
+	{
+		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		{
+			if(curr->name == ancestorName)
+				return true;
+		}
+		return false;
+	}
+	
+	bool GameObject::HasAncestor(int ancestorId)
+	{
+		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		{
+			if(curr->id == ancestorId)
+				return true;
+		}
+		return false;
+	}
+
+	bool GameObject::HasDescendant(GameObject* descendant)
+	{
+		stack<GameObject*> s;
+		
+		for(auto it = children.begin(); it != children.end(); ++it)
+			s.push(static_cast<GameObject*>(*it));
+
+		while(!s.empty())
+		{
+			GameObject* curr = s.top();
+			s.pop();
+
+			if(curr == descendant)
+			{
+				return true;
+			}
+			else
+			{
+				const list<TreeNode*>& children = curr->GetChildren();
+				for(auto it = children.begin(); it != children.end(); ++it)
+					s.push(static_cast<GameObject*>(*it));
+			}
+		}
+
+		return false;
+	}
+	
+	bool GameObject::HasDescendant(const std::string& descendantName)
+	{
+		stack<GameObject*> s;
+		
+		for(auto it = children.begin(); it != children.end(); ++it)
+			s.push(static_cast<GameObject*>(*it));
+
+		while(!s.empty())
+		{
+			GameObject* curr = s.top();
+			s.pop();
+
+			if(curr->GetName() == descendantName)
+			{
+				return true;
+			}
+			else
+			{
+				const list<TreeNode*>& children = curr->GetChildren();
+				for(auto it = children.begin(); it != children.end(); ++it)
+					s.push(static_cast<GameObject*>(*it));
+			}
+		}
+
+		return false;
+	}
+	
+	bool GameObject::HasDescendant(int descendantId)
+	{
+		stack<GameObject*> s;
+		
+		for(auto it = children.begin(); it != children.end(); ++it)
+			s.push(static_cast<GameObject*>(*it));
+
+		while(!s.empty())
+		{
+			GameObject* curr = s.top();
+			s.pop();
+
+			if(curr->GetID() == descendantId)
+			{
+				return true;
+			}
+			else
+			{
+				const list<TreeNode*>& children = curr->GetChildren();
+				for(auto it = children.begin(); it != children.end(); ++it)
+					s.push(static_cast<GameObject*>(*it));
+			}
+		}
+
+		return false;
+	}
+
 	void GameObject::AddComponent(GameComponent* newComponent)
 	{
 		// Make sure it's not null
@@ -53,7 +192,7 @@ namespace Core
 		for(auto it = components.begin(); it != components.end(); ++it)
 		{
 			if((*it)->GetComponentType() == ncType)
-				throw ArgumentException("A game object can only have one of each type of component",
+				throw ArgumentException("A game object can only have one of each type of component.",
 					__FUNCTION__);
 		}
 
@@ -101,7 +240,7 @@ namespace Core
 
 	void GameObject::SetParent(GameObject* newParent)
 	{
-		TreeNode::SetParent(parent);
+		TreeNode::SetParent(newParent);
 		for(auto it = components.begin(); it != components.end(); ++it)
 			(*it)->OwnerSetParent(newParent);
 	}

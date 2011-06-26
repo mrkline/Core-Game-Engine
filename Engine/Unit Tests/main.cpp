@@ -18,6 +18,7 @@ int main()
 		TestUnit* curr = *iter;
 		try
 		{
+			printf("Beginning test unit %s...\n\n", curr->GetUnitName());
 			curr->RunUnit();
 		}
 		catch(...)
@@ -26,5 +27,7 @@ int main()
 		}
 		delete *iter;
 	}
+	printf("\n");
+	system("pause");
 	return 0;
 }

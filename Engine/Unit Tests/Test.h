@@ -8,6 +8,8 @@ namespace UnitTesting
 	public:
 		TestFailedException(char* failureMessage) : message(failureMessage) {}
 
+		char* GetMessage() const { return message; }
+
 	private:
 		char* message;
 	};
