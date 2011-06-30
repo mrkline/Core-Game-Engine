@@ -221,7 +221,7 @@ namespace Core
 		\return An auto_ptr to a list of nearest descendant componentes of compType.
 				This ensures that the list will be deleted when it goes out of scope.
 		*/
-		std::auto_ptr<ComponentList> FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject = false);
+		std::auto_ptr<ComponentList> FindNearestDescendantComponents(GameComponent::EType compType, bool includingThisObject);
 
 	protected:
 		ComponentList components; //!< A linked list of this object's components

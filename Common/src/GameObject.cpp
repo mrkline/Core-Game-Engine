@@ -197,6 +197,7 @@ namespace Core
 		}
 
 		components.push_back(newComponent);
+		newComponent->BindToOwner(this);
 	}
 
 	void GameObject::RemoveComponent(GameComponent* toRemove)

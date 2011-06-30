@@ -28,16 +28,16 @@ namespace Core
 			E_GCT_LOGIC	//!< A logic component
 		};
 
-		//! Constructor. A component <i>must</i> be tied to a GameObject
-		GameComponent(GameObject* objOwner);
-		//! Deconstructor. Does not delete any children in the graph as the lifetime of
-		//! components are bound to their owning objects
-		virtual ~GameComponent();
+		virtual ~GameComponent() { }
+
+		//! Called by a component's owning GameObject when it is added
+		void BindToOwner(GameObject* objOwner);
+
+		//! Called by a component's owning GameObject when it is removed
+		void UnbindFromOwner();
 
 		/*!
 		\brief Gets the type this component is.
-		\see EType
-		\todo Possibly make this able to return values outside EType, allowing for custom types
 
 		RTTI in C++ is expensive, so in order to allow casting operations from
 		the base GameComponent class, this type field is used

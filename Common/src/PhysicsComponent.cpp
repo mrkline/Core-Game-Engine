@@ -7,9 +7,9 @@ using namespace std;
 
 namespace Core
 {
-	PhysicsComponent::PhysicsComponent(GameObject* owner, PhysicsManager* physManager, btCollisionShape* collisionShape,
+	PhysicsComponent::PhysicsComponent(PhysicsManager* physManager, btCollisionShape* collisionShape,
 			const btVector3& COG, float objMass)
-			: GameComponent(owner), body(nullptr), cShape(collisionShape), absoluteCShape(nullptr),
+			: body(nullptr), cShape(collisionShape), absoluteCShape(nullptr),
 				mass(objMass), absoluteMass(objMass),
 				cog(COG), absoluteCOG(COG), physMan(physManager)
 	{

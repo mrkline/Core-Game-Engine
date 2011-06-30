@@ -22,7 +22,6 @@ namespace Core
 	public:
 		/*!
 		\brief Constructs the physics component
-		\param owner The GameObject that owns this physics component
 		\param physMan The physics manager
 		\param collisionShape The Bullet collision shape to use
 		\todo Encapsulate or at least typedef the btCollisionShape?
@@ -30,7 +29,7 @@ namespace Core
 		\todo Use Core::Vector3 instead of the btVector3?
 		\param objMass The mass of the object
 		*/
-		PhysicsComponent(GameObject* owner, PhysicsManager* physMan, btCollisionShape* collisionShape,
+		PhysicsComponent(PhysicsManager* physMan, btCollisionShape* collisionShape,
 			const btVector3& COG = btVector3(), float objMass = 1.0f);
 		//! \todo Implement
 		virtual ~PhysicsComponent() {}

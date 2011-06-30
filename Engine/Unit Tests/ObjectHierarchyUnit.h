@@ -12,6 +12,7 @@ namespace UnitTesting
 		void LoadTests()
 		{
 			unrunTests.push_back(new ObjectHierarchy::BasicHierarchyTest());
+			unrunTests.push_back(new ObjectHierarchy::ComponentTreeTest());
 		}
 	};
 } // end namespace UnitTesting
