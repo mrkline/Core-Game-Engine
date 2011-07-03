@@ -18,7 +18,7 @@ namespace Core
 		\param updateOnChildrenChange Set to true to give the object notifications of hierarchy changes
 		*/
 		TreeNode(TreeNode* nodeParent = nullptr, bool updateOnChildrenChange = true);
-		virtual ~TreeNode();
+		virtual ~TreeNode() {}
 
 		/*!
 		\brief Sets a parent for this tree node.

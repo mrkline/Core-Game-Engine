@@ -22,6 +22,11 @@ namespace Core
 		// Kill the components
 		for(auto it = components.begin(); it != components.end(); ++it)
 			delete *it;
+
+		// Kill all children. Don't call DeleteAllChildren as it will try to post
+		// hierarchy update callbacks up the whole tree, which is rather busy being deleted
+		for(auto it = children.begin(); it != children.end(); ++it)
+			delete *it;
 	}
 
 	void GameObject::Update()

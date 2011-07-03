@@ -16,11 +16,6 @@ namespace Core
 			parent->AddChild(this);
 	}
 
-	TreeNode::~TreeNode()
-	{
-		DeleteAllChildren();
-	}
-
 	void TreeNode::SetParent(TreeNode* newParent)
 	{
 		if(newParent == this)
