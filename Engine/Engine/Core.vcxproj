@@ -105,7 +105,6 @@
     <ClInclude Include="..\..\Common\include\PhysicsComponent.h" />
     <ClInclude Include="..\..\Common\include\PhysicsManager.h" />
     <ClInclude Include="..\..\Common\include\PointerKey.h" />
-    <ClInclude Include="..\..\Common\include\TreeNode.h" />
     <ClInclude Include="..\..\Common\include\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +119,6 @@
     <ClCompile Include="..\..\Common\src\PhysicsComponent.cpp" />
     <ClCompile Include="..\..\Common\src\PhysicsManager.cpp" />
     <ClCompile Include="..\..\Common\src\Scene.cpp" />
-    <ClCompile Include="..\..\Common\src\TreeNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Common\include\GameObject.h">

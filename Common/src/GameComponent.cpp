@@ -1,5 +1,7 @@
 #include "GameComponent.h"
 
+#include <queue>
+
 #include "ErrorHandling.h"
 #include "GameObject.h"
 
@@ -7,6 +9,10 @@ using namespace std;
 
 namespace Core
 {
+	GameComponent::GameComponent(bool updateOnChildrenChange)
+		: parent(nullptr), caresAboutChildren(updateOnChildrenChange)
+	{ }
+
 	void GameComponent::BindToOwner(GameObject* objOwner)
 	{
 		if(objOwner == nullptr)
@@ -60,8 +66,106 @@ namespace Core
 		SetParent(owner->FindNearestAncestorComponent(GetComponentType()));
 	}
 
-	void GameComponent::OwnerRemovedFromParent(bool updateHierarchy)
+	void GameComponent::OwnerRemovedFromParent()
 	{
-		RemoveFromParent(updateHierarchy);
+		RemoveFromParent(true);
+	}
+
+	void GameComponent::SetParent(GameComponent* newParent)
+	{
+		if(newParent == this)
+			throw ArgumentException("A game component cannot set itself as its parent.",
+				__FUNCTION__);
+
+		RemoveFromParent(false);
+		if(newParent != nullptr)
+			newParent->AddChild(this);
+		else
+			UpdateHierarchy();
+	}
+
+	void GameComponent::AddChild(GameComponent* newChild)
+	{
+		if(newChild == nullptr)
+			throw ArgumentNullException("A game component cannot add a null child.",
+				__FUNCTION__);
+
+		if(newChild == this)
+			throw ArgumentException("A game component cannot add itself as a child.",
+				__FUNCTION__);
+
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			// We're trying to add a duplicate child
+			if(*it == newChild)
+				throw ArgumentException("A game component cannot have duplicate children.",
+					__FUNCTION__);
+		}
+
+		newChild->RemoveFromParent(false);
+		children.push_back(newChild);
+		newChild->parent = this;
+		UpdateHierarchy();
+	}
+
+	void GameComponent::RemoveChild(GameComponent* toRemove)
+	{
+		if(toRemove == nullptr)
+			throw ArgumentNullException("A game component cannot remove a null child.",
+				__FUNCTION__);
+
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			if(*it == toRemove)
+			{
+				toRemove->parent = nullptr;
+				toRemove->UpdateHierarchy();
+				children.erase(it);
+				UpdateHierarchy();
+				return;
+			}
+		}
+		throw ArgumentException("A game component could not find the child that was to be removed.",
+			__FUNCTION__);
+	}
+
+	void GameComponent::DeleteAllChildren()
+	{
+		for(auto it = children.begin(); it != children.end(); ++it)
+			delete *it;
+
+		children.clear();
+		UpdateHierarchy();
+	}
+
+	void GameComponent::RemoveFromParent(bool updateHD)
+	{
+		if (parent != nullptr)
+				parent->RemoveChild(this);
+		if(updateHD)
+			UpdateHierarchy();
+	}
+
+	void GameComponent::UpdateHierarchy()
+	{
+		GameComponent* top = this;
+
+		// Keep walking up the tree until it's time to stop and go back down
+		while(top->parent != nullptr && top->parent->caresAboutChildren)
+			top = top->parent;
+		
+		// Walk down the tree (level order), updating all children
+		queue<GameComponent*> q;
+		q.push(top);
+		while(!q.empty())
+		{
+			GameComponent* curr = q.front();
+			q.pop();
+
+			curr->OnHierarchyChange();
+
+			for(auto it = curr->children.begin(); it != curr->children.end(); ++it)
+				q.push(*it);
+		}
 	}
 } // end namespace Core

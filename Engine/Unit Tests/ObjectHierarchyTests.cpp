@@ -64,7 +64,7 @@ namespace UnitTesting
 					return false;
 				}
 
-				EType GetComponentType() { return (EType)0x1337; }
+				EType GetComponentType() const { return (EType)0x1337; }
 
 				static bool CheckComponentLink(GameObject* parentObj, GameObject* childObj)
 				{

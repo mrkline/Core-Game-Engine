@@ -42,8 +42,7 @@ namespace Core
 			absoluteCShape = compAbsShape;
 			compAbsShape->addChildShape(btTransform(), cShape);
 
-			list<TreeNode*>::iterator it = children.begin();
-			for(; it != children.end(); ++it)
+			for(auto it = children.begin(); it != children.end(); ++it)
 			{
 				PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
 				compAbsShape->addChildShape(curr->getTransform(), curr->absoluteCShape);
@@ -53,8 +52,7 @@ namespace Core
 			absoluteCOG.setValue(0.0f, 0.0f, 0.0f);
 			absoluteCOG += cog * (mass / absoluteMass);
 
-			it = children.begin();
-			for(; it != children.end(); ++it)
+			for(auto it = children.begin(); it != children.end(); ++it)
 			{
 				PhysicsComponent* curr = static_cast<PhysicsComponent*>(*it);
 				absoluteCOG += curr->cog

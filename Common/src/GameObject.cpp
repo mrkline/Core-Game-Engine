@@ -11,10 +11,19 @@ namespace Core
 {
 	GameObject::GameObject(GameObject* parent, const Transform& startingTransform,
 		int id, const std::string& name)
-		: NamedClass(id, name), trans(startingTransform)
+		: NamedClass(id, name), trans(startingTransform), parent(parent)
 	{
+		// We can't call AddChild here because it then calls RemoveFromParent, which doesn't work well at this stage
+		// (since we're trying to add it to the parent)
 		if(parent != nullptr)
-			parent->AddChild(this);
+		{
+			parent->children.push_back(this);
+
+			ComponentList& pComps = parent->components;
+
+			for(auto it = pComps.begin(); it != pComps.end(); ++it)
+				(*it)->OwnerAddedChild(this);
+		}
 	}
 
 	GameObject::~GameObject()
@@ -23,17 +32,15 @@ namespace Core
 		for(auto it = components.begin(); it != components.end(); ++it)
 			delete *it;
 
-		// Kill all children. Don't call DeleteAllChildren as it will try to post
-		// hierarchy update callbacks up the whole tree, which is rather busy being deleted
-		for(auto it = children.begin(); it != children.end(); ++it)
-			delete *it;
+		// Kill all children.
+		DeleteAllChildren();
 	}
 
 	void GameObject::Update()
 	{
 		UpdateAbsoluteTransform();
 		for(auto it = children.begin(); it != children.end(); ++it)
-			static_cast<GameObject*>(*it)->Update();
+			(*it)->Update();
 	}
 
 	void GameObject::UpdateAbsoluteTransform()
@@ -41,14 +48,14 @@ namespace Core
 		if(parent == nullptr)
 			absTrans = trans;
 		else
-			absTrans = trans * static_cast<GameObject*>(parent)->absTrans;
+			absTrans = trans * parent->absTrans;
 	}
 
 	bool GameObject::HasChild(GameObject* child)
 	{
 		for(auto it = children.begin(); it != children.end(); ++it)
 		{
-			if(static_cast<GameObject*>(*it) == child)
+			if(*it == child)
 				return true;
 		}
 		return false;
@@ -58,7 +65,7 @@ namespace Core
 	{
 		for(auto it = children.begin(); it != children.end(); ++it)
 		{
-			if(static_cast<GameObject*>(*it)->GetName() == childName)
+			if((*it)->name == childName)
 				return true;
 		}
 		return false;
@@ -68,7 +75,7 @@ namespace Core
 	{
 		for(auto it = children.begin(); it != children.end(); ++it)
 		{
-			if(static_cast<GameObject*>(*it)->GetID() == childId)
+			if((*it)->id == childId)
 				return true;
 		}
 		return false;
@@ -76,7 +83,7 @@ namespace Core
 
 	bool GameObject::HasAncestor(GameObject* ancestor)
 	{
-		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		for(GameObject* curr = parent; curr != nullptr; curr = curr->parent)
 		{
 			if(curr == ancestor)
 				return true;
@@ -86,7 +93,7 @@ namespace Core
 
 	bool GameObject::HasAncestor(const std::string& ancestorName)
 	{
-		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		for(GameObject* curr = parent; curr != nullptr; curr = curr->parent)
 		{
 			if(curr->name == ancestorName)
 				return true;
@@ -96,7 +103,7 @@ namespace Core
 	
 	bool GameObject::HasAncestor(int ancestorId)
 	{
-		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		for(GameObject* curr = parent; curr != nullptr; curr = curr->parent)
 		{
 			if(curr->id == ancestorId)
 				return true;
@@ -109,7 +116,7 @@ namespace Core
 		stack<GameObject*> s;
 		
 		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(static_cast<GameObject*>(*it));
+			s.push(*it);
 
 		while(!s.empty())
 		{
@@ -122,9 +129,9 @@ namespace Core
 			}
 			else
 			{
-				const list<TreeNode*>& children = curr->GetChildren();
+				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(static_cast<GameObject*>(*it));
+					s.push(*it);
 			}
 		}
 
@@ -136,7 +143,7 @@ namespace Core
 		stack<GameObject*> s;
 		
 		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(static_cast<GameObject*>(*it));
+			s.push(*it);
 
 		while(!s.empty())
 		{
@@ -149,9 +156,9 @@ namespace Core
 			}
 			else
 			{
-				const list<TreeNode*>& children = curr->GetChildren();
+				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(static_cast<GameObject*>(*it));
+					s.push(*it);
 			}
 		}
 
@@ -163,7 +170,7 @@ namespace Core
 		stack<GameObject*> s;
 		
 		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(static_cast<GameObject*>(*it));
+			s.push(*it);
 
 		while(!s.empty())
 		{
@@ -176,9 +183,9 @@ namespace Core
 			}
 			else
 			{
-				const list<TreeNode*>& children = curr->GetChildren();
+				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(static_cast<GameObject*>(*it));
+					s.push(*it);
 			}
 		}
 
@@ -246,41 +253,88 @@ namespace Core
 
 	void GameObject::SetParent(GameObject* newParent)
 	{
-		TreeNode::SetParent(newParent);
+		if(newParent == this)
+			throw ArgumentException("A game object cannot set itself as its parent.",
+				__FUNCTION__);
+
+		RemoveFromParent();
+		if(newParent != nullptr)
+			newParent->AddChild(this);
+
 		for(auto it = components.begin(); it != components.end(); ++it)
 			(*it)->OwnerSetParent(newParent);
 	}
 
-	void GameObject::RemoveFromParent(bool updateHierarchy)
+	void GameObject::RemoveFromParent()
 	{
-		TreeNode::RemoveFromParent(updateHierarchy);
+		if (parent != nullptr)
+				parent->RemoveChild(this);
+
 		for(auto it = components.begin(); it != components.end(); ++it)
-			(*it)->OwnerRemovedFromParent(updateHierarchy);
+			(*it)->OwnerRemovedFromParent();
 	}
 
 	void GameObject::AddChild(GameObject* child)
 	{
-		TreeNode::AddChild(child);
+		if(child == nullptr)
+			throw ArgumentNullException("A game object cannot add a null child.",
+				__FUNCTION__);
+
+		if(child == this)
+			throw ArgumentException("A game object cannot add itself as a child.",
+				__FUNCTION__);
+
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			// We're trying to add a duplicate child
+			if(*it == child)
+				throw ArgumentException("A game object cannot have duplicate children.",
+					__FUNCTION__);
+		}
+
+		child->RemoveFromParent();
+		children.push_back(child);
+		child->parent = this;
+
 		for(auto it = components.begin(); it != components.end(); ++it)
 			(*it)->OwnerAddedChild(child);
 	}
 
 	void GameObject::RemoveChild(GameObject* child)
 	{
-		TreeNode::RemoveChild(child);
+		if(child == nullptr)
+			throw ArgumentNullException("A tree node cannot remove a null child.",
+				__FUNCTION__);
+
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			if(*it == child)
+			{
+				child->parent = nullptr;
+				children.erase(it);
+				return;
+			}
+		}
+		throw ArgumentException("A tree node could not find the child that was to be removed.",
+			__FUNCTION__);
+
 		for(auto it = components.begin(); it != components.end(); ++it)
 			(*it)->OwnerRemovedChild(child);
 	}
 
 	void GameObject::DeleteAllChildren()
 	{
-		TreeNode::DeleteAllChildren();
+		for(list<GameObject*>::iterator it = children.begin();
+			it != children.end(); ++it)
+			delete *it;
+
+		children.clear();
 	}
 
 	GameComponent* GameObject::FindNearestAncestorComponent(GameComponent::EType compType)
 	{
 		GameComponent* ret;
-		for(GameObject* curr = static_cast<GameObject*>(parent); curr != nullptr; curr = static_cast<GameObject*>(curr->parent))
+		for(GameObject* curr = parent; curr != nullptr; curr = curr->parent)
 		{
 			ret = curr->GetComponentByType(compType);
 			if(ret != nullptr)
@@ -302,7 +356,7 @@ namespace Core
 		else
 		{
 			for(auto it = children.begin(); it != children.end(); ++it)
-				s.push(static_cast<GameObject*>(*it));
+				s.push(*it);
 		}
 
 		while(!s.empty())
@@ -317,9 +371,9 @@ namespace Core
 			}
 			else
 			{
-				list<TreeNode*>& children = curr->GetChildren();
+				list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(static_cast<GameObject*>(*it));
+					s.push(*it);
 			}
 		}
 

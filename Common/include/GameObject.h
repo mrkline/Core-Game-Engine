@@ -21,7 +21,7 @@ namespace Core
 	scene.  Each object can have a collection of GameComponenents, which do various things
 	such as manage physics, sound, scripts, logic, etc.
 	*/
-	class GameObject : public NamedClass, private TreeNode
+	class GameObject : public NamedClass
 	{
 	public:
 
@@ -183,13 +183,10 @@ namespace Core
 		void SetParent(GameObject* newParent);
 
 		//! Gets the object's parent
-		GameObject* GetParent() { return static_cast<GameObject*>(parent); }
+		GameObject* GetParent() { return parent; }
 
-		/*!
-		\brief Removes this object from its parent
-		\param updateHierarchy Set to true to notify the surrounding tree of the change
-		*/
-		void RemoveFromParent(bool updateHierarchy = true);
+		//! Removes this object from its parent
+		void RemoveFromParent();
 
 		/*!
 		\brief Add a child object
@@ -227,5 +224,10 @@ namespace Core
 		ComponentList components; //!< A linked list of this object's components
 		Transform trans; //!< The transform for the game object
 		Transform absTrans; //!< The cumulative absolute transform for the game object
+
+		//! Node's parent, or null if it has none
+		GameObject* parent; 
+		//! Linked list of children of this node
+		std::list<GameObject*> children; 
 	};
 } // end namespace Core

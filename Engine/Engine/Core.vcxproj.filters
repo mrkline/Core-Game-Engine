@@ -53,9 +53,6 @@
     <ClInclude Include="..\..\Common\include\ComponentManager.h">
       <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\include\TreeNode.h">
-      <Filter>Header Files\Core\Core Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\include\ErrorHandling.h">
       <Filter>Header Files\Core\Core Components</Filter>
     </ClInclude>
@@ -128,9 +125,6 @@
       <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\src\CoreBase.cpp">
-      <Filter>Source Files\Core\Core Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\src\TreeNode.cpp">
       <Filter>Source Files\Core\Core Components</Filter>
     </ClCompile>
   </ItemGroup>
