@@ -18,9 +18,7 @@ namespace Core
 	/*!
 	\brief A base Exception class
 
-	An exception should be deleted when it has been handled.
 	Most exception types are lovingly borrowed from the .NET framework.
-	Exceptions will only be used in constructors, since they will be handled by factory functions.
 	*/
 	class Exception
 	{

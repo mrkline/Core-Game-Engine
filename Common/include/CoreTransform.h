@@ -258,6 +258,7 @@ namespace Core
 		\see Equals
 		*/
 		bool operator==(const Transform& other) const { return Equals(other); }
+
 		/*!
 		\brief Tests for inequality, using Math::kFloatRoundError as tolerance
 		\see Equals

@@ -129,15 +129,6 @@ namespace Core
 			__FUNCTION__);
 	}
 
-	void GameComponent::DeleteAllChildren()
-	{
-		for(auto it = children.begin(); it != children.end(); ++it)
-			delete *it;
-
-		children.clear();
-		UpdateHierarchy();
-	}
-
 	void GameComponent::RemoveFromParent(bool updateHD)
 	{
 		if (parent != nullptr)

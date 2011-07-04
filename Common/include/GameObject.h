@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "GameComponent.h"
-#include "TreeNode.h"
 #include "NamedClass.h"
 #include "CoreTransform.h"
 
@@ -178,12 +177,14 @@ namespace Core
 		/*!
 		\brief Sets the object's parent
 		\param newParent A pointer to the new parent, or null if no parent is desired
-		\todo Automatically tie to some sort of root?
+		
+		This method will remove the component from its current parent (if it exists) and
+		set it to the new one.
 		*/
 		void SetParent(GameObject* newParent);
 
 		//! Gets the object's parent
-		GameObject* GetParent() { return parent; }
+		GameObject* GetParent() const { return parent; }
 
 		//! Removes this object from its parent
 		void RemoveFromParent();
@@ -191,13 +192,20 @@ namespace Core
 		/*!
 		\brief Add a child object
 		\param child Child object to add
-		\warning If this object is deleted, all of its children are deleted as well.
+
+		This method removes the child from its current parent, sets this component
+		as its parent, and adds the new child to this component's list of children.
+		Adding a child transfers ownership of the child to this game object.
+		All children will be deleted on this object's destruction.
 		*/
 		void AddChild(GameObject* child);
 
 		/*!
 		\brief Remove a child object
 		\param child Child object to remove
+
+		Removing the child transfers ownership back to the client's code.
+		The client code is responsible for deleting the child after this is called.
 		*/
 		void RemoveChild(GameObject* child);
 

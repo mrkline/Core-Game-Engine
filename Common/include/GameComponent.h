@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TreeNode.h"
+#include <list>
 
 namespace Core
 {
@@ -13,6 +13,8 @@ namespace Core
 	Each GameObject can hold a collection of components.  Components have their own managers
 	and their own trees, which are kept updated to reflect
 	the tree structure of their owner GameObjects.
+	Components, once attached to an object, are owned by the object and will be deleted
+	by the object's deconstructor, unless they are unattached from the object prior to its destruction.
 	*/
 	class GameComponent
 	{
@@ -30,10 +32,12 @@ namespace Core
 
 		virtual ~GameComponent() { }
 
-		//! Called by a component's owning GameObject when it is added
+		//! Called by a component's owning GameObject when it is added.
+		//! This should only be called by the object itself
 		void BindToOwner(GameObject* objOwner);
 
 		//! Called by a component's owning GameObject when it is removed
+		//! This should only be called by the object itself
 		void UnbindFromOwner();
 
 		/*!
@@ -63,7 +67,7 @@ namespace Core
 		GameObject* GetOwner() const { return owner; }
 
 		//! Gets the tree node's parent, or null if it has none
-		GameComponent* GetParent() { return parent; }
+		GameComponent* GetParent() const { return parent; }
 	
 		//! Gets a list of the node's children
 		std::list<GameComponent*>& GetChildren() { return children; }
@@ -75,13 +79,13 @@ namespace Core
 		\brief Sets whether or not the node cares about hierarchy changes that occur to its children
 		\see OnHierarchyChange
 		*/
-		void SetUpdateOnChildren(bool update) { caresAboutChildren = update; }
+		void SetPostCallbaksOnChildrenChanges(bool update) { caresAboutChildren = update; }
 
 		/*!
 		\brief Gets whether or not the node cares about hierarchy changes that occur to its children
 		\see OnHierarchyChange
 		*/
-		bool GetUpdateOnChildren() const { return caresAboutChildren; }
+		bool GetPostCallbaksOnChildrenChanges() const { return caresAboutChildren; }
 
 		/*!
 		\brief Used to update any necessary info by a derived class when the tree changes.
@@ -91,10 +95,12 @@ namespace Core
 		virtual void OnHierarchyChange() { }
 
 	protected:
-		GameObject* owner; //!< Owning game object
+		//! Owning game object
+		GameObject* owner;
 		
 		//! Component's parent, or null if it has none
 		GameComponent* parent; 
+
 		//! Linked list of children of this component
 		std::list<GameComponent*> children; 
 
@@ -103,10 +109,37 @@ namespace Core
 
 	private:
 
+		/*!
+		\brief Used internally to set the parent of the component
+		\param newParent The new parent component of this component
+
+		This method will remove the component from its current parent (if it exists) and
+		set it to the new one.
+		*/
 		void SetParent(GameComponent* newParent);
+
+		/*! 
+		\brief Used internally to add a child to this component
+		\param newChild The child to add to this component
+
+		This method removes the child from its current parent, sets this component
+		as its parent, and adds the new child to this component's list of children.
+		*/
 		void AddChild(GameComponent* newChild);
+
+		/*!
+		\brief Used internally to remove a child of this component
+		\param toRemove The component to remove
+		*/
 		void RemoveChild(GameComponent* toRemove);
-		void DeleteAllChildren();
+
+		/*!
+		\brief Used internally to remove this component from its parent
+		\param updateHD true to post hierarchy change callbacks
+
+		The callbacks are optional since this method is sometimes used by other hierarchy manipulation
+		methods which already post callbacks
+		*/
 		void RemoveFromParent(bool updateHD);
 
 		//! Called internally to call OnHierarchyChange on all those in the hierarchy who care

@@ -13,8 +13,11 @@ namespace Core
 		virtual ~CoreBase();
 
 		ILevel* GetCurrentLevel() { return currentLevel; } //!< Returns the current level
+		
 		ILevel* GetNextLevel() { return nextLevel; } //!< Returns the next level, or nullptr if there is none
+		
 		bool HasNextLevel() { return nextLevel != nullptr; } //!< Returns true if nextLevel is not null
+		
 		/*!
 		\brief Sets the next level to be run
 		\param nLevel The next level to be run
