@@ -153,6 +153,8 @@ namespace Core
 		\brief Tests if this object has a given descendant
 		\param descendant The object to search for in this object's descendance
 		\return true if this object has the given descendant
+
+		Performs a BFS for the descendant
 		*/
 		bool HasDescendant(GameObject* descendant);
 
@@ -185,6 +187,12 @@ namespace Core
 
 		//! Gets the object's parent
 		GameObject* GetParent() const { return parent; }
+
+		//! Gets a list of the node's children
+		std::list<GameObject*>& GetChildren() { return children; }
+
+		//! Gets a list of the node's children
+		const std::list<GameObject*>& GetChildren() const { return children; }
 
 		//! Removes this object from its parent
 		void RemoveFromParent();

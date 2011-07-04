@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include <stack>
+#include <queue>
 
 #include "ErrorHandling.h"
 #include "Scene.h"
@@ -113,15 +114,16 @@ namespace Core
 
 	bool GameObject::HasDescendant(GameObject* descendant)
 	{
-		stack<GameObject*> s;
-		
-		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(*it);
+		// Run a BFS
+		queue<GameObject*> q;
 
-		while(!s.empty())
+		for(auto it = children.begin(); it != children.end(); ++it)
+			q.push(*it);
+
+		while(!q.empty())
 		{
-			GameObject* curr = s.top();
-			s.pop();
+			GameObject* curr = q.front();
+			q.pop();
 
 			if(curr == descendant)
 			{
@@ -131,7 +133,7 @@ namespace Core
 			{
 				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(*it);
+					q.push(*it);
 			}
 		}
 
@@ -140,17 +142,18 @@ namespace Core
 	
 	bool GameObject::HasDescendant(const std::string& descendantName)
 	{
-		stack<GameObject*> s;
-		
+				// Run a BFS
+		queue<GameObject*> q;
+
 		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(*it);
+			q.push(*it);
 
-		while(!s.empty())
+		while(!q.empty())
 		{
-			GameObject* curr = s.top();
-			s.pop();
+			GameObject* curr = q.front();
+			q.pop();
 
-			if(curr->GetName() == descendantName)
+			if(curr->name == descendantName)
 			{
 				return true;
 			}
@@ -158,7 +161,7 @@ namespace Core
 			{
 				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(*it);
+					q.push(*it);
 			}
 		}
 
@@ -167,17 +170,18 @@ namespace Core
 	
 	bool GameObject::HasDescendant(int descendantId)
 	{
-		stack<GameObject*> s;
-		
+		// Run a BFS
+		queue<GameObject*> q;
+
 		for(auto it = children.begin(); it != children.end(); ++it)
-			s.push(*it);
+			q.push(*it);
 
-		while(!s.empty())
+		while(!q.empty())
 		{
-			GameObject* curr = s.top();
-			s.pop();
+			GameObject* curr = q.front();
+			q.pop();
 
-			if(curr->GetID() == descendantId)
+			if(curr->id == descendantId)
 			{
 				return true;
 			}
@@ -185,7 +189,7 @@ namespace Core
 			{
 				const list<GameObject*>& children = curr->children;
 				for(auto it = children.begin(); it != children.end(); ++it)
-					s.push(*it);
+					q.push(*it);
 			}
 		}
 
@@ -346,6 +350,9 @@ namespace Core
 	auto_ptr<GameObject::ComponentList> GameObject::FindNearestDescendantComponents(GameComponent::EType compType,
 		bool includingThisObject)
 	{
+		// We can get away with a DFS here since we're not stopping at the first thing we find.
+		// We're trawiling the whole tree
+
 		ComponentList* ret = new ComponentList();
 		stack<GameObject*> s;
 		
