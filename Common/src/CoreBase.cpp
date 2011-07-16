@@ -4,6 +4,10 @@
 #include "IGraphicsThread.h"
 #include "ILevel.h"
 
+#ifdef CORE_WINDOWS_BUILD
+#include "WindowsGraphicsThread.h"
+#endif
+
 namespace Core
 {
 	CoreBase::CoreBase()
@@ -36,8 +40,9 @@ namespace Core
 		if(gThread != nullptr)
 			delete gThread;
 
-		//! \todo Implement platform-specific thread
-		gThread = new IGraphicsThread();
+#ifdef CORE_WINDOWS_BUILD
+		gThread = new WindowsGraphicsThread();
+#endif
 
 		// Notify the current level that we've changed graphics threads, if it exists
 		if(currentLevel != nullptr)

@@ -30,6 +30,9 @@
     <Filter Include="Header Files\Core\Graphics">
       <UniqueIdentifier>{5fedf3ea-2118-457d-9e36-754dbde5f0e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Graphics">
+      <UniqueIdentifier>{53700df2-94a7-4039-8620-0cb4ebf6d255}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\include\CollisionDetector.h">
@@ -92,6 +95,9 @@
     <ClInclude Include="..\..\Common\include\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\include\WindowsGraphicsThread.h">
+      <Filter>Header Files\Core\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\src\CollisionDetector.cpp">
@@ -126,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="..\..\common\src\CoreBase.cpp">
       <Filter>Source Files\Core\Core Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\src\WindowsGraphicsThread.cpp">
+      <Filter>Source Files\Core\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

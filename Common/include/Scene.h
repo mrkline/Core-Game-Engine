@@ -45,7 +45,7 @@ namespace Core
 		/*!
 		\brief Finds the first GameObject with the matching name in the tree attached to the root object
 		\param name The object name to search for
-		\aram st The search to use
+		\param st The search to use
 		\return The first GameObject with the matching name in the tree, using the provided search method,
 					or null if no matching object could be found.
 		*/
