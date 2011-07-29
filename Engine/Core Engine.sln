@@ -8,6 +8,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Unit Tests", "Unit Tests\Un
 		{2E635852-8B98-4F8E-B714-7F55FD53990D} = {2E635852-8B98-4F8E-B714-7F55FD53990D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsPlayground", "GraphicsPlayground\GraphicsPlayground.vcxproj", "{6DB6BDEC-8688-4A4E-A39E-FB71225FA065}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E635852-8B98-4F8E-B714-7F55FD53990D} = {2E635852-8B98-4F8E-B714-7F55FD53990D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +27,10 @@ Global
 		{7EB97513-A14D-488C-92AA-08608D9EFA4C}.Debug|Win32.Build.0 = Debug|Win32
 		{7EB97513-A14D-488C-92AA-08608D9EFA4C}.Release|Win32.ActiveCfg = Release|Win32
 		{7EB97513-A14D-488C-92AA-08608D9EFA4C}.Release|Win32.Build.0 = Release|Win32
+		{6DB6BDEC-8688-4A4E-A39E-FB71225FA065}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6DB6BDEC-8688-4A4E-A39E-FB71225FA065}.Debug|Win32.Build.0 = Debug|Win32
+		{6DB6BDEC-8688-4A4E-A39E-FB71225FA065}.Release|Win32.ActiveCfg = Release|Win32
+		{6DB6BDEC-8688-4A4E-A39E-FB71225FA065}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
